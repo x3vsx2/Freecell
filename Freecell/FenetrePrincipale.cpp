@@ -37,7 +37,6 @@ FenetrePrincipale::FenetrePrincipale() {
 void FenetrePrincipale::initialiserFond() {
     fond_ = new CImg<unsigned char> (1280,720,1,3,255);
     colorierImage(*fond_, 26, 83, 92);
-
 }
 
 void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b) {
