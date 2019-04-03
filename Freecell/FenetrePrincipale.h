@@ -13,7 +13,7 @@ class FenetrePrincipale {
 public:
     FenetrePrincipale();
     void initialiserFond();
-    void colorierImage(cimg_library::CImg<unsigned char> img, int r, int g, int b);
+    void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
 
 private:
     cimg_library::CImg<unsigned char> *fond_;

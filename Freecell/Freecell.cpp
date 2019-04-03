@@ -12,18 +12,8 @@ using namespace cimg_library;
 
 int main()
 {
-	//FenetrePrincipale fen;
-	Carte MaCarte(Coeur, As);
-	CImgDisplay carte(MaCarte, "Carte", 0, false, false);
-
-
-	//Liste MaListe;
-	//MaListe.add(MaCarte);
-	//MaListe.display();
-	//MaListe.pop();
-	MaCarte.display();
+	FenetrePrincipale fen;
 	
-    // Usefull colors
 	return(0);
 }
 
