@@ -10,29 +10,48 @@ using namespace cimg_library;
 //TODO creer l'affichage principal
 FenetrePrincipale::FenetrePrincipale() {
 
-// Declare an image to draw the grid
-    //CImg<unsigned char> grid(300,300,1,3,255);
-	CImg<unsigned char> image("imageCarte/blank.ppm"), visu(500, 400, 1, 3, 0);
-// Declare a display to draw the scene
-    //CImgDisplay disp(grid,"FreeCell",0,false,false);
-	CImgDisplay carte(image, "Carte", 0, false, false);
+    //initialiserFond();
+    CImg<unsigned char> fond_(1280,720,1,3,255);
+
+    colorierImage(fond_, 26, 83, 92);
+    // Declare a display to draw the scene
+    CImgDisplay disp(fond_,"FreeCell",0,false,false);
     // Center the window on the screen
-    carte.move((CImgDisplay::screen_width() - carte.width())/2,
-              (CImgDisplay::screen_height() - carte.height())/2);
+    disp.move((CImgDisplay::screen_width() - disp.width())/2,
+              (CImgDisplay::screen_height() - disp.height())/2);
 
-// Declare an image to display the scene
-    //CImg<unsigned char> scene=grid;
-	CImg<unsigned char> scene = image;
+// Declare une image pour afficher la scene
+	CImg<unsigned char> scene = fond_;
 
-// Main loop, exit if the display window is closed or if ESC or Q key is hit
-    while (!carte.is_closed() && !carte.is_keyESC() && !carte.is_keyQ()) {
+// BOUCLE Principale, ferme la fenetre si ESC or Q key is hit
+    while (!disp.is_closed() && !disp.is_keyESC() && !disp.is_keyQ()) {
 
         // Display the scene
-        //scene.display(disp);
-		scene.display(carte);
-        carte.wait();
+		scene.display(disp);
+        disp.wait();
 
         // Handle window resize
-        if (carte.is_resized()) carte.resize();
+        if (disp.is_resized()) disp.resize();
+    }
+}
+
+void FenetrePrincipale::initialiserFond() {
+
+    CImg<unsigned char> fond_(1280,720,1,3,255);
+
+    colorierImage(fond_, 26, 83, 92);
+
+}
+
+void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> img, int r, int g, int b) {
+
+    cimg_forXY(img,x,y){
+        //Rouge
+        img(x,y,0,0) = r;
+        //Vert
+        img(x,y,0,1) = g;
+        //Bleu
+        img(x,y,0,2) = b;
+
     }
 }

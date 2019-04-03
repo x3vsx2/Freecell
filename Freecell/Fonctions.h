@@ -7,3 +7,5 @@
 void initJeu();
 
 void tirageAleatoire();
+
+void colorierImage();
