@@ -14,6 +14,6 @@ void tirageAleatoire() {
 
 }
 
-void colorierImage() {
+void colorierImage(){
 
 }
