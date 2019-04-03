@@ -11,12 +11,12 @@
 class FenetrePrincipale {
 
 public:
-    FenetrePrincipale();
-    void initialiserFond();
-    void colorierImage(cimg_library::CImg<unsigned char> img, int r, int g, int b);
+	FenetrePrincipale();
+	void initialiserFond();
+	void colorierImage(cimg_library::CImg<unsigned char> img, int r, int g, int b);
 
 private:
-    cimg_library::CImg<unsigned char> *fond_;
+	cimg_library::CImg<unsigned char> *fond_;
 };
 
 
