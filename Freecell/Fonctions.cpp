@@ -1,5 +1,5 @@
 #include "Fonctions.h"
-
+#include "pch.h"
 
 void initJeu() {
 

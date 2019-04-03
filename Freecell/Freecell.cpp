@@ -1,6 +1,6 @@
 // Freecell.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
 //
-
+#include "pch.h"
 #include <iostream>
 #include "Fonctions.h"
 #include "Carte.h"
@@ -12,14 +12,18 @@ using namespace cimg_library;
 
 int main()
 {
-	//Carte MaCarte(Coeur, As);
+	//FenetrePrincipale fen;
+	Carte MaCarte(Coeur, As);
+	CImgDisplay carte(MaCarte, "Carte", 0, false, false);
+
+
 	//Liste MaListe;
 	//MaListe.add(MaCarte);
 	//MaListe.display();
 	//MaListe.pop();
-	//MaCarte.display();
+	MaCarte.display();
+	
     // Usefull colors
-    FenetrePrincipale fen;
 	return(0);
 }
 
