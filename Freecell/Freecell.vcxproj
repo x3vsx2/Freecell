@@ -152,12 +152,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Carte.h" />
+    <ClInclude Include="CImg.h" />
+    <ClInclude Include="FenetrePrincipale.h" />
     <ClInclude Include="Fonctions.h" />
     <ClInclude Include="Liste.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Carte.cpp" />
+    <ClCompile Include="FenetrePrincipale.cpp" />
     <ClCompile Include="Fonctions.cpp" />
     <ClCompile Include="Freecell.cpp" />
     <ClCompile Include="Liste.cpp" />
