@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES Carte.cpp
         Carte.h
-        Fonctions.cpp
-        Fonctions.h
         Freecell.cpp
         Liste.cpp
         Liste.h
