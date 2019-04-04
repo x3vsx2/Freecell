@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "CImg.h"
+#include <string>
 
 typedef enum { Coeur, Pique, Carreau ,Trefle}TypeCouleur;
 typedef enum { As,Roi, Dame, Valet, Dix, Neuf, Huit, Sept, Six, Cinq, Quatre, Trois, Deux}TypeHauteur;
@@ -16,7 +17,7 @@ private:
 
 
 public:
-	Carte(TypeCouleur Couleur, TypeHauteur Hauteur);
+	Carte(TypeCouleur Couleur, TypeHauteur Hauteur,std::string fileName);
 	~Carte();
 	void display();
 
