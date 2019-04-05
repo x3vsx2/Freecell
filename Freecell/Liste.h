@@ -4,21 +4,18 @@
 #include <list>
 
 using namespace std;
+using namespace cimg_library;
 
-
-class Liste
+class Liste:public CImgList<unsigned char>
 {
 private:
 	int taille_;
-	list <Carte> LaListe_;
 
 
 public:
-	Liste(list<Carte> LaListe, int taille);
+	Liste(int taille);
 	Liste();
 	~Liste();
-	void add(Carte macarte) {LaListe_.push_back(macarte);}
-	void pop() { LaListe_.pop_back(); }
-	void display();
+	//void display();
 };
 

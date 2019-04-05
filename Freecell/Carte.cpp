@@ -2,10 +2,11 @@
 #include "Carte.h"
 
 
-Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur)
+Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur,std::string fileName)
 {
 	Couleur_ = Couleur;
 	Hauteur_ = Hauteur;
+	(this)->assign(fileName.c_str());
 }
 
 
