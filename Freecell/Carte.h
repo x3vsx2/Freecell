@@ -14,12 +14,16 @@ class Carte: public CImg<unsigned char>
 private:
 	TypeCouleur Couleur_;
 	TypeHauteur Hauteur_;
+	int positionX;
+	int positionY;
 
 
 public:
 	Carte(TypeCouleur Couleur, TypeHauteur Hauteur,std::string fileName);
 	~Carte();
 	void display();
+	int getPosX();
+	int getPosY();
 
 };
 

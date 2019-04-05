@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "CImg.h"
+#include "Liste.h"
 
 class FenetrePrincipale {
 
@@ -14,16 +15,20 @@ public:
     FenetrePrincipale();
     void initialiserFond();
     void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
-    void ajouterImage(cimg_library::CImg<unsigned char> &img);
+    void testClicCarte();
+    void initialiserCartes();
+    void afficherCartes();
+    void placerCartes();
+
 
 private:
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
-    cimg_library::CImg<unsigned char> *nplateau_;
-    cimg_library::CImg<unsigned char> *piece_;
-    cimg_library::CImg<unsigned char> *next_;
-    cimg_library::CImg<unsigned char> *next_mask_;
+
+
+    Liste toutesLesCartes;
+
 
 };
 

@@ -7,7 +7,7 @@ Liste::Liste( int taille)
 	taille_ = taille;
 }
 
-Liste::Liste() {
+Liste::Liste() : CImgList<unsigned char>() {
 }
 
 Liste::~Liste()

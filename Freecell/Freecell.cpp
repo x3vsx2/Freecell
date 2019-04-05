@@ -2,7 +2,6 @@
 //
 #include "pch.h"
 #include <iostream>
-#include "Fonctions.h"
 #include "Carte.h"
 #include "Liste.h"
 #include "FenetrePrincipale.h"
@@ -13,7 +12,7 @@ using namespace cimg_library;
 
 int main()
 {
-	CImgDisplay disp;
+	/*CImgDisplay disp;
 	Liste toutesLesCartes;
 	//FenetrePrincipale fen;
 	Carte H01(Coeur, As, "imageCarte/h01.ppm");
@@ -51,7 +50,8 @@ int main()
 		disp.wait();
 	}
 	//MaCarte.display();
-	
+	*/
+	FenetrePrincipale fen;
 	return(0);
 }
 

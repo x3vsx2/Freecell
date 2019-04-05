@@ -6,7 +6,7 @@
 using namespace std;
 using namespace cimg_library;
 
-class Liste:public CImgList<unsigned char>
+class Liste : public CImgList<unsigned char>
 {
 private:
 	int taille_;
