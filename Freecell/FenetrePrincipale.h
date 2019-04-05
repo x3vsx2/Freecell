@@ -6,19 +6,29 @@
 #define FREECELL_FENETREPRINCIPALE_H
 
 #include <iostream>
+#include <vector>
 #include "CImg.h"
-#include "Liste.h"
+#include "pileCarte.h"
+#include "CarteKamil.h"
 
 class FenetrePrincipale {
 
 public:
     FenetrePrincipale();
+
     void initialiserFond();
+
     void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
+
     void testClicCarte();
+
     void initialiserCartes();
+
     void afficherCartes();
+
     void placerCartes();
+
+    void initialiserPiles();
 
 
 private:
@@ -26,10 +36,23 @@ private:
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
 
-
-    Liste toutesLesCartes;
-
-
+    pileCarte *pileMelange;
+    pileCarte *pileJeu1;
+    pileCarte *pileJeu2;
+    pileCarte *pileJeu3;
+    pileCarte *pileJeu4;
+    pileCarte *pileJeu5;
+    pileCarte *pileJeu6;
+    pileCarte *pileJeu7;
+    pileCarte *pileJeu8;
+    pileCarte *pileVide1;
+    pileCarte *pileVide2;
+    pileCarte *pileVide3;
+    pileCarte *pileVide4;
+    pileCarte *pileValide1;
+    pileCarte *pileValide2;
+    pileCarte *pileValide3;
+    pileCarte *pileValide4;
 };
 
 
