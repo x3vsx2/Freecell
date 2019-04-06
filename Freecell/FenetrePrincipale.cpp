@@ -53,6 +53,22 @@ void FenetrePrincipale::initialiserFond() {
     plateau_ = new CImg<unsigned char>(1280, 720, 1, 1, 0);
     fond_ = new CImg<unsigned char>((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
     colorierImage(*fond_, 26, 83, 92);
+    unsigned  char coleurBlanche[3]={255,255,255};
+    /*
+     *x0	X-coordinate of the upper-left rectangle corner.
+     *y0	Y-coordinate of the upper-left rectangle corner.
+     *x1	X-coordinate of the lower-right rectangle corner.
+     *y1	Y-coordinate of the lower-right rectangle corner.
+     *color	Pointer to spectrum() consecutive values of type T, defining the drawing color.
+     *opacity	Drawing opacity.
+     * patern
+     */
+    int p1 = 100;
+    int p2 = 1280-100;
+    for(unsigned int i = 0; i< 4; i++){
+        fond_->draw_rectangle(p1+(100*i),50,p1+(100*i)+74,50+99,coleurBlanche, 1,  ~0U);
+        fond_->draw_rectangle(p2-(100*i),50,p2-(100*i)-74,50+99,coleurBlanche, 1,  ~0U);
+    }
     visu_ = new CImg<unsigned char>(*fond_);
 }
 
@@ -93,14 +109,14 @@ void FenetrePrincipale::placerCartes() {
     //TODO positionner les cartes correctement au départ, idées : créer des positons prédéfinies
 
     //Définitions des piles
-    pileJeu1 = new pileCarte(100, 500);
-    pileJeu2 = new pileCarte(200, 500);
-    pileJeu3 = new pileCarte(300, 500);
-    pileJeu4 = new pileCarte(400, 500);
-    pileJeu5 = new pileCarte(500, 500);
-    pileJeu6 = new pileCarte(600, 500);
-    pileJeu7 = new pileCarte(700, 500);
-    pileJeu8 = new pileCarte(800, 500);
+    pileJeu1 = new pileCarte(100, 300);
+    pileJeu2 = new pileCarte(235, 300);
+    pileJeu3 = new pileCarte(370, 300);
+    pileJeu4 = new pileCarte(505, 300);
+    pileJeu5 = new pileCarte(640, 300);
+    pileJeu6 = new pileCarte(775, 300);
+    pileJeu7 = new pileCarte(910, 300);
+    pileJeu8 = new pileCarte(1045, 300);
 
     //Les cartes sont déja mélangés, repartition dans les listes de jeu
     for (unsigned int i = 0; i < 6; i++) { //TODO gérer les cas sept et six
