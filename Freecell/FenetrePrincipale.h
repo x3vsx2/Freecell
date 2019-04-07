@@ -30,6 +30,8 @@ public:
 
     void initialiserPiles();
 
+    void majAffichage();
+
 
 private:
     cimg_library::CImg<unsigned char> *visu_;

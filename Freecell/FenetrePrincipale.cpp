@@ -25,20 +25,32 @@ FenetrePrincipale::FenetrePrincipale() {
 
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
 
+    bool click_hold = false;
     while (!disp.is_closed() && !disp.is_keyESC() && !disp.is_keyQ()) {
 
         //mx = position souris en x, my = position souris en y
         const int mx = disp.mouse_x() * (*fond_).width() / disp.width(),
-                my = disp.mouse_y() * (*fond_).height() / disp.height();
+                  my = disp.mouse_y() * (*fond_).height() / disp.height();
+
+        majAffichage();
 
         // Mouvement souris suite à un déplacement //TODO gérer le clique
-        if (!disp.button()) {
+        if (disp.button()) {
+            if(click_hold){
+                cout<<"click hold";
+                cout<<"Mx :"<<mx<<"   My :"<<my<<endl;
+                click_hold = false;
+            }else{
+                click_hold = true;
+            }
+        }
+
+        if (click_hold){
+            pileJeu1->deplacerPile(mx, my);
         }
 
         visu_->display(disp);
         disp.wait();
-
-
     }
 }
 
@@ -46,7 +58,7 @@ FenetrePrincipale::FenetrePrincipale() {
  *Initialise le plateau, le fond et visu
  */
 void FenetrePrincipale::initialiserFond() {
-    //declare le plateau de jeu avec longeurxlargeur
+    //declare le plateau de jeu avec longeurXlargeur
     plateau_ = new CImg<unsigned char>(1280, 720, 1, 1, 0);
     fond_ = new CImg<unsigned char>((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
     colorierImage(*fond_, 26, 83, 92);
@@ -131,7 +143,11 @@ void FenetrePrincipale::placerCartes() {
     pileJeu3->deplacerCartePile(pileMelange);
     pileJeu4->deplacerCartePile(pileMelange);
 
-    ////On affiche les différentes piles
+}
+
+void FenetrePrincipale::majAffichage() {
+    initialiserFond();
+    //On affiche les différentes piles
     for (unsigned int i = 0; i < 6; ++i) {
         visu_->draw_image(pileJeu1->getCarte(i)->getPosX(), pileJeu1->getCarte(i)->getPosY(),
                           pileJeu1->getCarte(i)->getImg());
@@ -147,7 +163,6 @@ void FenetrePrincipale::placerCartes() {
                           pileJeu6->getCarte(i)->getImg());
         visu_->draw_image(pileJeu7->getCarte(i)->getPosX(), pileJeu7->getCarte(i)->getPosY(),
                           pileJeu7->getCarte(i)->getImg());
-//
     }
     visu_->draw_image(pileJeu1->getCarte(6)->getPosX(), pileJeu1->getCarte(6)->getPosY(),
                       pileJeu1->getCarte(6)->getImg());
@@ -157,7 +172,6 @@ void FenetrePrincipale::placerCartes() {
                       pileJeu3->getCarte(6)->getImg());
     visu_->draw_image(pileJeu4->getCarte(6)->getPosX(), pileJeu4->getCarte(6)->getPosY(),
                       pileJeu4->getCarte(6)->getImg());
-
 }
 
 void FenetrePrincipale::initialiserCartes() {

@@ -35,3 +35,20 @@ void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
     pileRetrait->taille_--;
 
 }
+
+void pileCarte::deplacerPile(int x, int y) {
+    this->setPosX(x);
+    this->setPosY(y);
+    for(unsigned int i = 0; i<listeCartes_.size();i++){
+        listeCartes_[i]->setPosX(this->getPosX());
+        listeCartes_[i]->setPosY(this->getPosY() + 20*i);
+    }
+}
+
+void pileCarte::setPosX(int posX) {
+    positionX_ = posX;
+}
+
+void pileCarte::setPosY(int posY){
+    positionY_ = posY;
+}

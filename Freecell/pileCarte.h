@@ -12,7 +12,7 @@
 using namespace cimg_library;
 
 typedef enum {
-    melange, jeu1, jeu2, jeu3, jeu4, jeu5, libre1, libre2, libre3, libre4, valide1, valide2, valide3, valide4
+    melange, jeu1, jeu2, jeu3, jeu4, jeu5, libre1, libre2, libre3, libre4, valide1, valide2, valide3, valide4, deplacement
 } Type;
 
 
@@ -32,9 +32,11 @@ public:
 
     int getPosY() { return positionY_; };
 
-    int setPosX(int posX);
+    void deplacerPile(int x, int y);
 
-    int setPosY(int posY);
+    void setPosX(int posX);
+
+    void setPosY(int posY);
 
     void melangerCartes();
 
