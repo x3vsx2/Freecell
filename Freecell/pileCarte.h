@@ -37,16 +37,16 @@ public:
     int setPosY(int posY);
 
     void melangerCartes();
-    
+
     void deplacerCartePile(pileCarte *pileRetrait);
 
-    CarteKamil* getCarte(int position){ return listeCartes_[position]; };
+    CarteKamil *getCarte(int position) { return listeCartes_[position]; };
 
     ~pileCarte();
 
 private:
     int taille_;
-    std::vector<CarteKamil*> listeCartes_;
+    std::vector<CarteKamil *> listeCartes_;
     int positionX_;
     int positionY_;
 };

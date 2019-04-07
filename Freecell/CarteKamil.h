@@ -33,7 +33,8 @@ private:
 
 public:
     CarteKamil(TypeCouleur Couleur, TypeHauteur Hauteur,
-               const char *fileName, pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
+               const char *fileName,
+               pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
     ~CarteKamil();
 
     int getPosX();
