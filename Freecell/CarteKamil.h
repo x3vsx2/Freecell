@@ -6,7 +6,9 @@
 #define FREECELL_CARTEKAMIL_H
 
 #include "CImg.h"
+#include "pileCarte.h"
 
+class pileCarte;
 
 typedef enum {
     Coeur, Pique, Carreau, Trefle
@@ -27,10 +29,11 @@ private:
     int tailleX_;
     int tailleY_;
     CImg<unsigned char> *image_;
+    pileCarte *pileAppartenance_;
 
 public:
     CarteKamil(TypeCouleur Couleur, TypeHauteur Hauteur,
-               const char *fileName); // on utilise const char à cause du constructeur de CIMG
+               const char *fileName, pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
     ~CarteKamil();
 
     int getPosX();

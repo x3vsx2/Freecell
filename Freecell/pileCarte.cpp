@@ -4,20 +4,20 @@ using namespace cimg_library;
 
 pileCarte::pileCarte() {
     taille_ = 0;
-    listeCartes = new std::vector<CarteKamil>();
-    positionY_ = 100;
+    positionY_ = 0;
+    positionX_ = 0;
 }
 
 pileCarte::pileCarte(int positionX, int positionY) {
     taille_ = 0;
-    listeCartes = new std::vector<CarteKamil>();
     positionX_ = positionX;
     positionY_ = positionY;
 }
 
-void pileCarte::ajouterCarte(CarteKamil carte) {
-    listeCartes->push_back(carte);
-    taille_ = listeCartes->size();
+void pileCarte::ajouterCarte(CarteKamil *carte) {
+    int test = carte->getPosX();
+    listeCartes_.push_back(carte);
+    taille_ = listeCartes_.size();
 }
 
 void pileCarte::melangerCartes() {
@@ -25,8 +25,13 @@ void pileCarte::melangerCartes() {
 }
 
 void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
-    CarteKamil temp = (*pileRetrait->listeCartes)[(*pileRetrait->listeCartes).size() - 1];
+    CarteKamil *temp = pileRetrait->getCarte(pileRetrait->taille_-1);
+    //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
+    //la pile multipliée par le nombre de carte dans la pilex20
+    temp->setPosX(this->getPosX());
+    temp->setPosY(this->getPosY() + this->listeCartes_.size()*20);
     this->ajouterCarte(temp);
-    pileRetrait->listeCartes->pop_back();
+    pileRetrait->listeCartes_.pop_back();
     pileRetrait->taille_--;
+
 }

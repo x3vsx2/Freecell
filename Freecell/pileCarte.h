@@ -9,12 +9,14 @@
 #include "CarteKamil.h"
 #include <vector>
 
+using namespace cimg_library;
+
 typedef enum {
     melange, jeu1, jeu2, jeu3, jeu4, jeu5, libre1, libre2, libre3, libre4, valide1, valide2, valide3, valide4
 } Type;
 
-using namespace cimg_library;
 
+class CarteKamil;
 
 class pileCarte {
 public:
@@ -22,7 +24,7 @@ public:
 
     pileCarte(int positionX, int positionY);
 
-    void ajouterCarte(CarteKamil carte);
+    void ajouterCarte(CarteKamil *carte);
 
     int getTaille() { return taille_; };
 
@@ -35,21 +37,18 @@ public:
     int setPosY(int posY);
 
     void melangerCartes();
-
-    CarteKamil getCarte(int position) { return (*listeCartes)[position]; }
-
+    
     void deplacerCartePile(pileCarte *pileRetrait);
 
-    CImg<unsigned char> getImg(int positionCartePile) { return (*listeCartes)[positionCartePile].getImg(); };
+    CarteKamil* getCarte(int position){ return listeCartes_[position]; };
 
     ~pileCarte();
 
 private:
     int taille_;
-    std::vector<CarteKamil> *listeCartes;
+    std::vector<CarteKamil*> listeCartes_;
     int positionX_;
     int positionY_;
 };
-
 
 #endif //FREECELL_PILECARTE_H

@@ -4,7 +4,6 @@
 #include"pch.h"
 #include "FenetrePrincipale.h"
 #include "pileCarte.h"
-#include "CarteKamil.h"
 
 using namespace std;
 using namespace cimg_library;
@@ -13,8 +12,6 @@ using namespace cimg_library;
 FenetrePrincipale::FenetrePrincipale() {
 
     initialiserFond();
-
-    CarteKamil carteTest(Trefle, As, "../imageCarte/c01.ppm");
 
     //Declare un display pour afficher le fond
     CImgDisplay disp(*fond_, "FreeCell", 0, false, false);
@@ -134,85 +131,80 @@ void FenetrePrincipale::placerCartes() {
     pileJeu3->deplacerCartePile(pileMelange);
     pileJeu4->deplacerCartePile(pileMelange);
 
-
-
-    //On affiche les différentes piles
+    ////On affiche les différentes piles
     for (unsigned int i = 0; i < 6; ++i) {
-        visu_->draw_image(pileJeu1->getPosX(), pileJeu1->getPosY() + i * 20, pileJeu1->getImg(i));
-        visu_->draw_image(pileJeu2->getPosX(), pileJeu2->getPosY() + i * 20, pileJeu2->getImg(i));
-        visu_->draw_image(pileJeu3->getPosX(), pileJeu3->getPosY() + i * 20, pileJeu3->getImg(i));
-        visu_->draw_image(pileJeu4->getPosX(), pileJeu4->getPosY() + i * 20, pileJeu4->getImg(i));
-        visu_->draw_image(pileJeu5->getPosX(), pileJeu5->getPosY() + i * 20, pileJeu5->getImg(i));
-        visu_->draw_image(pileJeu6->getPosX(), pileJeu6->getPosY() + i * 20, pileJeu6->getImg(i));
-        visu_->draw_image(pileJeu7->getPosX(), pileJeu7->getPosY() + i * 20, pileJeu7->getImg(i));
-        visu_->draw_image(pileJeu8->getPosX(), pileJeu8->getPosY() + i * 20, pileJeu8->getImg(i));
+        visu_->draw_image(pileJeu1->getCarte(i)->getPosX(), pileJeu1->getCarte(i)->getPosY(), pileJeu1->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu2->getCarte(i)->getPosX(), pileJeu2->getCarte(i)->getPosY(), pileJeu2->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu3->getCarte(i)->getPosX(), pileJeu3->getCarte(i)->getPosY(), pileJeu3->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu4->getCarte(i)->getPosX(), pileJeu4->getCarte(i)->getPosY(), pileJeu4->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu5->getCarte(i)->getPosX(), pileJeu5->getCarte(i)->getPosY(), pileJeu5->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu6->getCarte(i)->getPosX(), pileJeu6->getCarte(i)->getPosY(), pileJeu6->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu7->getCarte(i)->getPosX(), pileJeu7->getCarte(i)->getPosY(), pileJeu7->getCarte(i)->getImg());
+//
     }
-
-    visu_->draw_image(pileJeu1->getPosX(), pileJeu1->getPosY() + 6 * 20, pileJeu1->getImg(6));
-    visu_->draw_image(pileJeu2->getPosX(), pileJeu2->getPosY() + 6 * 20, pileJeu2->getImg(6));
-    visu_->draw_image(pileJeu3->getPosX(), pileJeu3->getPosY() + 6 * 20, pileJeu3->getImg(6));
-    visu_->draw_image(pileJeu4->getPosX(), pileJeu4->getPosY() + 6 * 20, pileJeu4->getImg(6));
+    visu_->draw_image(pileJeu1->getCarte(6)->getPosX(), pileJeu1->getCarte(6)->getPosY(), pileJeu1->getCarte(6)->getImg());
+    visu_->draw_image(pileJeu2->getCarte(6)->getPosX(), pileJeu2->getCarte(6)->getPosY(), pileJeu2->getCarte(6)->getImg());
+    visu_->draw_image(pileJeu3->getCarte(6)->getPosX(), pileJeu3->getCarte(6)->getPosY(), pileJeu3->getCarte(6)->getImg());
+    visu_->draw_image(pileJeu4->getCarte(6)->getPosX(), pileJeu4->getCarte(6)->getPosY(), pileJeu4->getCarte(6)->getImg());
 
 }
 
 void FenetrePrincipale::initialiserCartes() {
     pileMelange = new pileCarte();
 
-    CarteKamil H01(Coeur, As, "../imageCarte/h01.ppm");
-    CarteKamil H02(Coeur, Deux, "../imageCarte/h02.ppm");
-    CarteKamil H03(Coeur, Trois, "../imageCarte/h03.ppm");
-    CarteKamil H04(Coeur, Quatre, "../imageCarte/h04.ppm");
-    CarteKamil H05(Coeur, Cinq, "../imageCarte/h05.ppm");
-    CarteKamil H06(Coeur, Six, "../imageCarte/h06.ppm");
-    CarteKamil H07(Coeur, Sept, "../imageCarte/h07.ppm");
-    CarteKamil H08(Coeur, Huit, "../imageCarte/h08.ppm");
-    CarteKamil H09(Coeur, Neuf, "../imageCarte/h09.ppm");
-    CarteKamil H10(Coeur, Dix, "../imageCarte/h10.ppm");
-    CarteKamil H11(Coeur, Valet, "../imageCarte/h11.ppm");
-    CarteKamil H12(Coeur, Dame, "../imageCarte/h12.ppm");
-    CarteKamil H13(Coeur, Roi, "../imageCarte/h13.ppm");
+   auto *H01 = new CarteKamil(Coeur, As, "../imageCarte/h01.ppm", pileMelange);
+   auto *H02 = new CarteKamil(Coeur, Deux, "../imageCarte/h02.ppm", pileMelange);
+   auto *H03 = new CarteKamil(Coeur, Trois, "../imageCarte/h03.ppm", pileMelange);
+   auto *H04 = new CarteKamil(Coeur, Quatre, "../imageCarte/h04.ppm", pileMelange);
+   auto *H05 = new CarteKamil(Coeur, Cinq, "../imageCarte/h05.ppm", pileMelange);
+   auto *H06 = new CarteKamil(Coeur, Six, "../imageCarte/h06.ppm", pileMelange);
+   auto *H07 = new CarteKamil(Coeur, Sept, "../imageCarte/h07.ppm", pileMelange);
+   auto *H08 = new CarteKamil(Coeur, Huit, "../imageCarte/h08.ppm", pileMelange);
+   auto *H09 = new CarteKamil(Coeur, Neuf, "../imageCarte/h09.ppm", pileMelange);
+   auto *H10 = new CarteKamil(Coeur, Dix, "../imageCarte/h10.ppm", pileMelange);
+   auto *H11 = new CarteKamil(Coeur, Valet, "../imageCarte/h11.ppm", pileMelange);
+   auto *H12 = new CarteKamil(Coeur, Dame, "../imageCarte/h12.ppm", pileMelange);
+   auto *H13 = new CarteKamil(Coeur, Roi, "../imageCarte/h13.ppm", pileMelange);
+   auto *C01 = new CarteKamil(Trefle, As, "../imageCarte/c01.ppm", pileMelange);
+   auto *C02 = new CarteKamil(Trefle, Deux, "../imageCarte/c02.ppm", pileMelange);
+   auto *C03 = new CarteKamil(Trefle, Trois, "../imageCarte/c03.ppm", pileMelange);
+   auto *C04 = new CarteKamil(Trefle, Quatre, "../imageCarte/c04.ppm", pileMelange);
+   auto *C05 = new CarteKamil(Trefle, Cinq, "../imageCarte/c05.ppm", pileMelange);
+   auto *C06 = new CarteKamil(Trefle, Six, "../imageCarte/c06.ppm", pileMelange);
+   auto *C07 = new CarteKamil(Trefle, Sept, "../imageCarte/c07.ppm", pileMelange);
+   auto *C08 = new CarteKamil(Trefle, Huit, "../imageCarte/c08.ppm", pileMelange);
+   auto *C09 = new CarteKamil(Trefle, Neuf, "../imageCarte/c09.ppm", pileMelange);
+   auto *C10 = new CarteKamil(Trefle, Dix, "../imageCarte/c10.ppm", pileMelange);
+   auto *C11 = new CarteKamil(Trefle, Valet, "../imageCarte/c11.ppm", pileMelange);
+   auto *C12 = new CarteKamil(Trefle, Dame, "../imageCarte/c12.ppm", pileMelange);
+   auto *C13 = new CarteKamil(Trefle, Roi, "../imageCarte/c13.ppm", pileMelange);
 
-    CarteKamil C01(Trefle, As, "../imageCarte/c01.ppm");
-    CarteKamil C02(Trefle, Deux, "../imageCarte/c02.ppm");
-    CarteKamil C03(Trefle, Trois, "../imageCarte/c03.ppm");
-    CarteKamil C04(Trefle, Quatre, "../imageCarte/c04.ppm");
-    CarteKamil C05(Trefle, Cinq, "../imageCarte/c05.ppm");
-    CarteKamil C06(Trefle, Six, "../imageCarte/c06.ppm");
-    CarteKamil C07(Trefle, Sept, "../imageCarte/c07.ppm");
-    CarteKamil C08(Trefle, Huit, "../imageCarte/c08.ppm");
-    CarteKamil C09(Trefle, Neuf, "../imageCarte/c09.ppm");
-    CarteKamil C10(Trefle, Dix, "../imageCarte/c10.ppm");
-    CarteKamil C11(Trefle, Valet, "../imageCarte/c11.ppm");
-    CarteKamil C12(Trefle, Dame, "../imageCarte/c12.ppm");
-    CarteKamil C13(Trefle, Roi, "../imageCarte/c13.ppm");
-
-    CarteKamil D01(Carreau, As, "../imageCarte/d01.ppm");
-    CarteKamil D02(Carreau, Deux, "../imageCarte/d02.ppm");
-    CarteKamil D03(Carreau, Trois, "../imageCarte/d03.ppm");
-    CarteKamil D04(Carreau, Quatre, "../imageCarte/d04.ppm");
-    CarteKamil D05(Carreau, Cinq, "../imageCarte/d05.ppm");
-    CarteKamil D06(Carreau, Six, "../imageCarte/d06.ppm");
-    CarteKamil D07(Carreau, Sept, "../imageCarte/d07.ppm");
-    CarteKamil D08(Carreau, Huit, "../imageCarte/d08.ppm");
-    CarteKamil D09(Carreau, Neuf, "../imageCarte/d09.ppm");
-    CarteKamil D10(Carreau, Dix, "../imageCarte/d10.ppm");
-    CarteKamil D11(Carreau, Valet, "../imageCarte/d11.ppm");
-    CarteKamil D12(Carreau, Dame, "../imageCarte/d12.ppm");
-    CarteKamil D13(Carreau, Roi, "../imageCarte/d13.ppm");
-
-    CarteKamil S01(Pique, As, "../imageCarte/s01.ppm");
-    CarteKamil S02(Pique, Deux, "../imageCarte/s02.ppm");
-    CarteKamil S03(Pique, Trois, "../imageCarte/s03.ppm");
-    CarteKamil S04(Pique, Quatre, "../imageCarte/s04.ppm");
-    CarteKamil S05(Pique, Cinq, "../imageCarte/s05.ppm");
-    CarteKamil S06(Pique, Six, "../imageCarte/s06.ppm");
-    CarteKamil S07(Pique, Sept, "../imageCarte/s07.ppm");
-    CarteKamil S08(Pique, Huit, "../imageCarte/s08.ppm");
-    CarteKamil S09(Pique, Neuf, "../imageCarte/s09.ppm");
-    CarteKamil S10(Pique, Dix, "../imageCarte/s10.ppm");
-    CarteKamil S11(Pique, Valet, "../imageCarte/s11.ppm");
-    CarteKamil S12(Pique, Dame, "../imageCarte/s12.ppm");
-    CarteKamil S13(Pique, Roi, "../imageCarte/s13.ppm");
+    auto *D01 = new CarteKamil(Carreau, As, "../imageCarte/d01.ppm", pileMelange);
+    auto *D02 = new CarteKamil(Carreau, Deux, "../imageCarte/d02.ppm", pileMelange);
+    auto *D03 = new CarteKamil(Carreau, Trois, "../imageCarte/d03.ppm", pileMelange);
+    auto *D04 = new CarteKamil(Carreau, Quatre, "../imageCarte/d04.ppm", pileMelange);
+    auto *D05 = new CarteKamil(Carreau, Cinq, "../imageCarte/d05.ppm", pileMelange);
+    auto *D06 = new CarteKamil(Carreau, Six, "../imageCarte/d06.ppm", pileMelange);
+    auto *D07 = new CarteKamil(Carreau, Sept, "../imageCarte/d07.ppm", pileMelange);
+    auto *D08 = new CarteKamil(Carreau, Huit, "../imageCarte/d08.ppm", pileMelange);
+    auto *D09 = new CarteKamil(Carreau, Neuf, "../imageCarte/d09.ppm", pileMelange);
+    auto *D10 = new CarteKamil(Carreau, Dix, "../imageCarte/d10.ppm", pileMelange);
+    auto *D11 = new CarteKamil(Carreau, Valet, "../imageCarte/d11.ppm", pileMelange);
+    auto *D12 = new CarteKamil(Carreau, Dame, "../imageCarte/d12.ppm", pileMelange);
+    auto *D13 = new CarteKamil(Carreau, Roi, "../imageCarte/d13.ppm", pileMelange);
+    auto *S01 = new CarteKamil(Pique, As, "../imageCarte/s01.ppm", pileMelange);
+    auto *S02 = new CarteKamil(Pique, Deux, "../imageCarte/s02.ppm", pileMelange);
+    auto *S03 = new CarteKamil(Pique, Trois, "../imageCarte/s03.ppm", pileMelange);
+    auto *S04 = new CarteKamil(Pique, Quatre, "../imageCarte/s04.ppm", pileMelange);
+    auto *S05 = new CarteKamil(Pique, Cinq, "../imageCarte/s05.ppm", pileMelange);
+    auto *S06 = new CarteKamil(Pique, Six, "../imageCarte/s06.ppm", pileMelange);
+    auto *S07 = new CarteKamil(Pique, Sept, "../imageCarte/s07.ppm", pileMelange);
+    auto *S08 = new CarteKamil(Pique, Huit, "../imageCarte/s08.ppm", pileMelange);
+    auto *S09 = new CarteKamil(Pique, Neuf, "../imageCarte/s09.ppm", pileMelange);
+    auto *S10 = new CarteKamil(Pique, Dix, "../imageCarte/s10.ppm", pileMelange);
+    auto *S11 = new CarteKamil(Pique, Valet, "../imageCarte/s11.ppm", pileMelange);
+    auto *S12 = new CarteKamil(Pique, Dame, "../imageCarte/s12.ppm", pileMelange);
+    auto *S13 = new CarteKamil(Pique, Roi, "../imageCarte/s13.ppm", pileMelange);
 
     pileMelange->ajouterCarte(H01);
     pileMelange->ajouterCarte(H02);
