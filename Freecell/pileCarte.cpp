@@ -52,18 +52,22 @@ void pileCarte::setPosY(int posY){
     positionY_ = posY;
 }
 
-CarteKamil* pileCarte::retournerCartePlusProche(int mx, int my) {
-    CarteKamil *temp;
-    double distX = 1000;
-    double distY = 1000;
+int pileCarte::testClicCarte(int mx, int my) {
+    int position = -1;
+    for(int i = listeCartes_.size()-1; i >=0; i--){
+        std::cout<<i;
+        int imgX1 = listeCartes_[i]->getPosX();
+        int imgX2 = listeCartes_[i]->getPosX() + listeCartes_[i]->getTailleX();
+        int imgY1 = listeCartes_[i]->getPosY();
+        int imgY2 = listeCartes_[i]->getPosY() + listeCartes_[i]->getTailleY();
 
-    for(unsigned int i = 0; i < listeCartes_.size(); i++){
-        if((abs(mx - listeCartes_[i]->getPosX()) < abs(distX)) && ((abs(my - listeCartes_[i]->getPosY()) < abs(distY)))){
-            temp = listeCartes_[i];
-            distX = abs(mx - temp->getPosX());
-            distY = abs(mx - temp->getPosY());
-
+        if(mx >= imgX1 && mx <= imgX2 && my >= imgY1 && my <= imgY2){
+            position = i;
+            break;
+        }
+        else{
+            position =-1;
         }
     }
-    return temp;
+    return position;
 }

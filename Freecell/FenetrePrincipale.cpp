@@ -36,6 +36,7 @@ FenetrePrincipale::FenetrePrincipale() {
 
         // Mouvement souris suite à un déplacement //TODO gérer le clique
         if (disp.button()) {
+            auto* carte = trouverCarte(testClicCarteFenetre(mx,my));
             if(click_hold){
                 cout<<"click hold";
                 cout<<"Mx :"<<mx<<"   My :"<<my<<endl;
@@ -46,7 +47,7 @@ FenetrePrincipale::FenetrePrincipale() {
         }
 
         if (click_hold){
-            pileJeu1->deplacerPile(mx, my);
+            //pileJeu1->deplacerPile(mx, my);
         }
 
         visu_->display(disp);
@@ -103,30 +104,28 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
     }
 }
 
-void FenetrePrincipale::testClicCarte() {
 
-}
 
 //TODO trouver la carte la plus proche cliquée
-CarteKamil FenetrePrincipale::trouverCarte(int mx, int my) {
-    CarteKamil* plusProche;
-    double distX = 1000;
-    double distY = 1000;
-    for(unsigned int i = 0; i<pilesJeu->size(); i++){
-        CarteKamil* plusProchePile = (*pilesJeu)[i]->retournerCartePlusProche(mx, my);
-        if((abs(mx - plusProchePile->getPosX()) < abs(distX)) &&
-        ((abs(my - plusProchePile->getPosY()) < abs(distY)))){
-            plusProche = plusProchePile;
-            distX = abs(mx - plusProche->getPosX());
-            distY = abs(mx - plusProche->getPosY());
+vector<int> FenetrePrincipale::testClicCarteFenetre(int mx, int my){
+
+    vector<int> positions;
+    positions.push_back(-1);
+    positions.push_back(-1);
+
+    for(unsigned int i = 0; i < pilesJeu->size(); i++){
+        positions[1] = (*pilesJeu)[i]->testClicCarte(mx, my);
+        if(positions[1] != -1){
+            positions[0] = i;
+            break;
         }
     }
-    return *plusProche;
+    return positions;
 }
 
 void FenetrePrincipale::placerCartes() {
     //TODO Créer vector de piles
-    auto pilesJeu = new vector<pileCarte *> ;
+    pilesJeu = new vector<pileCarte*> ;
     //Définitions des piles
     pileJeu1 = new pileCarte(100, 300);
     pileJeu2 = new pileCarte(235, 300);
@@ -182,6 +181,8 @@ void FenetrePrincipale::majAffichage() {
                           pileJeu6->getCarte(i)->getImg());
         visu_->draw_image(pileJeu7->getCarte(i)->getPosX(), pileJeu7->getCarte(i)->getPosY(),
                           pileJeu7->getCarte(i)->getImg());
+        visu_->draw_image(pileJeu8->getCarte(i)->getPosX(), pileJeu8->getCarte(i)->getPosY(),
+                          pileJeu8->getCarte(i)->getImg());
     }
     visu_->draw_image(pileJeu1->getCarte(6)->getPosX(), pileJeu1->getCarte(6)->getPosY(),
                       pileJeu1->getCarte(6)->getImg());
@@ -307,4 +308,8 @@ void FenetrePrincipale::initialiserCartes() {
     pileMelange->ajouterCarte(S13);
 
     pileMelange->melangerCartes();
+}
+
+CarteKamil *FenetrePrincipale::trouverCarte(std::vector<int> positionCarte) {
+    return (*pilesJeu)[positionCarte[0]]->getCarte(positionCarte[1]);
 }

@@ -7,6 +7,7 @@
 
 #include "CImg.h"
 #include "pileCarte.h"
+#include <iostream>
 
 class pileCarte;
 
@@ -42,6 +43,10 @@ public:
     int getPosX();
 
     int getPosY();
+
+    int getTailleX(){ return tailleX_;};
+
+    int getTailleY(){ return tailleY_;};
 
     void setPosX(int posX) { positionX_ = posX; };
 

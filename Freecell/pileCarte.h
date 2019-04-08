@@ -26,7 +26,7 @@ public:
 
     void ajouterCarte(CarteKamil *carte);
 
-    int getTaille() { return taille_; };
+    int getTaille() { return listeCartes_.size(); };
 
     int getPosX() { return positionX_; };
 
@@ -42,7 +42,7 @@ public:
 
     void deplacerCartePile(pileCarte *pileRetrait);
 
-    CarteKamil* retournerCartePlusProche(int mx, int my);
+    int testClicCarte(int mx, int my);
 
     CarteKamil *getCarte(int position) { return listeCartes_[position]; };
 

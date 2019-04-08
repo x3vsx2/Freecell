@@ -7,7 +7,7 @@ CarteKamil::CarteKamil(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fil
     Hauteur_ = Hauteur;
     image_ = new CImg<unsigned char>(fileName);
     tailleX_ = image_->width();
-    tailleX_ = image_->height();
+    tailleY_ = image_->height();
     pileAppartenance_ = pileAppartenance;
     positionX_ = pileAppartenance->getPosX();
     positionY_ = pileAppartenance->getPosY();
@@ -27,3 +27,4 @@ int CarteKamil::getPosY() {
 CarteKamil::CarteKamil() {
 
 }
+

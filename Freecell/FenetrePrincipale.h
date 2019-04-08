@@ -16,11 +16,11 @@ public:
 
     void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
 
-    void testClicCarte();
-
     void initialiserCartes();
 
-    CarteKamil trouverCarte(int mx, int my);
+    std::vector<int> testClicCarteFenetre(int mx, int my);
+
+    CarteKamil* trouverCarte(std::vector<int> positionCarte);
 
     void placerCartes();
 
