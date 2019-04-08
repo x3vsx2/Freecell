@@ -25,12 +25,11 @@ void pileCarte::melangerCartes() {
 }
 
 void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
-    CarteKamil *temp = pileRetrait->getCarte(pileRetrait->taille_ - 1);
     //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
     //la pile multipliée par le nombre de carte dans la pilex20
-    temp->setPosX(this->getPosX());
-    temp->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
-    this->ajouterCarte(temp);
+    pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
+    pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
+    this->ajouterCarte(pileRetrait->getCarte(pileRetrait->taille_ - 1));
     pileRetrait->listeCartes_.pop_back();
     pileRetrait->taille_--;
 
@@ -51,4 +50,20 @@ void pileCarte::setPosX(int posX) {
 
 void pileCarte::setPosY(int posY){
     positionY_ = posY;
+}
+
+CarteKamil* pileCarte::retournerCartePlusProche(int mx, int my) {
+    CarteKamil *temp;
+    double distX = 1000;
+    double distY = 1000;
+
+    for(unsigned int i = 0; i < listeCartes_.size(); i++){
+        if((abs(mx - listeCartes_[i]->getPosX()) < abs(distX)) && ((abs(my - listeCartes_[i]->getPosY()) < abs(distY)))){
+            temp = listeCartes_[i];
+            distX = abs(mx - temp->getPosX());
+            distY = abs(mx - temp->getPosY());
+
+        }
+    }
+    return temp;
 }

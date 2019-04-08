@@ -1,7 +1,3 @@
-//
-// Created by kamilcaglar on 02/04/19.
-//
-
 #ifndef FREECELL_FENETREPRINCIPALE_H
 #define FREECELL_FENETREPRINCIPALE_H
 
@@ -24,7 +20,7 @@ public:
 
     void initialiserCartes();
 
-    void afficherCartes();
+    CarteKamil trouverCarte(int mx, int my);
 
     void placerCartes();
 
@@ -38,6 +34,7 @@ private:
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
 
+    std::vector<pileCarte*> *pilesJeu;
     pileCarte *pileMelange;
     pileCarte *pileJeu1;
     pileCarte *pileJeu2;

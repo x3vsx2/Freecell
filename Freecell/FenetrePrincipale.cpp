@@ -107,16 +107,26 @@ void FenetrePrincipale::testClicCarte() {
 
 }
 
-//TODO mise a jour de la position des cartes
-void FenetrePrincipale::afficherCartes() {
-    //for(unsigned int i = 0; i<toutesLesCartes.size();i++){
-    //visu_->draw_image()
-    //}
+//TODO trouver la carte la plus proche cliquée
+CarteKamil FenetrePrincipale::trouverCarte(int mx, int my) {
+    CarteKamil* plusProche;
+    double distX = 1000;
+    double distY = 1000;
+    for(unsigned int i = 0; i<pilesJeu->size(); i++){
+        CarteKamil* plusProchePile = (*pilesJeu)[i]->retournerCartePlusProche(mx, my);
+        if((abs(mx - plusProchePile->getPosX()) < abs(distX)) &&
+        ((abs(my - plusProchePile->getPosY()) < abs(distY)))){
+            plusProche = plusProchePile;
+            distX = abs(mx - plusProche->getPosX());
+            distY = abs(mx - plusProche->getPosY());
+        }
+    }
+    return *plusProche;
 }
 
 void FenetrePrincipale::placerCartes() {
-    //TODO positionner les cartes correctement au départ, idées : créer des positons prédéfinies
-
+    //TODO Créer vector de piles
+    auto pilesJeu = new vector<pileCarte *> ;
     //Définitions des piles
     pileJeu1 = new pileCarte(100, 300);
     pileJeu2 = new pileCarte(235, 300);
@@ -126,6 +136,15 @@ void FenetrePrincipale::placerCartes() {
     pileJeu6 = new pileCarte(775, 300);
     pileJeu7 = new pileCarte(910, 300);
     pileJeu8 = new pileCarte(1045, 300);
+
+    pilesJeu->push_back(pileJeu1);
+    pilesJeu->push_back(pileJeu2);
+    pilesJeu->push_back(pileJeu3);
+    pilesJeu->push_back(pileJeu4);
+    pilesJeu->push_back(pileJeu5);
+    pilesJeu->push_back(pileJeu6);
+    pilesJeu->push_back(pileJeu7);
+    pilesJeu->push_back(pileJeu8);
 
     //Les cartes sont déja mélangés, repartition dans les listes de jeu
     for (unsigned int i = 0; i < 6; i++) { //TODO gérer les cas sept et six
@@ -146,7 +165,7 @@ void FenetrePrincipale::placerCartes() {
 }
 
 void FenetrePrincipale::majAffichage() {
-    initialiserFond();
+    visu_->draw_image(*fond_);
     //On affiche les différentes piles
     for (unsigned int i = 0; i < 6; ++i) {
         visu_->draw_image(pileJeu1->getCarte(i)->getPosX(), pileJeu1->getCarte(i)->getPosY(),

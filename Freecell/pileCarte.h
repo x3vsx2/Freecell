@@ -42,6 +42,8 @@ public:
 
     void deplacerCartePile(pileCarte *pileRetrait);
 
+    CarteKamil* retournerCartePlusProche(int mx, int my);
+
     CarteKamil *getCarte(int position) { return listeCartes_[position]; };
 
     ~pileCarte();

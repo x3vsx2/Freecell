@@ -23,3 +23,7 @@ int CarteKamil::getPosX() {
 int CarteKamil::getPosY() {
     return positionY_;
 }
+
+CarteKamil::CarteKamil() {
+
+}
