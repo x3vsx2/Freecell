@@ -8,7 +8,6 @@
 using namespace std;
 using namespace cimg_library;
 
-//TODO creer l'affichage principal
 FenetrePrincipale::FenetrePrincipale() {
 
     initialiserFond();
@@ -30,24 +29,44 @@ FenetrePrincipale::FenetrePrincipale() {
 
         //mx = position souris en x, my = position souris en y
         const int mx = disp.mouse_x() * (*fond_).width() / disp.width(),
-                  my = disp.mouse_y() * (*fond_).height() / disp.height();
+                my = disp.mouse_y() * (*fond_).height() / disp.height();
 
         majAffichage();
 
-        // Mouvement souris suite à un déplacement //TODO gérer le clique
-        if (disp.button()) {
-            auto* carte = trouverCarte(testClicCarteFenetre(mx,my));
-            if(click_hold){
-                cout<<"click hold";
-                cout<<"Mx :"<<mx<<"   My :"<<my<<endl;
-                click_hold = false;
-            }else{
+        // Mouvement souris suite à un déplacement
+        if (disp.button()) {//Test si clique ET clique sur une carte
+
+            //On recupere la pile qui a été cliquée
+            int temp = testClicCarteFenetre(mx, my)[0];
+            if (click_hold == false) {
+                cout << "Souris Bloquée sur objet";
+
+                //Creation d'une pile temporaire qui est réutilisée si le mouvement n'est pas bon
+                //pileCarte *temp((*pilesJeu)[test]);
+
+                //Déplacement des cartes dans la pileDeplacement qui bouge
+                deplacerPile(mx, my);
+
                 click_hold = true;
+            } else {
+                cout << "Souris Débloquée";
+                if (mouvementValide(mx, my)) {
+                    int pileCliquee = testClicCarteFenetre(mx, my)[0];
+                    for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
+                        (*pilesJeu)[pileCliquee]->deplacerCartePile(pileDeplacement);
+                    }
+                } else {//si le mouvement n'est pas valide, on remet au départ
+                    for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
+
+                        (*pilesJeu)[temp]->deplacerCartePile(pileDeplacement);
+                    }
+                }
+                click_hold = false;
             }
         }
 
-        if (click_hold){
-            //pileJeu1->deplacerPile(mx, my);
+        if (click_hold) {
+            pileDeplacement->deplacerPile(mx, my);
         }
 
         visu_->display(disp);
@@ -105,17 +124,16 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
 }
 
 
-
 //TODO trouver la carte la plus proche cliquée
-vector<int> FenetrePrincipale::testClicCarteFenetre(int mx, int my){
+vector<int> FenetrePrincipale::testClicCarteFenetre(int mx, int my) {
 
     vector<int> positions;
     positions.push_back(-1);
     positions.push_back(-1);
 
-    for(unsigned int i = 0; i < pilesJeu->size(); i++){
+    for (unsigned int i = 0; i < pilesJeu->size(); i++) {
         positions[1] = (*pilesJeu)[i]->testClicCarte(mx, my);
-        if(positions[1] != -1){
+        if (positions[1] != -1) {
             positions[0] = i;
             break;
         }
@@ -125,7 +143,8 @@ vector<int> FenetrePrincipale::testClicCarteFenetre(int mx, int my){
 
 void FenetrePrincipale::placerCartes() {
     //TODO Créer vector de piles
-    pilesJeu = new vector<pileCarte*> ;
+    pilesJeu = new vector<pileCarte *>;
+    pileDeplacement = new pileCarte();
     //Définitions des piles
     pileJeu1 = new pileCarte(100, 300);
     pileJeu2 = new pileCarte(235, 300);
@@ -313,3 +332,31 @@ void FenetrePrincipale::initialiserCartes() {
 CarteKamil *FenetrePrincipale::trouverCarte(std::vector<int> positionCarte) {
     return (*pilesJeu)[positionCarte[0]]->getCarte(positionCarte[1]);
 }
+
+void FenetrePrincipale::deplacerPile(int mx, int my) {
+    //récupère la position d'une carte dans les piles
+    //Si vector = -1 -1 alors aucune carte n'a été cliquée
+    vector<int> positions = testClicCarteFenetre(mx, my);
+
+    //on change les cartes de pile si on a cliqué sur une carte
+    if (positions[0] != -1) {
+        //déplacement d'une ou de plusieurs cartes dans la pile déplacée
+        int nbCarteAEnlever = (*pilesJeu)[positions[0]]->getTaille() - positions[1];
+        for (unsigned int i = 0; i < nbCarteAEnlever; i++) {
+            pileDeplacement->deplacerCartePile((*pilesJeu)[positions[0]]);
+        }
+        pileDeplacement->inverserListeCartes();
+    }
+}
+
+
+bool FenetrePrincipale::mouvementValide(int mx, int my) {
+    //TODO ajouter les fonctions qui vérifient si le moouvement de pile est autorisé
+    if (testClicCarteFenetre(mx, my)[0] != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+

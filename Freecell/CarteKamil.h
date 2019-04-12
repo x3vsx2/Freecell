@@ -37,16 +37,17 @@ public:
                const char *fileName,
                pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
 
-               CarteKamil();
+    CarteKamil();
+
     ~CarteKamil();
 
     int getPosX();
 
     int getPosY();
 
-    int getTailleX(){ return tailleX_;};
+    int getTailleX() { return tailleX_; };
 
-    int getTailleY(){ return tailleY_;};
+    int getTailleY() { return tailleY_; };
 
     void setPosX(int posX) { positionX_ = posX; };
 
