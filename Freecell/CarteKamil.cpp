@@ -1,4 +1,6 @@
+#include "pch.h"
 #include "CarteKamil.h"
+
 
 using namespace cimg_library;
 

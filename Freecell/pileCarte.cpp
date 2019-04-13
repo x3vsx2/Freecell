@@ -1,4 +1,6 @@
+#include "pch.h"
 #include "pileCarte.h"
+
 
 using namespace cimg_library;
 

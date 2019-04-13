@@ -4,7 +4,7 @@
 
 #ifndef FREECELL_CARTEKAMIL_H
 #define FREECELL_CARTEKAMIL_H
-
+#include "pch.h"
 #include "CImg.h"
 #include "pileCarte.h"
 #include <iostream>

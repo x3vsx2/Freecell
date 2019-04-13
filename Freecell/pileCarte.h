@@ -5,6 +5,7 @@
 #ifndef FREECELL_PILECARTE_H
 #define FREECELL_PILECARTE_H
 
+#include "pch.h"
 #include "CImg.h"
 #include "CarteKamil.h"
 #include <vector>
