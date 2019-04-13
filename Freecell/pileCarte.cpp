@@ -37,15 +37,15 @@ void pileCarte::melangerCartes() {
 void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
     //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
     //la pile multipliée par le nombre de carte dans la pilex20
+	if(pileRetrait->getTaille()==0){std::cerr<<"pile vide" ;}
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
     this->ajouterCarte(pileRetrait->getCarte(pileRetrait->taille_ - 1));
     pileRetrait->listeCartes_.pop_back();
     pileRetrait->taille_--;
-
 }
 
-void pileCarte::deplacerPile(int x, int y) {
+void pileCarte::changerPositionPile(int x, int y) {
     this->setPosX(x);
     this->setPosY(y);
     for (unsigned int i = 0; i < listeCartes_.size(); i++) {

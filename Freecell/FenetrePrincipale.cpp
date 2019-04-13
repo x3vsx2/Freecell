@@ -30,8 +30,8 @@ FenetrePrincipale::FenetrePrincipale() {
         //mx = position souris en x, my = position souris en y
         const int mx = disp.mouse_x() * (*fond_).width() / disp.width(),
                 my = disp.mouse_y() * (*fond_).height() / disp.height();
-
-        majAffichage();
+		//cout << mx << " " << my<<endl;
+        majAffichage(mx,my);
 
         // Mouvement souris suite à un déplacement
         if (disp.button()) {//Test si clique ET clique sur une carte
@@ -52,6 +52,7 @@ FenetrePrincipale::FenetrePrincipale() {
                 cout << "Souris Débloquée";
                 if (mouvementValide(mx, my)) {
                     int pileCliquee = testClicCarteFenetre(mx, my)[0];
+					pileDeplacement->inverserListeCartes();
                     for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
                         (*pilesJeu)[pileCliquee]->deplacerCartePile(pileDeplacement);
                     }
@@ -65,8 +66,8 @@ FenetrePrincipale::FenetrePrincipale() {
             }
         }
 
-        if (click_hold) {
-            pileDeplacement->deplacerPile(mx, my);
+        if (click_hold && pileDeplacement->getTaille()!=0) {
+            pileDeplacement->changerPositionPile(mx, my);
         }
 
         visu_->display(disp);
@@ -182,35 +183,20 @@ void FenetrePrincipale::placerCartes() {
 
 }
 
-void FenetrePrincipale::majAffichage() {
+void FenetrePrincipale::majAffichage(int mx, int my) {
     visu_->draw_image(*fond_);
     //On affiche les différentes piles
-    for (unsigned int i = 0; i < 6; ++i) {
-        visu_->draw_image(pileJeu1->getCarte(i)->getPosX(), pileJeu1->getCarte(i)->getPosY(),
-                          pileJeu1->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu2->getCarte(i)->getPosX(), pileJeu2->getCarte(i)->getPosY(),
-                          pileJeu2->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu3->getCarte(i)->getPosX(), pileJeu3->getCarte(i)->getPosY(),
-                          pileJeu3->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu4->getCarte(i)->getPosX(), pileJeu4->getCarte(i)->getPosY(),
-                          pileJeu4->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu5->getCarte(i)->getPosX(), pileJeu5->getCarte(i)->getPosY(),
-                          pileJeu5->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu6->getCarte(i)->getPosX(), pileJeu6->getCarte(i)->getPosY(),
-                          pileJeu6->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu7->getCarte(i)->getPosX(), pileJeu7->getCarte(i)->getPosY(),
-                          pileJeu7->getCarte(i)->getImg());
-        visu_->draw_image(pileJeu8->getCarte(i)->getPosX(), pileJeu8->getCarte(i)->getPosY(),
-                          pileJeu8->getCarte(i)->getImg());
+    for (unsigned int i = 0; i <(*pilesJeu).size(); ++i) {
+		for (unsigned int j = 0; j < (*pilesJeu)[i]->getTaille(); ++j){
+			visu_->draw_image((*pilesJeu)[i]->getCarte(j)->getPosX(), (*pilesJeu)[i]->getCarte(j)->getPosY(),
+				(*pilesJeu)[i]->getCarte(j)->getImg());
+			}
     }
-    visu_->draw_image(pileJeu1->getCarte(6)->getPosX(), pileJeu1->getCarte(6)->getPosY(),
-                      pileJeu1->getCarte(6)->getImg());
-    visu_->draw_image(pileJeu2->getCarte(6)->getPosX(), pileJeu2->getCarte(6)->getPosY(),
-                      pileJeu2->getCarte(6)->getImg());
-    visu_->draw_image(pileJeu3->getCarte(6)->getPosX(), pileJeu3->getCarte(6)->getPosY(),
-                      pileJeu3->getCarte(6)->getImg());
-    visu_->draw_image(pileJeu4->getCarte(6)->getPosX(), pileJeu4->getCarte(6)->getPosY(),
-                      pileJeu4->getCarte(6)->getImg());
+	for (unsigned int k = 0; k < pileDeplacement->getTaille(); k++) {
+		visu_->draw_image(pileDeplacement->getCarte(k)->getPosX(), pileDeplacement->getCarte(k)->getPosY(),
+			pileDeplacement->getCarte(k)->getImg());
+	}
+    
 }
 
 void FenetrePrincipale::initialiserCartes() {

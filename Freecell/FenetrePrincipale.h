@@ -26,7 +26,7 @@ public:
 
     void deplacerPile(int mx, int my);
 
-    void majAffichage();
+    void majAffichage(int mx,int my);
 
     bool mouvementValide(int mx, int my);
 

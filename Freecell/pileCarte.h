@@ -49,7 +49,7 @@ public:
 
     int getPosY() { return positionY_; };
 
-    void deplacerPile(int x, int y);
+    void changerPositionPile(int x, int y);
 
     void setPosX(int posX);
 
