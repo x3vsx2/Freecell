@@ -20,13 +20,15 @@ public:
 
     std::vector<int> testClicCarteFenetre(int mx, int my);
 
-    CarteKamil* trouverCarte(std::vector<int> positionCarte);
+    CarteKamil *trouverCarte(std::vector<int> positionCarte);
 
     void placerCartes();
 
-    void initialiserPiles();
+    void deplacerPile(int mx, int my);
 
     void majAffichage();
+
+    bool mouvementValide(int mx, int my);
 
 
 private:
@@ -34,7 +36,8 @@ private:
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
 
-    std::vector<pileCarte*> *pilesJeu;
+    std::vector<pileCarte *> *pilesJeu;
+    pileCarte *pileDeplacement;
     pileCarte *pileMelange;
     pileCarte *pileJeu1;
     pileCarte *pileJeu2;
@@ -44,7 +47,6 @@ private:
     pileCarte *pileJeu6;
     pileCarte *pileJeu7;
     pileCarte *pileJeu8;
-    pileCarte *pileVide1;
     pileCarte *pileVide2;
     pileCarte *pileVide3;
     pileCarte *pileVide4;

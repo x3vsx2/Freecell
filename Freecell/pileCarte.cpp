@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "pileCarte.h"
+#include <algorithm>
 
 
 using namespace cimg_library;
@@ -16,10 +17,17 @@ pileCarte::pileCarte(int positionX, int positionY) {
     positionY_ = positionY;
 }
 
-void pileCarte::ajouterCarte(CarteKamil *carte) {
-    int test = carte->getPosX();
-    listeCartes_.push_back(carte);
-    taille_ = listeCartes_.size();
+pileCarte::pileCarte(pileCarte &pileCopiee) : taille_(pileCopiee.taille_),
+                                              positionX_(pileCopiee.positionX_), positionY_(pileCopiee.positionY_) {
+    for (unsigned int i = 0; i < pileCopiee.taille_; i++) {
+        listeCartes_.push_back(pileCopiee.listeCartes_[i]);
+    }
+}
+
+pileCarte::~pileCarte() {
+    for (unsigned int i = 0; i < taille_; i++) {
+        delete listeCartes_[i];
+    }
 }
 
 void pileCarte::melangerCartes() {
@@ -40,9 +48,9 @@ void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
 void pileCarte::deplacerPile(int x, int y) {
     this->setPosX(x);
     this->setPosY(y);
-    for(unsigned int i = 0; i<listeCartes_.size();i++){
+    for (unsigned int i = 0; i < listeCartes_.size(); i++) {
         listeCartes_[i]->setPosX(this->getPosX());
-        listeCartes_[i]->setPosY(this->getPosY() + 20*i);
+        listeCartes_[i]->setPosY(this->getPosY() + 20 * i);
     }
 }
 
@@ -50,26 +58,36 @@ void pileCarte::setPosX(int posX) {
     positionX_ = posX;
 }
 
-void pileCarte::setPosY(int posY){
+void pileCarte::setPosY(int posY) {
     positionY_ = posY;
 }
 
 int pileCarte::testClicCarte(int mx, int my) {
     int position = -1;
-    for(int i = listeCartes_.size()-1; i >=0; i--){
-        std::cout<<i;
+    for (int i = listeCartes_.size() - 1; i >= 0; i--) {
+        std::cout << i;
         int imgX1 = listeCartes_[i]->getPosX();
         int imgX2 = listeCartes_[i]->getPosX() + listeCartes_[i]->getTailleX();
         int imgY1 = listeCartes_[i]->getPosY();
         int imgY2 = listeCartes_[i]->getPosY() + listeCartes_[i]->getTailleY();
 
-        if(mx >= imgX1 && mx <= imgX2 && my >= imgY1 && my <= imgY2){
+        if (mx >= imgX1 && mx <= imgX2 && my >= imgY1 && my <= imgY2) {
             position = i;
             break;
-        }
-        else{
-            position =-1;
+        } else {
+            position = -1;
         }
     }
     return position;
+}
+
+void pileCarte::inverserListeCartes() {
+    std::reverse(listeCartes_.begin(), listeCartes_.end());
+}
+
+
+void pileCarte::ajouterCarte(CarteKamil *carte) {
+    int test = carte->getPosX();
+    listeCartes_.push_back(carte);
+    taille_ = listeCartes_.size();
 }

@@ -13,7 +13,21 @@
 using namespace cimg_library;
 
 typedef enum {
-    melange, jeu1, jeu2, jeu3, jeu4, jeu5, libre1, libre2, libre3, libre4, valide1, valide2, valide3, valide4, deplacement
+    melange,
+    jeu1,
+    jeu2,
+    jeu3,
+    jeu4,
+    jeu5,
+    libre1,
+    libre2,
+    libre3,
+    libre4,
+    valide1,
+    valide2,
+    valide3,
+    valide4,
+    deplacement
 } Type;
 
 
@@ -24,6 +38,8 @@ public:
     pileCarte();
 
     pileCarte(int positionX, int positionY);
+
+    pileCarte(pileCarte &pileCopiee);
 
     void ajouterCarte(CarteKamil *carte);
 
@@ -44,6 +60,11 @@ public:
     void deplacerCartePile(pileCarte *pileRetrait);
 
     int testClicCarte(int mx, int my);
+
+    void extraireCartePile();
+
+    void inverserListeCartes();
+
 
     CarteKamil *getCarte(int position) { return listeCartes_[position]; };
 
