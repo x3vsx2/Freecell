@@ -15,7 +15,7 @@ typedef enum {
     Coeur, Pique, Carreau, Trefle
 } TypeCouleur;
 typedef enum {
-    As, Roi, Dame, Valet, Dix, Neuf, Huit, Sept, Six, Cinq, Quatre, Trois, Deux
+    As, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf,  Dix,  Valet, Dame,Roi
 } TypeHauteur;
 
 using namespace cimg_library;
@@ -55,6 +55,9 @@ public:
 
     CImg<unsigned char> getImg() { return *image_; };
 
+	TypeCouleur getCouleur() { return Couleur_; }
+
+	TypeHauteur getHauteur() { return Hauteur_; }
 };
 
 

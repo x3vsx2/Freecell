@@ -37,7 +37,8 @@ FenetrePrincipale::FenetrePrincipale() {
         if (disp.button()) {//Test si clique ET clique sur une carte
 
             //On recupere la pile qui a été cliquée
-            int temp = testClicCarteFenetre(mx, my)[0];
+			
+			int temp = testClicCarteFenetre(mx, my)[0];
             if (click_hold == false) {
                 cout << "Souris Bloquée sur objet";
 
@@ -53,16 +54,19 @@ FenetrePrincipale::FenetrePrincipale() {
                 if (mouvementValide(mx, my)) {
                     int pileCliquee = testClicCarteFenetre(mx, my)[0];
 					pileDeplacement->inverserListeCartes();
-                    for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
+					int nbCartesAEnlever = pileDeplacement->getTaille();
+                    for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         (*pilesJeu)[pileCliquee]->deplacerCartePile(pileDeplacement);
                     }
-                } else {//si le mouvement n'est pas valide, on remet au départ
-                    for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
-
-                        (*pilesJeu)[temp]->deplacerCartePile(pileDeplacement);
-                    }
-                }
-                click_hold = false;
+					click_hold = false;
+                } //else {//si le mouvement n'est pas valide, on remet au départ //non car tu ne sais pas d'où viennent les cartes
+					//pileDeplacement->inverserListeCartes();
+					//int nbCartesAEnlever = pileDeplacement->getTaille();
+                  //  for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
+                  //      (*pilesJeu)[temp]->deplacerCartePile(pileDeplacement);
+                  //  }
+                //}
+                //click_hold = false;
             }
         }
 
@@ -145,16 +149,16 @@ vector<int> FenetrePrincipale::testClicCarteFenetre(int mx, int my) {
 void FenetrePrincipale::placerCartes() {
     //TODO Créer vector de piles
     pilesJeu = new vector<pileCarte *>;
-    pileDeplacement = new pileCarte();
+    pileDeplacement = new pileCarte(0,0,deplacement);
     //Définitions des piles
-    pileJeu1 = new pileCarte(100, 300);
-    pileJeu2 = new pileCarte(235, 300);
-    pileJeu3 = new pileCarte(370, 300);
-    pileJeu4 = new pileCarte(505, 300);
-    pileJeu5 = new pileCarte(640, 300);
-    pileJeu6 = new pileCarte(775, 300);
-    pileJeu7 = new pileCarte(910, 300);
-    pileJeu8 = new pileCarte(1045, 300);
+    pileJeu1 = new pileCarte(100, 300,jeu1);
+    pileJeu2 = new pileCarte(235, 300,jeu2);
+    pileJeu3 = new pileCarte(370, 300,jeu3);
+    pileJeu4 = new pileCarte(505, 300,jeu4);
+    pileJeu5 = new pileCarte(640, 300,jeu5);
+    pileJeu6 = new pileCarte(775, 300,jeu6);
+    pileJeu7 = new pileCarte(910, 300, jeu7);
+    pileJeu8 = new pileCarte(1045, 300,jeu8);
 
     pilesJeu->push_back(pileJeu1);
     pilesJeu->push_back(pileJeu2);
@@ -200,7 +204,7 @@ void FenetrePrincipale::majAffichage(int mx, int my) {
 }
 
 void FenetrePrincipale::initialiserCartes() {
-    pileMelange = new pileCarte();
+    pileMelange = new pileCarte(0,0,melange);
 
     auto *H01 = new CarteKamil(Coeur, As, "imageCarte/h01.ppm", pileMelange);
     auto *H02 = new CarteKamil(Coeur, Deux, "imageCarte/h02.ppm", pileMelange);
@@ -338,6 +342,11 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 
 bool FenetrePrincipale::mouvementValide(int mx, int my) {
     //TODO ajouter les fonctions qui vérifient si le moouvement de pile est autorisé
+
+
+	TypeCouleur couleurCarte=pileDeplacement->getCarte(0)->getCouleur();
+	TypeHauteur hauteurCarte = pileDeplacement->getCarte(0)->getHauteur();
+	cout << endl;
     if (testClicCarteFenetre(mx, my)[0] != -1) {
         return true;
     } else {

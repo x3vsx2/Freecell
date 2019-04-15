@@ -9,12 +9,14 @@ pileCarte::pileCarte() {
     taille_ = 0;
     positionY_ = 0;
     positionX_ = 0;
+	type_ = unknown;
 }
 
-pileCarte::pileCarte(int positionX, int positionY) {
+pileCarte::pileCarte(int positionX, int positionY,Type type) {
     taille_ = 0;
     positionX_ = positionX;
     positionY_ = positionY;
+	type_ = type;
 }
 
 pileCarte::pileCarte(pileCarte &pileCopiee) : taille_(pileCopiee.taille_),
@@ -37,7 +39,7 @@ void pileCarte::melangerCartes() {
 void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
     //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
     //la pile multipliée par le nombre de carte dans la pilex20
-	if(pileRetrait->getTaille()==0){std::cerr<<"pile vide" ;}
+	if(pileRetrait->getTaille()==0){std::cout<<"pile vide" ;}
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
     this->ajouterCarte(pileRetrait->getCarte(pileRetrait->taille_ - 1));
@@ -65,7 +67,7 @@ void pileCarte::setPosY(int posY) {
 int pileCarte::testClicCarte(int mx, int my) {
     int position = -1;
     for (int i = listeCartes_.size() - 1; i >= 0; i--) {
-        std::cout << i;
+        //std::cout << i;
         int imgX1 = listeCartes_[i]->getPosX();
         int imgX2 = listeCartes_[i]->getPosX() + listeCartes_[i]->getTailleX();
         int imgY1 = listeCartes_[i]->getPosY();
@@ -74,9 +76,10 @@ int pileCarte::testClicCarte(int mx, int my) {
         if (mx >= imgX1 && mx <= imgX2 && my >= imgY1 && my <= imgY2) {
             position = i;
             break;
-        } else {
-            position = -1;
         }
+		//else {
+        //    position = -1; // inutile car affecte -1 a position qui vaut déjà -1
+        //}
     }
     return position;
 }
@@ -87,7 +90,7 @@ void pileCarte::inverserListeCartes() {
 
 
 void pileCarte::ajouterCarte(CarteKamil *carte) {
-    int test = carte->getPosX();
+    //int test = carte->getPosX();
     listeCartes_.push_back(carte);
     taille_ = listeCartes_.size();
 }
