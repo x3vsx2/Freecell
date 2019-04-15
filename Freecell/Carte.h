@@ -4,18 +4,19 @@
 
 #ifndef FREECELL_CARTE_H
 #define FREECELL_CARTE_H
+
 #include "pch.h"
 #include "CImg.h"
-#include "pileCarte.h"
+#include "PileCarte.h"
 #include <iostream>
 
-class pileCarte;
+class PileCarte;
 
 typedef enum {
     Coeur, Pique, Carreau, Trefle
 } TypeCouleur;
 typedef enum {
-    As, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf,  Dix,  Valet, Dame,Roi
+    As, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf, Dix, Valet, Dame, Roi
 } TypeHauteur;
 
 using namespace cimg_library;
@@ -30,12 +31,12 @@ private:
     int tailleX_;
     int tailleY_;
     CImg<unsigned char> *image_;
-    pileCarte *pileAppartenance_;
+    PileCarte *pileAppartenance_;
 
 public:
     Carte(TypeCouleur Couleur, TypeHauteur Hauteur,
           const char *fileName,
-          pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
+          PileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
 
     Carte();
 
@@ -55,9 +56,9 @@ public:
 
     CImg<unsigned char> getImg() { return *image_; };
 
-	TypeCouleur getCouleur() { return Couleur_; }
+    TypeCouleur getCouleur() { return Couleur_; }
 
-	TypeHauteur getHauteur() { return Hauteur_; }
+    TypeHauteur getHauteur() { return Hauteur_; }
 };
 
 

@@ -4,7 +4,7 @@
 
 using namespace cimg_library;
 
-Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, pileCarte *pileAppartenance) {
+Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, PileCarte *pileAppartenance) {
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
     image_ = new CImg<unsigned char>(fileName);

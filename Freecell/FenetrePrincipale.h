@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "CImg.h"
-#include "pileCarte.h"
+#include "PileCarte.h"
 #include "Carte.h"
 
 class FenetrePrincipale {
@@ -34,24 +34,24 @@ private:
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
 
-    std::vector<pileCarte *> *pilesJeu;
-    pileCarte *pileDeplacement;
-    pileCarte *pileMelange;
-    pileCarte *pileJeu1;
-    pileCarte *pileJeu2;
-    pileCarte *pileJeu3;
-    pileCarte *pileJeu4;
-    pileCarte *pileJeu5;
-    pileCarte *pileJeu6;
-    pileCarte *pileJeu7;
-    pileCarte *pileJeu8;
-    pileCarte *pileVide2;
-    pileCarte *pileVide3;
-    pileCarte *pileVide4;
-    pileCarte *pileValide1;
-    pileCarte *pileValide2;
-    pileCarte *pileValide3;
-    pileCarte *pileValide4;
+    std::vector<PileCarte *> *pilesJeu;
+    PileCarte *pileDeplacement;
+    PileCarte *pileMelange;
+    PileCarte *pileJeu1;
+    PileCarte *pileJeu2;
+    PileCarte *pileJeu3;
+    PileCarte *pileJeu4;
+    PileCarte *pileJeu5;
+    PileCarte *pileJeu6;
+    PileCarte *pileJeu7;
+    PileCarte *pileJeu8;
+    PileCarte *pileVide2;
+    PileCarte *pileVide3;
+    PileCarte *pileVide4;
+    PileCarte *pileValide1;
+    PileCarte *pileValide2;
+    PileCarte *pileValide3;
+    PileCarte *pileValide4;
 };
 
 

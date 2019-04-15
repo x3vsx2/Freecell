@@ -13,16 +13,16 @@
 using namespace cimg_library;
 
 typedef enum {
-	unknown,
+    unknown,
     melange,
     jeu1,
     jeu2,
     jeu3,
     jeu4,
     jeu5,
-	jeu6,
-	jeu7,
-	jeu8,
+    jeu6,
+    jeu7,
+    jeu8,
     libre1,
     libre2,
     libre3,
@@ -37,13 +37,13 @@ typedef enum {
 
 class Carte;
 
-class pileCarte {
+class PileCarte {
 public:
-    pileCarte();
+    PileCarte();
 
-    pileCarte(int positionX, int positionY,Type type);
+    PileCarte(int positionX, int positionY, Type type);
 
-    pileCarte(pileCarte &pileCopiee);
+    PileCarte(PileCarte &pileCopiee);
 
     void ajouterCarte(Carte *carte);
 
@@ -61,7 +61,7 @@ public:
 
     void melangerCartes();
 
-    void deplacerCartePile(pileCarte *pileRetrait);
+    void deplacerCartePile(PileCarte *pileRetrait);
 
     int testClicCarte(int mx, int my);
 
@@ -72,14 +72,14 @@ public:
 
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
-    ~pileCarte();
+    ~PileCarte();
 
 private:
     int taille_;
     std::vector<Carte *> listeCartes_;
     int positionX_;
     int positionY_;
-	Type type_;
+    Type type_;
 };
 
 #endif //FREECELL_PILECARTE_H
