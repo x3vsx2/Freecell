@@ -42,7 +42,11 @@ void pileCarte::deplacerCartePile(pileCarte *pileRetrait) {
 	if(pileRetrait->getTaille()==0){std::cout<<"pile vide" ;}
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
+
+    //Ajout de la carte dans sa nouvelle pile
     this->ajouterCarte(pileRetrait->getCarte(pileRetrait->taille_ - 1));
+
+    //Suppresion de la carte de son ancienne pile
     pileRetrait->listeCartes_.pop_back();
     pileRetrait->taille_--;
 }
@@ -89,7 +93,7 @@ void pileCarte::inverserListeCartes() {
 }
 
 
-void pileCarte::ajouterCarte(CarteKamil *carte) {
+void pileCarte::ajouterCarte(Carte *carte) {
     //int test = carte->getPosX();
     listeCartes_.push_back(carte);
     taille_ = listeCartes_.size();

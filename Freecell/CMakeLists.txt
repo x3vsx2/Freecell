@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(SOURCE_FILES
         Freecell.cpp
         pch.cpp
-        pch.h FenetrePrincipale.cpp FenetrePrincipale.h CarteKamil.cpp CarteKamil.h pileCarte.cpp pileCarte.h)
+        pch.h FenetrePrincipale.cpp FenetrePrincipale.h Carte.cpp Carte.h pileCarte.cpp pileCarte.h)
 
 add_executable(Freecell ${SOURCE_FILES})
 

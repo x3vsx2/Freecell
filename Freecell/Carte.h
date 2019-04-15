@@ -2,8 +2,8 @@
 // Created by kamilcaglar on 05/04/19.
 //
 
-#ifndef FREECELL_CARTEKAMIL_H
-#define FREECELL_CARTEKAMIL_H
+#ifndef FREECELL_CARTE_H
+#define FREECELL_CARTE_H
 #include "pch.h"
 #include "CImg.h"
 #include "pileCarte.h"
@@ -20,7 +20,7 @@ typedef enum {
 
 using namespace cimg_library;
 
-class CarteKamil {
+class Carte {
 
 private:
     TypeCouleur Couleur_;
@@ -33,13 +33,13 @@ private:
     pileCarte *pileAppartenance_;
 
 public:
-    CarteKamil(TypeCouleur Couleur, TypeHauteur Hauteur,
-               const char *fileName,
-               pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
+    Carte(TypeCouleur Couleur, TypeHauteur Hauteur,
+          const char *fileName,
+          pileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
 
-    CarteKamil();
+    Carte();
 
-    ~CarteKamil();
+    ~Carte();
 
     int getPosX();
 
@@ -61,5 +61,5 @@ public:
 };
 
 
-#endif //FREECELL_CARTEKAMIL_H
+#endif //FREECELL_CARTE_H
 

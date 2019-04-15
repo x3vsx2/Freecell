@@ -7,7 +7,7 @@
 
 #include "pch.h"
 #include "CImg.h"
-#include "CarteKamil.h"
+#include "Carte.h"
 #include <vector>
 
 using namespace cimg_library;
@@ -35,7 +35,7 @@ typedef enum {
 } Type;
 
 
-class CarteKamil;
+class Carte;
 
 class pileCarte {
 public:
@@ -45,7 +45,7 @@ public:
 
     pileCarte(pileCarte &pileCopiee);
 
-    void ajouterCarte(CarteKamil *carte);
+    void ajouterCarte(Carte *carte);
 
     int getTaille() { return listeCartes_.size(); };
 
@@ -70,13 +70,13 @@ public:
     void inverserListeCartes();
 
 
-    CarteKamil *getCarte(int position) { return listeCartes_[position]; };
+    Carte *getCarte(int position) { return listeCartes_[position]; };
 
     ~pileCarte();
 
 private:
     int taille_;
-    std::vector<CarteKamil *> listeCartes_;
+    std::vector<Carte *> listeCartes_;
     int positionX_;
     int positionY_;
 	Type type_;

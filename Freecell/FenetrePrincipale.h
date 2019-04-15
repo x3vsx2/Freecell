@@ -5,7 +5,7 @@
 #include <vector>
 #include "CImg.h"
 #include "pileCarte.h"
-#include "CarteKamil.h"
+#include "Carte.h"
 
 class FenetrePrincipale {
 
@@ -20,13 +20,11 @@ public:
 
     std::vector<int> testClicCarteFenetre(int mx, int my);
 
-    CarteKamil *trouverCarte(std::vector<int> positionCarte);
-
     void placerCartes();
 
     void deplacerPile(int mx, int my);
 
-    void majAffichage(int mx,int my);
+    void majAffichage();
 
     bool mouvementValide(int mx, int my);
 

@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "CarteKamil.h"
+#include "Carte.h"
 
 
 using namespace cimg_library;
 
-CarteKamil::CarteKamil(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, pileCarte *pileAppartenance) {
+Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, pileCarte *pileAppartenance) {
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
     image_ = new CImg<unsigned char>(fileName);
@@ -15,18 +15,18 @@ CarteKamil::CarteKamil(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fil
     positionY_ = pileAppartenance->getPosY();
 }
 
-CarteKamil::~CarteKamil() {}
+Carte::~Carte() {}
 
 
-int CarteKamil::getPosX() {
+int Carte::getPosX() {
     return positionX_;
 }
 
-int CarteKamil::getPosY() {
+int Carte::getPosY() {
     return positionY_;
 }
 
-CarteKamil::CarteKamil() {
+Carte::Carte() {
 
 }
 
