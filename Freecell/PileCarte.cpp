@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <ctime>
 
-
 using namespace cimg_library;
 
 PileCarte::PileCarte() {
@@ -32,10 +31,6 @@ PileCarte::~PileCarte() {
     for (unsigned int i = 0; i < taille_; i++) {
         delete listeCartes_[i];
     }
-}
-
-void PileCarte::melangerCartes() {
-    //TODO fonction melanger
 }
 
 /*!
@@ -93,7 +88,7 @@ void PileCarte::setPosY(int posY) {
  * @param mx position horizontale de la souris
  * @param my position verticale de la souris
  */
-int PileCarte::testClicCarte(int mx, int my) {
+int PileCarte::getClicPositionCarte(int mx, int my) {
     int position = -1;
     for (int i = listeCartes_.size() - 1; i >= 0; i--) {
         int imgX1 = listeCartes_[i]->getPosX();
@@ -103,7 +98,7 @@ int PileCarte::testClicCarte(int mx, int my) {
 
         if (mx >= imgX1 && mx <= imgX2 && my >= imgY1 && my <= imgY2) {
             position = i;
-            break;
+            return position;
         }
     }
     return position;
@@ -125,22 +120,30 @@ void PileCarte::ajouterCarte(Carte *carte) {
     taille_ = listeCartes_.size();
 }
 
+/*!
+ * Renvoie si la carte qui precede position est un assemblage valide dans le jeu
+ * renvoie true s'il n'y a pas de précédente
+ * renvoie false si la poition est invalide
+ * @param position
+ * @return bool true s'il n'y a pas de précédente
+ *         false si la poition est invalide
+ */
 bool PileCarte::precedentEstValide(unsigned int position) {
-	/*renvoie si la carte qui precede position est un assemblage valide dans le jeu
-	renvoie true s'il n'y a pas de précédente
-	renvoie false si la poition est invalide*/
-	if (position > taille_ -1 ) { return false; }
-	if (position == 0) { return true; }
-	else {
-		if (listeCartes_[position]->getHauteur() == listeCartes_[position - 1]->getHauteur() - 1 && listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
-		else { return false; }
-	}
+    if (position > taille_ - 1) { return false; }
+    if (position == 0) { return true; }
+    else {
+        if (listeCartes_[position]->getHauteur() == listeCartes_[position - 1]->getHauteur() - 1 &&
+            listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
+        else { return false; }
+    }
 }
 
-
+/*!
+ * Melange les cartes
+ */
 void PileCarte::brassagePile() {
-	if (type_ == melange) {
-		std::srand(std::time(0));
-		std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
-	}
+    if (type_ == melange) {
+        std::srand(std::time(0));
+        std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
+    }
 }

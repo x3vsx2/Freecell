@@ -18,9 +18,9 @@ public:
 
     void initialiserCartes();
 
-    std::vector<int> testClicCarteFenetre(int mx, int my);
+    std::vector<int> getClicPositions(int mx, int my);
 
-    void placerCartes();
+    void initialiserPiles();
 
     void deplacerPile(int mx, int my);
 
@@ -28,8 +28,9 @@ public:
 
     bool mouvementValide(int mx, int my);
 
-	bool estSaisieValide(int mx, int my);
-	bool estDepotValide(int mx, int my);
+    bool estSaisieValide(int mx, int my);
+
+    bool estDepotValide(int mx, int my);
 
 
 private:
@@ -37,7 +38,8 @@ private:
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
 
-    std::vector<PileCarte *> *pilesJeu;
+    std::vector<PileCarte *> *piles;
+
     PileCarte *pileDeplacement;
     PileCarte *pileMelange;
     PileCarte *pileJeu1;
@@ -48,9 +50,10 @@ private:
     PileCarte *pileJeu6;
     PileCarte *pileJeu7;
     PileCarte *pileJeu8;
-    PileCarte *pileVide2;
-    PileCarte *pileVide3;
-    PileCarte *pileVide4;
+    PileCarte *pileLibre1;
+    PileCarte *pileLibre2;
+    PileCarte *pileLibre3;
+    PileCarte *pileLibre4;
     PileCarte *pileValide1;
     PileCarte *pileValide2;
     PileCarte *pileValide3;

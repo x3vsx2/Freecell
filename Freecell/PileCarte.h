@@ -64,19 +64,17 @@ public:
 
     void deplacerCartePile(PileCarte *pileRetrait);
 
-    int testClicCarte(int mx, int my);
-
-    void extraireCartePile();
+    int getClicPositionCarte(int mx, int my);
 
     void inverserListeCartes();
 
-	bool precedentEstValide(unsigned int position);
+    bool precedentEstValide(unsigned int position);
 
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
     ~PileCarte();
 
-	void brassagePile();
+    void brassagePile();
 
 private:
     unsigned int taille_;
