@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "PileCarte.h"
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
 
 
 using namespace cimg_library;
@@ -137,5 +139,8 @@ bool PileCarte::precedentEstValide(unsigned int position) {
 
 
 void PileCarte::brassagePile() {
-	if( type_==melange)std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
+	if (type_ == melange) {
+		std::srand(std::time(0));
+		std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
+	}
 }

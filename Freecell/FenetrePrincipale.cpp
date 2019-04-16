@@ -50,7 +50,7 @@ FenetrePrincipale::FenetrePrincipale() {
                 click_hold = true;
             } else {//Dépot de la pile pileDeplacement
                 cout << "Clic Débloqué" << endl;
-                if (mouvementValide(mx, my)) {
+                if (estDepotValide(mx, my)) {
                     int pileCliquee = testClicCarteFenetre(mx, my)[0]; //numéro de la pile sur laquelle il y a eu un clic
                     pileDeplacement->inverserListeCartes();
                     int nbCartesAEnlever = pileDeplacement->getTaille();
@@ -368,7 +368,7 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
 			//return true;// a retirer quand les carte seront mélangées
 			bool validite = true;
 			for (unsigned int k = (*pilesJeu)[positionsCartecliquee[0]]->getTaille() - 1; k > positionsCartecliquee[1]; k--) {
-				validite &= (*pilesJeu)[positionsCartecliquee[1]]->precedentEstValide(k);
+				validite &= (*pilesJeu)[positionsCartecliquee[0]]->precedentEstValide(k);
 			}
 			return(validite);
 		}
