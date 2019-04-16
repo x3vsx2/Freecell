@@ -134,3 +134,8 @@ bool PileCarte::precedentEstValide(unsigned int position) {
 		else { return false; }
 	}
 }
+
+
+void PileCarte::brassagePile() {
+	if( type_==melange)std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
+}

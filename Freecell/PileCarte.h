@@ -9,6 +9,7 @@
 #include "CImg.h"
 #include "Carte.h"
 #include <vector>
+#include <algorithm>
 
 using namespace cimg_library;
 
@@ -74,6 +75,8 @@ public:
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
     ~PileCarte();
+
+	void brassagePile();
 
 private:
     unsigned int taille_;

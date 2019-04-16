@@ -5,6 +5,7 @@
 #include "FenetrePrincipale.h"
 #include "PileCarte.h"
 
+
 using namespace std;
 using namespace cimg_library;
 
@@ -176,6 +177,8 @@ void FenetrePrincipale::placerCartes() {
     pilesJeu->push_back(pileJeu8);
 
     //Les cartes sont mélangés, repartition dans les listes de jeu
+	pileMelange->brassagePile();
+
     for (unsigned int i = 0; i < 6; i++) { //TODO gérer les cas sept et six
         pileJeu1->deplacerCartePile(pileMelange);
         pileJeu2->deplacerCartePile(pileMelange);
