@@ -28,6 +28,9 @@ public:
 
     bool mouvementValide(int mx, int my);
 
+	bool estSaisieValide(int mx, int my);
+	bool estDepotValide(int mx, int my);
+
 
 private:
     cimg_library::CImg<unsigned char> *visu_;

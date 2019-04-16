@@ -151,14 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CarteKamil.h" />
+    <ClInclude Include="Carte.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="FenetrePrincipale.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="pileCarte.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CarteKamil.cpp" />
+    <ClCompile Include="Carte.cpp" />
     <ClCompile Include="FenetrePrincipale.cpp" />
     <ClCompile Include="Freecell.cpp" />
     <ClCompile Include="pch.cpp">

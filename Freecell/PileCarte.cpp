@@ -122,3 +122,15 @@ void PileCarte::ajouterCarte(Carte *carte) {
     listeCartes_.push_back(carte);
     taille_ = listeCartes_.size();
 }
+
+bool PileCarte::precedentEstValide(unsigned int position) {
+	/*renvoie si la carte qui precede position est un assemblage valide dans le jeu
+	renvoie true s'il n'y a pas de précédente
+	renvoie false si la poition est invalide*/
+	if (position > taille_ -1 ) { return false; }
+	if (position == 0) { return true; }
+	else {
+		if (listeCartes_[position]->getHauteur() == listeCartes_[position - 1]->getHauteur() - 1 && listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
+		else { return false; }
+	}
+}

@@ -43,14 +43,14 @@ FenetrePrincipale::FenetrePrincipale() {
                 cout << "Clic Bloqué" << endl;
 
                 //Déplacement des cartes dans la pile pileDeplacement
+				if(estSaisieValide(mx,my))
                 deplacerPile(mx, my);
 
                 click_hold = true;
             } else {//Dépot de la pile pileDeplacement
                 cout << "Clic Débloqué" << endl;
                 if (mouvementValide(mx, my)) {
-                    int pileCliquee = testClicCarteFenetre(mx,
-                                                           my)[0]; //numéro de la pile sur laquelle il y a eu un clic
+                    int pileCliquee = testClicCarteFenetre(mx, my)[0]; //numéro de la pile sur laquelle il y a eu un clic
                     pileDeplacement->inverserListeCartes();
                     int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
@@ -354,13 +354,54 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 }
 
 
+
+bool FenetrePrincipale::estSaisieValide(int mx, int my) {
+
+	vector<int> positionsCartecliquee = testClicCarteFenetre(mx, my);
+	if (positionsCartecliquee[0] == -1) { return false; }
+	else {
+		if (positionsCartecliquee[1] == (*pilesJeu)[positionsCartecliquee[0]]->getTaille()) { return true; }// si il y a une seul carte return true
+		else {
+			//return true;// a retirer quand les carte seront mélangées
+			bool validite = true;
+			for (unsigned int k = (*pilesJeu)[positionsCartecliquee[0]]->getTaille() - 1; k > positionsCartecliquee[1]; k--) {
+				validite &= (*pilesJeu)[positionsCartecliquee[1]]->precedentEstValide(k);
+			}
+			return(validite);
+		}
+	}
+}
+
+bool FenetrePrincipale::estDepotValide(int mx, int my) {
+	vector<int> positionsCartecliquee = testClicCarteFenetre(mx, my);
+	if (positionsCartecliquee[0] != -1) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
 bool FenetrePrincipale::mouvementValide(int mx, int my) {
     //TODO ajouter les fonctions qui vérifient si le moouvement de pile est autorisé
 
-    TypeCouleur couleurCarte = pileDeplacement->getCarte(0)->getCouleur();
-    TypeHauteur hauteurCarte = pileDeplacement->getCarte(0)->getHauteur();
-    cout << endl;
-    if (testClicCarteFenetre(mx, my)[0] != -1) {
+    
+	vector<int> positionsCartecliquee = testClicCarteFenetre(mx, my);
+	//if (positionsCartecliquee[0] == -1) { return false; }
+	//else {
+	//	if (positionsCartecliquee[1] == (*pilesJeu)[positionsCartecliquee[0]]->getTaille()) { return true; }
+	//	else {
+	//		//return true;// a retirer quand les carte seront mélangées
+	//		bool validite = true;
+	//		for (unsigned int k = (*pilesJeu)[positionsCartecliquee[1]]->getTaille() - 1; k > positionsCartecliquee[1]; k--) {
+	//			validite &= (*pilesJeu)[positionsCartecliquee[1]]->precedentEstValide(k);
+	//		}
+	//		return(validite);
+	//	}
+	//}
+
+    if (positionsCartecliquee[0] != -1) {
         return true;
     } else {
         return false;

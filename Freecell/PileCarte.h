@@ -69,13 +69,14 @@ public:
 
     void inverserListeCartes();
 
+	bool precedentEstValide(unsigned int position);
 
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
     ~PileCarte();
 
 private:
-    int taille_;
+    unsigned int taille_;
     std::vector<Carte *> listeCartes_;
     int positionX_;
     int positionY_;
