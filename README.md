@@ -1,8 +1,5 @@
 # Freecell
-
-##Minimun requierments
-64Go RAM
-Intel Xeon 
+ 
 ## Positionnement
 **Fenetre**
 La fenetre a une taille de *1280x720*
