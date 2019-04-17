@@ -43,17 +43,17 @@ FenetrePrincipale::FenetrePrincipale() {
                 //Déplacement des cartes dans la pile pileDeplacement
                 if (estSaisieValide(mx, my)) {
                     cout << "Clic Bloqué" << endl;
+					memoirePile = getClicPositions(mx, my)[0];
                     deplacerPile(mx, my);
                     //On recupere la pile qui a été cliquée, réutilisation si le mouvement n'est pas valide
-                    memoirePile = getClicPositions(mx, my)[0];
                     click_hold = true; //on bloque le clic, seulement si il est valide
                 }
 
-            } else {//Dépot de la pile pileDeplacement
+            } 
+			else {//Dépot de la pile pileDeplacement
                 cout << "Clic Débloqué" << endl;
                 if (estDepotValide(mx, my)) {
-                    int pileCliquee = getClicPositions(mx,
-                                                       my)[0]; //numéro de la pile sur laquelle il y a eu un clic
+                    int pileCliquee = getClicPositions(mx,my)[0]; //numéro de la pile sur laquelle il y a eu un clic
                     pileDeplacement->inverserListeCartes();
                     int nbCartesAEnlever = pileDeplacement->getTaille();
                     //On dépose la carte sur une pile
@@ -61,10 +61,12 @@ FenetrePrincipale::FenetrePrincipale() {
                         (*piles)[pileCliquee]->deplacerCartePile(pileDeplacement);
                     }
                     click_hold = false;
-                } else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
+                }
+				else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
                     pileDeplacement->inverserListeCartes();
                     int nbCartesAEnlever = pileDeplacement->getTaille();
-                    for (unsigned int i = 0; i < pileDeplacement->getTaille(); i++) {
+                    for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
+						if (memoirePile == -1)cout << "c'est ici putain" << endl;
                         (*piles)[memoirePile]->deplacerCartePile(pileDeplacement);
                     }
                 }
@@ -75,7 +77,6 @@ FenetrePrincipale::FenetrePrincipale() {
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
-
         visu_->display(disp);
         disp.wait();
     }
@@ -244,12 +245,14 @@ void FenetrePrincipale::majAffichage() {
 
     //On affiche les différentes piles
     for (unsigned int i = 0; i < (*piles).size(); ++i) {
-        for (unsigned int j = 0; j < (*piles)[i]->getTaille(); ++j) {
+		int nbCarteADeplacer = (*piles)[i]->getTaille();
+        for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
             visu_->draw_image((*piles)[i]->getCarte(j)->getPosX(), (*piles)[i]->getCarte(j)->getPosY(),
                               (*piles)[i]->getCarte(j)->getImg());
         }
     }
-    for (unsigned int k = 0; k < pileDeplacement->getTaille(); k++) {
+	int nbCarteADeplacer = pileDeplacement->getTaille();
+    for (unsigned int k = 0; k <nbCarteADeplacer ; k++) {
         visu_->draw_image(pileDeplacement->getCarte(k)->getPosX(), pileDeplacement->getCarte(k)->getPosY(),
                           pileDeplacement->getCarte(k)->getImg());
     }
@@ -397,17 +400,17 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 bool FenetrePrincipale::estSaisieValide(int mx, int my) {
 
     vector<int> positionsCartecliquee = getClicPositions(mx, my);
-
     //On verifie si on a clique sur une pile qui serait vide, c'est à dire qu'il n'y a plus de cartes dedans
     //Laisser ce test en PREMIER, sinon on cherche à accéder à des éléments non existants
+	
+	if (positionsCartecliquee[0] == -1)return false;
     if (positionsCartecliquee[1] == -2 || positionsCartecliquee[0] == -1) {
         //La pile est VIDE (JEU ou LIBRES), on ne peut pas prendre de carte
         //OU
         //Aucune carte ne correspond à la position de la souris
         return false;
     } else {
-        if (positionsCartecliquee[1] ==
-            (*piles)[positionsCartecliquee[0]]->getTaille()) { return true; }// si il y a une seul carte return true
+        if (positionsCartecliquee[1] == (*piles)[positionsCartecliquee[0]]->getTaille()) { return true; }// si il y a une seul carte return true
         else {
             bool validite = true;
             for (unsigned int k = (*piles)[positionsCartecliquee[0]]->getTaille() - 1;
@@ -417,40 +420,62 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
             return (validite);
         }
     }
+	
 }
 
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
-    //TODO -gérer le fait qu'on ne peut déposer qu'une seule carte sur les piles Libres
-    vector<int> positionsCartecliquee = getClicPositions(mx, my);
-    if (positionsCartecliquee[0] != -1) {
-        return true;
-    } else {
-        return false;
-    }
+	//TODO -gérer le fait qu'on ne peut déposer qu'une seule carte sur les piles Libres
+	vector<int> positionsCiblee = getClicPositions(mx, my);
+	//bool validite = false;
+	if (positionsCiblee[0] == -1){return false;}
+	else {
+		//return true;//teste
+		if ((*piles)[positionsCiblee[0]]->getType() > 1 && (*piles)[positionsCiblee[0]]->getType() < 10) {
+			//si c'est une pile jeu
+			if (pileDeplacement->getCarte(0)->getCouleur() % 2 != (*piles)[positionsCiblee[0]]->getCarte((*piles)[positionsCiblee[0]]->getTaille()-1)->getCouleur() % 2 && pileDeplacement->getCarte(0)->getHauteur()== (*piles)[positionsCiblee[0]]->getCarte((*piles)[positionsCiblee[0]]->getTaille() - 1)->getHauteur()-1) {
+				// condition 1 : les couleurs sont oppsées
+				// condition 2 : les hauteurs se suivent dans le bon ordre
+				return true;
+			}
+			else { return false; }
+		}
+		if ((*piles)[positionsCiblee[0]]->getType() >= 10 && (*piles)[positionsCiblee[0]]->getType() <= 13) {
+			// si c'est une pile libre
+			if (pileDeplacement->getTaille()==1 && (*piles)[positionsCiblee[0]]->getTaille()==0 ){
+				return true;
+			}
+			else {
+				return false;
+			}
+		
+		}
+		if ((*piles)[positionsCiblee[0]]->getType() >= 14 && (*piles)[positionsCiblee[0]]->getType() <= 17) {
+			// si c'est une pile valide
+			if (pileDeplacement->getTaille() == 1) {
+				//si pris une seul carte
+				if ((*piles)[positionsCiblee[0]]->getTaille() == 0) {
+					// si pile valide vide alors on accepte que des as
+					if (pileDeplacement->getCarte(0)->getHauteur() == As) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					if (pileDeplacement->getCarte(0)->getHauteur()==(*piles)[positionsCiblee[0]]->getCarte((*piles)[positionsCiblee[0]]->getTaille()-1)->getHauteur()+1 && pileDeplacement->getCarte(0)->getCouleur()== (*piles)[positionsCiblee[0]]->getCarte((*piles)[positionsCiblee[0]]->getTaille() - 1)->getCouleur()) {
+						//condition 1 : les hauteurs se succèdent
+						//condition 2 : les cartes sont de meme couleur
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	}
 }
-
-//TODO A supprimer si inutile
-bool FenetrePrincipale::mouvementValide(int mx, int my) {
-
-    vector<int> positionsCartecliquee = getClicPositions(mx, my);
-    //if (positionsCartecliquee[0] == -1) { return false; }
-    //else {
-    //	if (positionsCartecliquee[1] == (*pilesJeu)[positionsCartecliquee[0]]->getTaille()) { return true; }
-    //	else {
-    //		//return true;// a retirer quand les carte seront mélangées
-    //		bool validite = true;
-    //		for (unsigned int k = (*pilesJeu)[positionsCartecliquee[1]]->getTaille() - 1; k > positionsCartecliquee[1]; k--) {
-    //			validite &= (*pilesJeu)[positionsCartecliquee[1]]->precedentEstValide(k);
-    //		}
-    //		return(validite);
-    //	}
-    //}
-
-    if (positionsCartecliquee[0] != -1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-

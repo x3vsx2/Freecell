@@ -26,7 +26,6 @@ public:
 
     void majAffichage();
 
-    bool mouvementValide(int mx, int my);
 
     bool estSaisieValide(int mx, int my);
 

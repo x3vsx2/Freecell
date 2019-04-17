@@ -14,6 +14,7 @@
 using namespace cimg_library;
 
 typedef enum {
+	// il est strictement interdit de changer l'odre des types 
     unknown,
     melange,
     jeu1,
@@ -48,7 +49,7 @@ public:
 
     void ajouterCarte(Carte *carte);
 
-    int getTaille() { return listeCartes_.size(); };
+    unsigned int getTaille() { return listeCartes_.size(); };
 
     int getPosX() { return positionX_; };
 
@@ -75,6 +76,8 @@ public:
     ~PileCarte();
 
     void brassagePile();
+
+	Type getType() { return type_; }
 
 private:
     unsigned int taille_;
