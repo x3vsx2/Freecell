@@ -26,16 +26,22 @@ public:
 
     void majAffichage();
 
-
     bool estSaisieValide(int mx, int my);
 
     bool estDepotValide(int mx, int my);
+
+    void dessinerEmplacementPiles();
+
+    int afficherMenu();
+
+    void lancerJeu();
 
 
 private:
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
+    cimg_library::CImgDisplay *disp;
 
     std::vector<PileCarte *> *piles;
 

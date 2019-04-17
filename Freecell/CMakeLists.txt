@@ -5,14 +5,16 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES
         Freecell.cpp
-        pch.cpp
-        pch.h FenetrePrincipale.cpp FenetrePrincipale.h Carte.cpp Carte.h PileCarte.cpp PileCarte.h)
+        pch.cpp pch.h
+        FenetrePrincipale.cpp FenetrePrincipale.h
+        Carte.cpp Carte.h PileCarte.cpp PileCarte.h
+        Bouton.cpp Bouton.h)
 
 add_executable(Freecell ${SOURCE_FILES})
 
 # You can alter these according to your needs, e.g if you don't need to display images - set(YOU_NEED_X11 0)
 set(YOU_NEED_X11 1)
-set(YOU_NEED_PNG 0)
+set(YOU_NEED_PNG 1)
 set(YOU_NEED_JPG 0)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
