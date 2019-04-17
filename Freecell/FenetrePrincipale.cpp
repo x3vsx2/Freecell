@@ -26,6 +26,7 @@ FenetrePrincipale::FenetrePrincipale() {
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
 
     bool click_hold = false;
+	int memoirePile = 0;
     while (!disp.is_closed() && !disp.is_keyESC() && !disp.is_keyQ()) {
 
         //Recuperation positions de la souris
@@ -35,7 +36,7 @@ FenetrePrincipale::FenetrePrincipale() {
 
         majAffichage();
 
-        int memoirePile;
+
         // Mouvement souris suite à un déplacement
         if (disp.button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
