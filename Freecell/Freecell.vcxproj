@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bouton.h" />
     <ClInclude Include="Carte.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="FenetrePrincipale.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="pileCarte.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bouton.cpp" />
     <ClCompile Include="Carte.cpp" />
     <ClCompile Include="FenetrePrincipale.cpp" />
     <ClCompile Include="Freecell.cpp" />
