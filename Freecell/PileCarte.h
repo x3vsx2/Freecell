@@ -10,12 +10,13 @@
 #include "Carte.h"
 #include <vector>
 #include <algorithm>
+#include <fstream>
 
 using namespace cimg_library;
 
 typedef enum {
-	// il est strictement interdit de changer l'odre des types 
-    unknown,
+    // il est strictement interdit de changer l'odre des types
+            unknown,
     melange,
     jeu1,
     jeu2,
@@ -77,7 +78,14 @@ public:
 
     void brassagePile();
 
-	Type getType() { return type_; }
+    Type getType() { return type_; }
+
+    void inverserCartedePiles(int posCarte1, int posCarte2, PileCarte *pile2);
+
+    int trouverPosCarteId(int id);
+
+    void sauvegarderPile(std::ofstream &ofs);
+
 
 private:
     unsigned int taille_;

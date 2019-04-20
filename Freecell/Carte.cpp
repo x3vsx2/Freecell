@@ -4,7 +4,8 @@
 
 using namespace cimg_library;
 
-Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, PileCarte *pileAppartenance) {
+Carte::Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, PileCarte *pileAppartenance) {
+    idCarte_ = idCarte;
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
     image_ = new CImg<unsigned char>(fileName);
@@ -15,8 +16,18 @@ Carte::Carte(TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, Pil
     positionY_ = pileAppartenance->getPosY();
 }
 
+Carte::Carte(Carte *CarteAcopier) : idCarte_(CarteAcopier->idCarte_), Couleur_(CarteAcopier->getCouleur()),
+                                    Hauteur_(CarteAcopier->getHauteur()),
+                                    tailleY_(CarteAcopier->getTailleY()), tailleX_(CarteAcopier->getTailleX()),
+                                    positionX_(CarteAcopier->getPosX()), positionY_(CarteAcopier->getPosY()) {
+    image_ = new CImg<unsigned char>(*CarteAcopier->getImg());
+}
+
 Carte::~Carte() {}
 
+int Carte::getIdentifiant() {
+    return idCarte_;
+}
 
 int Carte::getPosX() {
     return positionX_;

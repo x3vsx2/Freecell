@@ -5,13 +5,13 @@
 #include "FenetrePrincipale.h"
 #include "PileCarte.h"
 #include "Bouton.h"
+#include <fstream>
 
 using namespace std;
 using namespace cimg_library;
 
-FenetrePrincipale::FenetrePrincipale() {
+FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)) {
     initialiserFond();
-
     //Declare un display pour afficher le fond
     disp = new CImgDisplay(*fond_, "FreeCell", 0, false, false);
 
@@ -23,10 +23,24 @@ FenetrePrincipale::FenetrePrincipale() {
     do {
         choix = afficherMenu();
         switch (choix) {
-            case 0:
-                lancerJeu();
+            case 0: {
+                lancerJeu(true);
                 disp->wait();
+
+                //ESSAI SAUVEGARDE
+                ofstream os("essai.txt");
+                sauvegarderPartie(os);
+                os.close();
                 break;
+            }
+
+            case 1: {
+                ifstream is("essai.txt");
+                this->chargerPartie(is);
+                is.close();
+                lancerJeu(false);
+                break;
+            }
             case 2:
                 break;
         }
@@ -35,7 +49,7 @@ FenetrePrincipale::FenetrePrincipale() {
 
 }
 
-void FenetrePrincipale::lancerJeu() {
+void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
     dessinerEmplacementPiles();
     initialiserCartes();
@@ -43,7 +57,9 @@ void FenetrePrincipale::lancerJeu() {
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
     bool click_hold = false;
     int memoirePile = 0;
-
+    if (!nouvellePartie) {
+        traitementPostChargement();
+    }
     while (!disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ()) {
 
         //Recuperation positions de la souris
@@ -282,59 +298,61 @@ void FenetrePrincipale::majAffichage() {
 void FenetrePrincipale::initialiserCartes() {
     pileMelange = new PileCarte(0, 0, melange);
 
-    auto *H01 = new Carte(Coeur, As, "imageCarte/h01.ppm", pileMelange);
-    auto *H02 = new Carte(Coeur, Deux, "imageCarte/h02.ppm", pileMelange);
-    auto *H03 = new Carte(Coeur, Trois, "imageCarte/h03.ppm", pileMelange);
-    auto *H04 = new Carte(Coeur, Quatre, "imageCarte/h04.ppm", pileMelange);
-    auto *H05 = new Carte(Coeur, Cinq, "imageCarte/h05.ppm", pileMelange);
-    auto *H06 = new Carte(Coeur, Six, "imageCarte/h06.ppm", pileMelange);
-    auto *H07 = new Carte(Coeur, Sept, "imageCarte/h07.ppm", pileMelange);
-    auto *H08 = new Carte(Coeur, Huit, "imageCarte/h08.ppm", pileMelange);
-    auto *H09 = new Carte(Coeur, Neuf, "imageCarte/h09.ppm", pileMelange);
-    auto *H10 = new Carte(Coeur, Dix, "imageCarte/h10.ppm", pileMelange);
-    auto *H11 = new Carte(Coeur, Valet, "imageCarte/h11.ppm", pileMelange);
-    auto *H12 = new Carte(Coeur, Dame, "imageCarte/h12.ppm", pileMelange);
-    auto *H13 = new Carte(Coeur, Roi, "imageCarte/h13.ppm", pileMelange);
-    auto *C01 = new Carte(Trefle, As, "imageCarte/c01.ppm", pileMelange);
-    auto *C02 = new Carte(Trefle, Deux, "imageCarte/c02.ppm", pileMelange);
-    auto *C03 = new Carte(Trefle, Trois, "imageCarte/c03.ppm", pileMelange);
-    auto *C04 = new Carte(Trefle, Quatre, "imageCarte/c04.ppm", pileMelange);
-    auto *C05 = new Carte(Trefle, Cinq, "imageCarte/c05.ppm", pileMelange);
-    auto *C06 = new Carte(Trefle, Six, "imageCarte/c06.ppm", pileMelange);
-    auto *C07 = new Carte(Trefle, Sept, "imageCarte/c07.ppm", pileMelange);
-    auto *C08 = new Carte(Trefle, Huit, "imageCarte/c08.ppm", pileMelange);
-    auto *C09 = new Carte(Trefle, Neuf, "imageCarte/c09.ppm", pileMelange);
-    auto *C10 = new Carte(Trefle, Dix, "imageCarte/c10.ppm", pileMelange);
-    auto *C11 = new Carte(Trefle, Valet, "imageCarte/c11.ppm", pileMelange);
-    auto *C12 = new Carte(Trefle, Dame, "imageCarte/c12.ppm", pileMelange);
-    auto *C13 = new Carte(Trefle, Roi, "imageCarte/c13.ppm", pileMelange);
+    auto *H01 = new Carte(1, Coeur, As, "imageCarte/h01.ppm", pileMelange);
+    auto *H02 = new Carte(2, Coeur, Deux, "imageCarte/h02.ppm", pileMelange);
+    auto *H03 = new Carte(3, Coeur, Trois, "imageCarte/h03.ppm", pileMelange);
+    auto *H04 = new Carte(4, Coeur, Quatre, "imageCarte/h04.ppm", pileMelange);
+    auto *H05 = new Carte(5, Coeur, Cinq, "imageCarte/h05.ppm", pileMelange);
+    auto *H06 = new Carte(6, Coeur, Six, "imageCarte/h06.ppm", pileMelange);
+    auto *H07 = new Carte(7, Coeur, Sept, "imageCarte/h07.ppm", pileMelange);
+    auto *H08 = new Carte(8, Coeur, Huit, "imageCarte/h08.ppm", pileMelange);
+    auto *H09 = new Carte(9, Coeur, Neuf, "imageCarte/h09.ppm", pileMelange);
+    auto *H10 = new Carte(10, Coeur, Dix, "imageCarte/h10.ppm", pileMelange);
+    auto *H11 = new Carte(11, Coeur, Valet, "imageCarte/h11.ppm", pileMelange);
+    auto *H12 = new Carte(12, Coeur, Dame, "imageCarte/h12.ppm", pileMelange);
+    auto *H13 = new Carte(13, Coeur, Roi, "imageCarte/h13.ppm", pileMelange);
 
-    auto *D01 = new Carte(Carreau, As, "imageCarte/d01.ppm", pileMelange);
-    auto *D02 = new Carte(Carreau, Deux, "imageCarte/d02.ppm", pileMelange);
-    auto *D03 = new Carte(Carreau, Trois, "imageCarte/d03.ppm", pileMelange);
-    auto *D04 = new Carte(Carreau, Quatre, "imageCarte/d04.ppm", pileMelange);
-    auto *D05 = new Carte(Carreau, Cinq, "imageCarte/d05.ppm", pileMelange);
-    auto *D06 = new Carte(Carreau, Six, "imageCarte/d06.ppm", pileMelange);
-    auto *D07 = new Carte(Carreau, Sept, "imageCarte/d07.ppm", pileMelange);
-    auto *D08 = new Carte(Carreau, Huit, "imageCarte/d08.ppm", pileMelange);
-    auto *D09 = new Carte(Carreau, Neuf, "imageCarte/d09.ppm", pileMelange);
-    auto *D10 = new Carte(Carreau, Dix, "imageCarte/d10.ppm", pileMelange);
-    auto *D11 = new Carte(Carreau, Valet, "imageCarte/d11.ppm", pileMelange);
-    auto *D12 = new Carte(Carreau, Dame, "imageCarte/d12.ppm", pileMelange);
-    auto *D13 = new Carte(Carreau, Roi, "imageCarte/d13.ppm", pileMelange);
-    auto *S01 = new Carte(Pique, As, "imageCarte/s01.ppm", pileMelange);
-    auto *S02 = new Carte(Pique, Deux, "imageCarte/s02.ppm", pileMelange);
-    auto *S03 = new Carte(Pique, Trois, "imageCarte/s03.ppm", pileMelange);
-    auto *S04 = new Carte(Pique, Quatre, "imageCarte/s04.ppm", pileMelange);
-    auto *S05 = new Carte(Pique, Cinq, "imageCarte/s05.ppm", pileMelange);
-    auto *S06 = new Carte(Pique, Six, "imageCarte/s06.ppm", pileMelange);
-    auto *S07 = new Carte(Pique, Sept, "imageCarte/s07.ppm", pileMelange);
-    auto *S08 = new Carte(Pique, Huit, "imageCarte/s08.ppm", pileMelange);
-    auto *S09 = new Carte(Pique, Neuf, "imageCarte/s09.ppm", pileMelange);
-    auto *S10 = new Carte(Pique, Dix, "imageCarte/s10.ppm", pileMelange);
-    auto *S11 = new Carte(Pique, Valet, "imageCarte/s11.ppm", pileMelange);
-    auto *S12 = new Carte(Pique, Dame, "imageCarte/s12.ppm", pileMelange);
-    auto *S13 = new Carte(Pique, Roi, "imageCarte/s13.ppm", pileMelange);
+    auto *C01 = new Carte(14, Trefle, As, "imageCarte/c01.ppm", pileMelange);
+    auto *C02 = new Carte(15, Trefle, Deux, "imageCarte/c02.ppm", pileMelange);
+    auto *C03 = new Carte(16, Trefle, Trois, "imageCarte/c03.ppm", pileMelange);
+    auto *C04 = new Carte(17, Trefle, Quatre, "imageCarte/c04.ppm", pileMelange);
+    auto *C05 = new Carte(18, Trefle, Cinq, "imageCarte/c05.ppm", pileMelange);
+    auto *C06 = new Carte(19, Trefle, Six, "imageCarte/c06.ppm", pileMelange);
+    auto *C07 = new Carte(20, Trefle, Sept, "imageCarte/c07.ppm", pileMelange);
+    auto *C08 = new Carte(21, Trefle, Huit, "imageCarte/c08.ppm", pileMelange);
+    auto *C09 = new Carte(22, Trefle, Neuf, "imageCarte/c09.ppm", pileMelange);
+    auto *C10 = new Carte(23, Trefle, Dix, "imageCarte/c10.ppm", pileMelange);
+    auto *C11 = new Carte(24, Trefle, Valet, "imageCarte/c11.ppm", pileMelange);
+    auto *C12 = new Carte(25, Trefle, Dame, "imageCarte/c12.ppm", pileMelange);
+    auto *C13 = new Carte(26, Trefle, Roi, "imageCarte/c13.ppm", pileMelange);
+
+    auto *D01 = new Carte(27, Carreau, As, "imageCarte/d01.ppm", pileMelange);
+    auto *D02 = new Carte(28, Carreau, Deux, "imageCarte/d02.ppm", pileMelange);
+    auto *D03 = new Carte(29, Carreau, Trois, "imageCarte/d03.ppm", pileMelange);
+    auto *D04 = new Carte(30, Carreau, Quatre, "imageCarte/d04.ppm", pileMelange);
+    auto *D05 = new Carte(31, Carreau, Cinq, "imageCarte/d05.ppm", pileMelange);
+    auto *D06 = new Carte(32, Carreau, Six, "imageCarte/d06.ppm", pileMelange);
+    auto *D07 = new Carte(33, Carreau, Sept, "imageCarte/d07.ppm", pileMelange);
+    auto *D08 = new Carte(34, Carreau, Huit, "imageCarte/d08.ppm", pileMelange);
+    auto *D09 = new Carte(35, Carreau, Neuf, "imageCarte/d09.ppm", pileMelange);
+    auto *D10 = new Carte(36, Carreau, Dix, "imageCarte/d10.ppm", pileMelange);
+    auto *D11 = new Carte(37, Carreau, Valet, "imageCarte/d11.ppm", pileMelange);
+    auto *D12 = new Carte(38, Carreau, Dame, "imageCarte/d12.ppm", pileMelange);
+    auto *D13 = new Carte(39, Carreau, Roi, "imageCarte/d13.ppm", pileMelange);
+
+    auto *S01 = new Carte(40, Pique, As, "imageCarte/s01.ppm", pileMelange);
+    auto *S02 = new Carte(41, Pique, Deux, "imageCarte/s02.ppm", pileMelange);
+    auto *S03 = new Carte(42, Pique, Trois, "imageCarte/s03.ppm", pileMelange);
+    auto *S04 = new Carte(43, Pique, Quatre, "imageCarte/s04.ppm", pileMelange);
+    auto *S05 = new Carte(44, Pique, Cinq, "imageCarte/s05.ppm", pileMelange);
+    auto *S06 = new Carte(45, Pique, Six, "imageCarte/s06.ppm", pileMelange);
+    auto *S07 = new Carte(46, Pique, Sept, "imageCarte/s07.ppm", pileMelange);
+    auto *S08 = new Carte(47, Pique, Huit, "imageCarte/s08.ppm", pileMelange);
+    auto *S09 = new Carte(48, Pique, Neuf, "imageCarte/s09.ppm", pileMelange);
+    auto *S10 = new Carte(49, Pique, Dix, "imageCarte/s10.ppm", pileMelange);
+    auto *S11 = new Carte(51, Pique, Valet, "imageCarte/s11.ppm", pileMelange);
+    auto *S12 = new Carte(52, Pique, Dame, "imageCarte/s12.ppm", pileMelange);
+    auto *S13 = new Carte(53, Pique, Roi, "imageCarte/s13.ppm", pileMelange);
 
     pileMelange->ajouterCarte(H01);
     pileMelange->ajouterCarte(H02);
@@ -534,8 +552,75 @@ int FenetrePrincipale::afficherMenu() {
                    && my >= boutonQuitter.getpositionY() &&
                    my <= boutonQuitter.getpositionY() + boutonQuitter.getTailleY()) {
             return 2;
+        } else {
+            return 3;
         }
 
-    } else { return 3; }
+    } else {
+        return 3;
+    }
 
+}
+
+void FenetrePrincipale::sauvegarderPartie(ofstream &ofs) {
+    for (unsigned int i = 0; i < piles->size(); i++) {
+        ofs << "PILE" << endl;
+        ofs << (*piles)[i]->getTaille() << endl;
+        for (unsigned int j = 0; j < (*piles)[i]->getTaille(); j++) {
+            ofs << (*piles)[i]->getCarte(j)->getIdentifiant() << " ";
+        }
+        if ((*piles)[i]->getTaille() == 0) {
+            ofs << " ";
+        }
+        ofs << endl;
+    }
+}
+
+void FenetrePrincipale::chargerPartie(ifstream &ifs) {
+    ifs.seekg(0, std::ios::beg);//Debut du fichier
+    string contenu;
+    for (unsigned int i = 0; i < 15; i++) {
+        getline(ifs, contenu);
+        int taillePile;
+        if (contenu == "PILE") {
+            ifs >> taillePile;
+            int iDcarte;
+            if (taillePile != 0) {
+                for (unsigned int j = 0; j < taillePile; j++) {
+                    ifs >> iDcarte;
+                    tableauxIdentifiants[i].push_back(iDcarte);
+                }
+                ifs.ignore();
+            } else {
+                ifs >> iDcarte;//on balance dans le vide
+                tableauxIdentifiants[i].push_back(0);
+                ifs.ignore();
+            }
+            ifs.ignore();
+        }
+    }
+
+}
+
+void FenetrePrincipale::traitementPostChargement() {
+    for (unsigned int i = 0; i < 15; i++) {
+        for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
+            int idAchercher = tableauxIdentifiants[i][j];
+            if (idAchercher == 0) {
+                break;
+            }
+            int nPile = -1;
+            int posPile = -1;
+            //On regarde dans chaque pile pour trouver la carte
+            for (auto itPile = piles->begin(); itPile != piles->end(); ++itPile) {
+                //Renvoie la position de la carte dans la pile si id est présent
+                posPile = (*itPile)->trouverPosCarteId(idAchercher);
+                if (posPile != -1) {//Si la carte est trouvée on a donc la position
+                    nPile = itPile - piles->begin();
+                    break;
+                }
+            }
+            (*piles)[i]->inverserCartedePiles(j, posPile, (*piles)[nPile]);
+        }
+    }
 }

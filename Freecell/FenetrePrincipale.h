@@ -34,7 +34,13 @@ public:
 
     int afficherMenu();
 
-    void lancerJeu();
+    void lancerJeu(bool nouvellePartie);
+
+    void sauvegarderPartie(std::ofstream &ofs);
+
+    void chargerPartie(std::ifstream &ifs);
+
+    void traitementPostChargement();
 
 
 private:
@@ -42,6 +48,7 @@ private:
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
     cimg_library::CImgDisplay *disp;
+    std::vector<std::vector<int>> tableauxIdentifiants;
 
     std::vector<PileCarte *> *piles;
 

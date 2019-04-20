@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 using namespace cimg_library;
 
@@ -143,7 +144,45 @@ bool PileCarte::precedentEstValide(unsigned int position) {
  */
 void PileCarte::brassagePile() {
     if (type_ == melange) {
-        std::srand(std::time(0));
+        std::srand(std::time(nullptr));
         std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
     }
 }
+
+void PileCarte::sauvegarderPile(std::ofstream &ofs) {
+
+}
+
+int PileCarte::trouverPosCarteId(int id) {
+    int pos = -1;
+    for (unsigned int i = 0; i < taille_; i++) {
+        if (listeCartes_[i]->getIdentifiant() == id) {
+            pos = i;
+            break;
+        }
+    }
+    return pos;
+}
+
+void PileCarte::inverserCartedePiles(int posCarte1, int posCarte2, PileCarte *pile2) {
+    //TODO pileAppartenance non géré
+    int posX = this->listeCartes_[posCarte1]->getPosX();
+    int posY = this->listeCartes_[posCarte1]->getPosY();
+    int pos2X = pile2->listeCartes_[posCarte2]->getPosX();
+    int pos2Y = pile2->listeCartes_[posCarte2]->getPosY();
+
+    //Modification des attributs selon la nouvelle position
+    this->listeCartes_[posCarte1]->setPosX(pos2X);
+    this->listeCartes_[posCarte1]->setPosY(pos2Y);
+    pile2->listeCartes_[posCarte2]->setPosX(posX);
+    pile2->listeCartes_[posCarte2]->setPosY(posY);
+
+    //On change la premiere carte et on l'insert dans l'autre pile juste avant
+    pile2->listeCartes_.insert(pile2->listeCartes_.begin() + posCarte2, this->listeCartes_[posCarte1]);
+    this->listeCartes_.erase(listeCartes_.begin() + posCarte1);
+    this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2 + 1]);
+    pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2 + 1);
+
+}
+
+

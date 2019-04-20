@@ -24,6 +24,7 @@ using namespace cimg_library;
 class Carte {
 
 private:
+    int idCarte_;
     TypeCouleur Couleur_;
     TypeHauteur Hauteur_;
     int positionX_;
@@ -34,13 +35,17 @@ private:
     PileCarte *pileAppartenance_;
 
 public:
-    Carte(TypeCouleur Couleur, TypeHauteur Hauteur,
+    Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur,
           const char *fileName,
           PileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
+
+    Carte(Carte *CarteAcopier);
 
     Carte();
 
     ~Carte();
+
+    int getIdentifiant();
 
     int getPosX();
 
@@ -59,6 +64,8 @@ public:
     TypeCouleur getCouleur() { return Couleur_; }
 
     TypeHauteur getHauteur() { return Hauteur_; }
+
+
 };
 
 
