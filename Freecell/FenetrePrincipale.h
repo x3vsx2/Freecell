@@ -36,12 +36,13 @@ public:
 
     void lancerJeu(bool nouvellePartie);
 
-    void sauvegarderPartie(std::ofstream &ofs);
+    void sauvegarderPartie();
 
-    void chargerPartie(std::ifstream &ifs);
+    void chargerPartie();
 
     void traitementPostChargement();
 
+    void etatChargement();
 
 private:
     cimg_library::CImg<unsigned char> *visu_;

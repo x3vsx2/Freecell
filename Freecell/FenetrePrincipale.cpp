@@ -27,18 +27,16 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
                 lancerJeu(true);
                 disp->wait();
 
-                //ESSAI SAUVEGARDE
-                ofstream os("essai.txt");
-                sauvegarderPartie(os);
-                os.close();
+                sauvegarderPartie();
                 break;
             }
 
             case 1: {
-                ifstream is("essai.txt");
-                this->chargerPartie(is);
-                is.close();
+                chargerPartie();
                 lancerJeu(false);
+                sauvegarderPartie();
+
+                disp->wait();
                 break;
             }
             case 2:
@@ -562,7 +560,9 @@ int FenetrePrincipale::afficherMenu() {
 
 }
 
-void FenetrePrincipale::sauvegarderPartie(ofstream &ofs) {
+void FenetrePrincipale::sauvegarderPartie() {
+    //ESSAI SAUVEGARDE
+    ofstream ofs("essai.txt");
     for (unsigned int i = 0; i < piles->size(); i++) {
         ofs << "PILE" << endl;
         ofs << (*piles)[i]->getTaille() << endl;
@@ -574,12 +574,17 @@ void FenetrePrincipale::sauvegarderPartie(ofstream &ofs) {
         }
         ofs << endl;
     }
+    ofs.close();
 }
 
-void FenetrePrincipale::chargerPartie(ifstream &ifs) {
+void FenetrePrincipale::chargerPartie() {
+    ifstream ifs("essai.txt");
     ifs.seekg(0, std::ios::beg);//Debut du fichier
     string contenu;
     for (unsigned int i = 0; i < 15; i++) {
+        if (!tableauxIdentifiants[i].empty()) {
+            tableauxIdentifiants[i].clear();
+        }
         getline(ifs, contenu);
         int taillePile;
         if (contenu == "PILE") {
@@ -599,10 +604,11 @@ void FenetrePrincipale::chargerPartie(ifstream &ifs) {
             ifs.ignore();
         }
     }
-
+    ifs.close();
 }
 
 void FenetrePrincipale::traitementPostChargement() {
+    etatChargement();
     for (unsigned int i = 0; i < 15; i++) {
         for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
             int idAchercher = tableauxIdentifiants[i][j];
@@ -620,7 +626,30 @@ void FenetrePrincipale::traitementPostChargement() {
                     break;
                 }
             }
-            (*piles)[i]->inverserCartedePiles(j, posPile, (*piles)[nPile]);
+            if (i != nPile || j != posPile) {
+                (*piles)[i]->inverserCartedePiles(j, posPile, (*piles)[nPile]);
+            }
+            etatChargement();
         }
     }
 }
+
+void FenetrePrincipale::etatChargement() {
+//Debug
+    //Liste souhaitée
+    for (unsigned int x = 0; x < tableauxIdentifiants.size(); x++) {
+        for (unsigned int y = 0; y < tableauxIdentifiants[x].size(); y++) {
+            cout << tableauxIdentifiants[x][y] << " ";
+        }
+    }
+    cout << endl;
+    //Liste actuelle
+    for (unsigned int k = 0; k < piles->size(); k++) {
+        for (unsigned int l = 0; l < (*piles)[k]->getTaille(); l++) {
+            cout << (*piles)[k]->getCarte(l)->getIdentifiant() << " ";
+        }
+    }
+    cout << endl;
+    cout << endl;
+}
+
