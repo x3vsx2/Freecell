@@ -80,7 +80,7 @@ public:
 
     Type getType() { return type_; }
 
-    void inverserCartedePiles(int posCarte1, int posCarte2, PileCarte *pile2);
+    void deplacerCartePileAvecPosition(int posCarte1, int posCarte2, PileCarte *pile2);
 
     int trouverPosCarteId(int id);
 

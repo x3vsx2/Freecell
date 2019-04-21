@@ -51,12 +51,14 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
     dessinerEmplacementPiles();
     initialiserCartes();
-    initialiserPiles();
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
     bool click_hold = false;
     int memoirePile = 0;
     if (!nouvellePartie) {
+        initialiserPilesPostSauvegarde();
         traitementPostChargement();
+    } else {
+        initialiserPiles();
     }
     while (!disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ()) {
 
@@ -245,6 +247,52 @@ void FenetrePrincipale::initialiserPiles() {
     pileJeu2->deplacerCartePile(pileMelange);
     pileJeu3->deplacerCartePile(pileMelange);
     pileJeu4->deplacerCartePile(pileMelange);
+
+    pileLibre1 = new PileCarte(100, 50, libre1);
+    pileLibre2 = new PileCarte(200, 50, libre2);
+    pileLibre3 = new PileCarte(300, 50, libre3);
+    pileLibre4 = new PileCarte(400, 50, libre4);
+
+    pileValide1 = new PileCarte(780, 50, valide1);
+    pileValide2 = new PileCarte(880, 50, valide2);
+    pileValide3 = new PileCarte(980, 50, valide3);
+    pileValide4 = new PileCarte(1080, 50, valide4);
+
+    piles->push_back(pileLibre1);
+    piles->push_back(pileLibre2);
+    piles->push_back(pileLibre3);
+    piles->push_back(pileLibre4);
+
+    piles->push_back(pileValide1);
+    piles->push_back(pileValide2);
+    piles->push_back(pileValide3);
+    piles->push_back(pileValide4);
+
+}
+
+void FenetrePrincipale::initialiserPilesPostSauvegarde() {
+    //TODO Simplifier avec initialiser piles (ajotuer un parametre de chargement)
+    //Initialisation des piles
+    piles = new vector<PileCarte *>;
+    pileDeplacement = new PileCarte(0, 0, deplacement);
+
+    pileJeu1 = new PileCarte(100, 300, jeu1);
+    pileJeu2 = new PileCarte(235, 300, jeu2);
+    pileJeu3 = new PileCarte(370, 300, jeu3);
+    pileJeu4 = new PileCarte(505, 300, jeu4);
+    pileJeu5 = new PileCarte(640, 300, jeu5);
+    pileJeu6 = new PileCarte(775, 300, jeu6);
+    pileJeu7 = new PileCarte(910, 300, jeu7);
+    pileJeu8 = new PileCarte(1045, 300, jeu8);
+
+    piles->push_back(pileJeu1);
+    piles->push_back(pileJeu2);
+    piles->push_back(pileJeu3);
+    piles->push_back(pileJeu4);
+    piles->push_back(pileJeu5);
+    piles->push_back(pileJeu6);
+    piles->push_back(pileJeu7);
+    piles->push_back(pileJeu8);
 
     pileLibre1 = new PileCarte(100, 50, libre1);
     pileLibre2 = new PileCarte(200, 50, libre2);
@@ -609,27 +657,16 @@ void FenetrePrincipale::chargerPartie() {
 }
 
 void FenetrePrincipale::traitementPostChargement() {
-    etatChargement();
     for (unsigned int i = 0; i < 15; i++) {
         for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
             int idAchercher = tableauxIdentifiants[i][j];
             if (idAchercher == 0) {
                 break;
             }
-            int nPile = -1;
-            int posPile = -1;
-            //On regarde dans chaque pile pour trouver la carte
-            for (auto itPile = piles->begin(); itPile != piles->end(); ++itPile) {
-                //Renvoie la position de la carte dans la pile si id est présent
-                posPile = (*itPile)->trouverPosCarteId(idAchercher);
-                if (posPile != -1) {//Si la carte est trouvée on a donc la position
-                    nPile = itPile - piles->begin();
-                    break;
-                }
-            }
-            if (i != nPile || j != posPile) {
-                (*piles)[i]->inverserCartedePiles(j, posPile, (*piles)[nPile]);
-            }
+            int posPileMelange = -1;
+            //On regarde dans la pile Melange pour trouver sa position
+            posPileMelange = pileMelange->trouverPosCarteId(idAchercher);
+            (*piles)[i]->deplacerCartePileAvecPosition((*piles)[i]->getTaille(), posPileMelange, pileMelange);
             etatChargement();
         }
     }

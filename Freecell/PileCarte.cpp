@@ -164,43 +164,16 @@ int PileCarte::trouverPosCarteId(int id) {
     return pos;
 }
 
-void PileCarte::inverserCartedePiles(int posCarte1, int posCarte2, PileCarte *pile2) {
+void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, PileCarte *pile2) {
     //TODO pileAppartenance non géré
-    int posX = this->listeCartes_[posCarte1]->getPosX();
-    int posY = this->listeCartes_[posCarte1]->getPosY();
-    int pos2X = pile2->listeCartes_[posCarte2]->getPosX();
-    int pos2Y = pile2->listeCartes_[posCarte2]->getPosY();
+    pile2->listeCartes_[posCarte2]->setPosX(this->getPosX());
+    pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
 
-    //std::cout << this->listeCartes_[posCarte1]->getIdentifiant() << " Change avec "
-    //          << pile2->listeCartes_[posCarte2]->getIdentifiant() << std::endl;
-    //Modification des attributs selon la nouvelle position
-    this->listeCartes_[posCarte1]->setPosX(pos2X);
-    this->listeCartes_[posCarte1]->setPosY(pos2Y);
-    pile2->listeCartes_[posCarte2]->setPosX(posX);
-    pile2->listeCartes_[posCarte2]->setPosY(posY);
-
-    if (this->getPosX() == pile2->getPosX()) {//on echange de place deux cartes dans la même pile
-        //deux cartes consécutives, on inverse seulement la position d'une carte
-        if (posCarte1 == posCarte2 - 1) {
-            pile2->listeCartes_.insert(pile2->listeCartes_.begin() + posCarte2 + 1, this->listeCartes_[posCarte1]);
-            this->listeCartes_.erase(listeCartes_.begin() + posCarte1);
-
-        } else {
-            pile2->listeCartes_.insert(pile2->listeCartes_.begin() + posCarte2, this->listeCartes_[posCarte1]);
-            this->listeCartes_.erase(listeCartes_.begin() + posCarte1);
-            this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
-            pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2 + 1); //Point particulier
-        }
-
-    } else {
-        //On change la premiere carte et on l'insert dans l'autre pile juste avant
-        pile2->listeCartes_.insert(pile2->listeCartes_.begin() + posCarte2, this->listeCartes_[posCarte1]);
-        this->listeCartes_.erase(listeCartes_.begin() + posCarte1);
-        this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2 + 1]);
-        pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2 + 1);
-
-    }
-
+    //On ajoute la carte à la position souhaitée
+    this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
+    this->taille_++;
+    //supprime la carte de la pile melange (ou de l'ancienne pile)
+    pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2);
 }
 
 
