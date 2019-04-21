@@ -619,7 +619,7 @@ void FenetrePrincipale::sauvegarderPartie() {
             ofs << (*piles)[i]->getCarte(j)->getIdentifiant() << " ";
         }
         if ((*piles)[i]->getTaille() == 0) {
-            ofs << " ";
+            ofs << 0 << " ";
         }
         ofs << endl;
     }
@@ -639,17 +639,14 @@ void FenetrePrincipale::chargerPartie() {
         if (contenu == "PILE") {
             ifs >> taillePile;
             int iDcarte;
-            if (taillePile != 0) {
-                for (unsigned int j = 0; j < taillePile; j++) {
+            for (unsigned int j = 0; j < taillePile; j++) {
                     ifs >> iDcarte;
                     tableauxIdentifiants[i].push_back(iDcarte);
-                }
-                ifs.ignore();
-            } else {
-                ifs >> iDcarte;//on balance dans le vide
-                tableauxIdentifiants[i].push_back(0);
-                ifs.ignore();
             }
+            if (taillePile == 0) {
+                ifs >> iDcarte;//on balance dans le vide
+            }
+            ifs.ignore();
             ifs.ignore();
         }
     }
