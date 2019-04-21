@@ -454,7 +454,7 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
             return (validite);
         }
     }
-
+	return false;
 }
 
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
@@ -511,6 +511,7 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
                 return false;
             }
         }
+		return false;
     }
 }
 
