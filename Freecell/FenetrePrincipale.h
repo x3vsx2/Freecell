@@ -46,6 +46,8 @@ public:
 
     void initialiserPilesPostSauvegarde();
 
+    void quitterPartie();
+
 private:
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;

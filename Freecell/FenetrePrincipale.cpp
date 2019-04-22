@@ -26,8 +26,8 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
             case 0: {
                 lancerJeu(true);
                 disp->wait();
-
                 sauvegarderPartie();
+                quitterPartie();
                 break;
             }
 
@@ -35,6 +35,7 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
                 chargerPartie();
                 lancerJeu(false);
                 sauvegarderPartie();
+                quitterPartie();
 
                 disp->wait();
                 break;
@@ -268,6 +269,7 @@ void FenetrePrincipale::initialiserPiles() {
     piles->push_back(pileValide3);
     piles->push_back(pileValide4);
 
+    delete pileMelange;
 }
 
 void FenetrePrincipale::initialiserPilesPostSauvegarde() {
@@ -313,6 +315,7 @@ void FenetrePrincipale::initialiserPilesPostSauvegarde() {
     piles->push_back(pileValide2);
     piles->push_back(pileValide3);
     piles->push_back(pileValide4);
+
 
 }
 
@@ -579,33 +582,30 @@ int FenetrePrincipale::afficherMenu() {
 
     visu_->display(*disp);
     disp->wait();
-    if (disp->button()) {//Test si clique
-        //Recuperation positions de la souris
-        //mx = position souris en x, my = position souris en y
-        const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
-                my = disp->mouse_y() * (*fond_).height() / disp->height();
-        if (mx >= boutonNouvellePartie.getpositionX() &&
-            mx <= boutonNouvellePartie.getpositionX() + boutonNouvellePartie.getTailleX()
-            && my >= boutonNouvellePartie.getpositionY() &&
-            my <= boutonNouvellePartie.getpositionY() + boutonNouvellePartie.getTailleY()) {
-            return 0;
-        } else if (mx >= boutonChargerPartie.getpositionX() &&
-                   mx <= boutonChargerPartie.getpositionX() + boutonChargerPartie.getTailleX()
-                   && my >= boutonChargerPartie.getpositionY() &&
-                   my <= boutonChargerPartie.getpositionY() + boutonChargerPartie.getTailleY()) {
-            return 1;
-        } else if (mx >= boutonQuitter.getpositionX() &&
-                   mx <= boutonQuitter.getpositionX() + boutonQuitter.getTailleX()
-                   && my >= boutonQuitter.getpositionY() &&
-                   my <= boutonQuitter.getpositionY() + boutonQuitter.getTailleY()) {
-            return 2;
-        } else {
-            return 3;
+    do {
+        if (disp->button()) {//Test si clique
+            //Recuperation positions de la souris
+            //mx = position souris en x, my = position souris en y
+            const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
+                    my = disp->mouse_y() * (*fond_).height() / disp->height();
+            if (mx >= boutonNouvellePartie.getpositionX() &&
+                mx <= boutonNouvellePartie.getpositionX() + boutonNouvellePartie.getTailleX()
+                && my >= boutonNouvellePartie.getpositionY() &&
+                my <= boutonNouvellePartie.getpositionY() + boutonNouvellePartie.getTailleY()) {
+                return 0;
+            } else if (mx >= boutonChargerPartie.getpositionX() &&
+                       mx <= boutonChargerPartie.getpositionX() + boutonChargerPartie.getTailleX()
+                       && my >= boutonChargerPartie.getpositionY() &&
+                       my <= boutonChargerPartie.getpositionY() + boutonChargerPartie.getTailleY()) {
+                return 1;
+            } else if (mx >= boutonQuitter.getpositionX() &&
+                       mx <= boutonQuitter.getpositionX() + boutonQuitter.getTailleX()
+                       && my >= boutonQuitter.getpositionY() &&
+                       my <= boutonQuitter.getpositionY() + boutonQuitter.getTailleY()) {
+                return 2;
+            }
         }
-
-    } else {
-        return 3;
-    }
+    } while (true);
 
 }
 
@@ -686,5 +686,15 @@ void FenetrePrincipale::etatChargement() {
     }
     cout << endl;
     cout << endl;
+}
+
+void FenetrePrincipale::quitterPartie() {
+    delete visu_;
+    delete plateau_;
+    delete fond_;
+    for (vector<PileCarte *>::iterator itPile = piles->begin(); itPile != piles->end(); ++itPile) {
+        delete *itPile;
+    }
+    delete pileDeplacement;
 }
 
