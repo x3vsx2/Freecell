@@ -22,6 +22,7 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
     int choix;
     do {
         choix = afficherMenu();
+        effacerFond();
         switch (choix) {
             case 0: {
                 lancerJeu(true);
@@ -58,6 +59,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     if (!nouvellePartie) {
         initialiserPilesPostSauvegarde();
         traitementPostChargement();
+        delete pileMelange;
     } else {
         initialiserPiles();
     }
@@ -123,6 +125,13 @@ void FenetrePrincipale::initialiserFond() {
     fond_ = new CImg<unsigned char>((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
     colorierImage(*fond_, 26, 83, 92);
     visu_ = new CImg<unsigned char>(*fond_);
+}
+
+void FenetrePrincipale::effacerFond() {
+    //declare le plateau de jeu avec longeurXlargeur
+    delete plateau_;
+    delete fond_;
+    delete visu_;
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {

@@ -12,6 +12,7 @@ class Bouton {
 public:
     Bouton(std::string nom, int posX, int posY, const char *fileName);
 
+    ~Bouton();
     int getTailleX() { return tailleX_; };
 
     int getTailleY() { return tailleY_; };

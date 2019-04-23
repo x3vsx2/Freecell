@@ -66,6 +66,10 @@ public:
     TypeHauteur getHauteur() { return Hauteur_; }
 
 
+    PileCarte *getPileAppartenance() { return pileAppartenance_; };
+
+    void setPileAppartenance(PileCarte *pile) { pileAppartenance_ = pile; };
+
 };
 
 

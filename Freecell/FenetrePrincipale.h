@@ -75,6 +75,8 @@ private:
     PileCarte *pileValide2;
     PileCarte *pileValide3;
     PileCarte *pileValide4;
+
+    void effacerFond();
 };
 
 
