@@ -8,6 +8,7 @@
 #include "Bouton.h"
 #include "CImg.h"
 
+
 using namespace cimg_library;
 
 Bouton::Bouton(std::string nom, int posX, int posY, const char *fileName) : nom_(std::move(nom)), positionX_(posX),

@@ -567,14 +567,14 @@ int FenetrePrincipale::afficherMenu() {
     initialiserFond();
 
     Bouton boutonNouvellePartie("BoutonNouvellePartie", disp->width() / 2 - 150, 100,
-                                "icones_et_boutons/bouton_nouvellePartie.png");
+                                "icones_et_boutons/bouton_nouvellePartie.ppm");
     boutonNouvellePartie.dessinerBouton(visu_);
 
     Bouton boutonChargerPartie("boutonChargerPartie", disp->width() / 2 - 150, 250,
-                               "icones_et_boutons/bouton_chargerPartie.png");
+                               "icones_et_boutons/bouton_chargerPartie.ppm");
     boutonChargerPartie.dessinerBouton(visu_);
 
-    Bouton boutonQuitter("boutonQuitter", disp->width() / 2 - 150, 400, "icones_et_boutons/bouton_quitter.png");
+    Bouton boutonQuitter("boutonQuitter", disp->width() / 2 - 150, 400, "icones_et_boutons/bouton_quitter.ppm");
     boutonQuitter.dessinerBouton(visu_);
 
     visu_->display(*disp);
