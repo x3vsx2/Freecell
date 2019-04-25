@@ -22,12 +22,13 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
     int choix;
     do {
         choix = afficherMenu();
+        effacerFond();
         switch (choix) {
             case 0: {
                 lancerJeu(true);
                 disp->wait();
-
                 sauvegarderPartie();
+                quitterPartie();
                 break;
             }
 
@@ -35,6 +36,7 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
                 chargerPartie();
                 lancerJeu(false);
                 sauvegarderPartie();
+                quitterPartie();
 
                 disp->wait();
                 break;
@@ -57,6 +59,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     if (!nouvellePartie) {
         initialiserPilesPostSauvegarde();
         traitementPostChargement();
+        delete pileMelange;
     } else {
         initialiserPiles();
     }
@@ -122,6 +125,13 @@ void FenetrePrincipale::initialiserFond() {
     fond_ = new CImg<unsigned char>((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
     colorierImage(*fond_, 26, 83, 92);
     visu_ = new CImg<unsigned char>(*fond_);
+}
+
+void FenetrePrincipale::effacerFond() {
+    //declare le plateau de jeu avec longeurXlargeur
+    delete plateau_;
+    delete fond_;
+    delete visu_;
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
@@ -268,6 +278,7 @@ void FenetrePrincipale::initialiserPiles() {
     piles->push_back(pileValide3);
     piles->push_back(pileValide4);
 
+    delete pileMelange;
 }
 
 void FenetrePrincipale::initialiserPilesPostSauvegarde() {
@@ -313,6 +324,7 @@ void FenetrePrincipale::initialiserPilesPostSauvegarde() {
     piles->push_back(pileValide2);
     piles->push_back(pileValide3);
     piles->push_back(pileValide4);
+
 
 }
 
@@ -579,33 +591,30 @@ int FenetrePrincipale::afficherMenu() {
 
     visu_->display(*disp);
     disp->wait();
-    if (disp->button()) {//Test si clique
-        //Recuperation positions de la souris
-        //mx = position souris en x, my = position souris en y
-        const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
-                my = disp->mouse_y() * (*fond_).height() / disp->height();
-        if (mx >= boutonNouvellePartie.getpositionX() &&
-            mx <= boutonNouvellePartie.getpositionX() + boutonNouvellePartie.getTailleX()
-            && my >= boutonNouvellePartie.getpositionY() &&
-            my <= boutonNouvellePartie.getpositionY() + boutonNouvellePartie.getTailleY()) {
-            return 0;
-        } else if (mx >= boutonChargerPartie.getpositionX() &&
-                   mx <= boutonChargerPartie.getpositionX() + boutonChargerPartie.getTailleX()
-                   && my >= boutonChargerPartie.getpositionY() &&
-                   my <= boutonChargerPartie.getpositionY() + boutonChargerPartie.getTailleY()) {
-            return 1;
-        } else if (mx >= boutonQuitter.getpositionX() &&
-                   mx <= boutonQuitter.getpositionX() + boutonQuitter.getTailleX()
-                   && my >= boutonQuitter.getpositionY() &&
-                   my <= boutonQuitter.getpositionY() + boutonQuitter.getTailleY()) {
-            return 2;
-        } else {
-            return 3;
+    do {
+        if (disp->button()) {//Test si clique
+            //Recuperation positions de la souris
+            //mx = position souris en x, my = position souris en y
+            const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
+                    my = disp->mouse_y() * (*fond_).height() / disp->height();
+            if (mx >= boutonNouvellePartie.getpositionX() &&
+                mx <= boutonNouvellePartie.getpositionX() + boutonNouvellePartie.getTailleX()
+                && my >= boutonNouvellePartie.getpositionY() &&
+                my <= boutonNouvellePartie.getpositionY() + boutonNouvellePartie.getTailleY()) {
+                return 0;
+            } else if (mx >= boutonChargerPartie.getpositionX() &&
+                       mx <= boutonChargerPartie.getpositionX() + boutonChargerPartie.getTailleX()
+                       && my >= boutonChargerPartie.getpositionY() &&
+                       my <= boutonChargerPartie.getpositionY() + boutonChargerPartie.getTailleY()) {
+                return 1;
+            } else if (mx >= boutonQuitter.getpositionX() &&
+                       mx <= boutonQuitter.getpositionX() + boutonQuitter.getTailleX()
+                       && my >= boutonQuitter.getpositionY() &&
+                       my <= boutonQuitter.getpositionY() + boutonQuitter.getTailleY()) {
+                return 2;
+            }
         }
-
-    } else {
-        return 3;
-    }
+    } while (true);
 
 }
 
@@ -619,7 +628,7 @@ void FenetrePrincipale::sauvegarderPartie() {
             ofs << (*piles)[i]->getCarte(j)->getIdentifiant() << " ";
         }
         if ((*piles)[i]->getTaille() == 0) {
-            ofs << " ";
+            ofs << 0 << " ";
         }
         ofs << endl;
     }
@@ -639,17 +648,14 @@ void FenetrePrincipale::chargerPartie() {
         if (contenu == "PILE") {
             ifs >> taillePile;
             int iDcarte;
-            if (taillePile != 0) {
-                for (unsigned int j = 0; j < taillePile; j++) {
+            for (unsigned int j = 0; j < taillePile; j++) {
                     ifs >> iDcarte;
                     tableauxIdentifiants[i].push_back(iDcarte);
-                }
-                ifs.ignore();
-            } else {
-                ifs >> iDcarte;//on balance dans le vide
-                tableauxIdentifiants[i].push_back(0);
-                ifs.ignore();
             }
+            if (taillePile == 0) {
+                ifs >> iDcarte;//on balance dans le vide
+            }
+            ifs.ignore();
             ifs.ignore();
         }
     }
@@ -689,5 +695,15 @@ void FenetrePrincipale::etatChargement() {
     }
     cout << endl;
     cout << endl;
+}
+
+void FenetrePrincipale::quitterPartie() {
+    delete visu_;
+    delete plateau_;
+    delete fond_;
+    for (vector<PileCarte *>::iterator itPile = piles->begin(); itPile != piles->end(); ++itPile) {
+        delete *itPile;
+    }
+    delete pileDeplacement;
 }
 

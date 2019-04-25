@@ -34,3 +34,8 @@ void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond) {
     render.draw_image(0, 0, 0, 0, *image_, image_->get_channel(3), 1, 255);
     fond->draw_image(this->getpositionX(), this->getpositionY(), render);
 }
+
+Bouton::~Bouton() {
+    delete image_;
+
+}

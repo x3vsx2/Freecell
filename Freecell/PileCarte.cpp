@@ -29,7 +29,7 @@ PileCarte::PileCarte(PileCarte &pileCopiee) : taille_(pileCopiee.taille_),
 }
 
 PileCarte::~PileCarte() {
-    for (unsigned int i = 0; i < taille_; i++) {
+    for (unsigned int i = 0; i < listeCartes_.size(); i++) {
         delete listeCartes_[i];
     }
 }
@@ -44,6 +44,7 @@ void PileCarte::deplacerCartePile(PileCarte *pileRetrait) {
     if (pileRetrait->getTaille() == 0) { std::cout << "pile vide"; }
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
+    pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPileAppartenance(this);
 
     //Ajout de la carte dans sa nouvelle pile
     this->ajouterCarte(pileRetrait->getCarte(pileRetrait->taille_ - 1));
@@ -119,6 +120,7 @@ void PileCarte::inverserListeCartes() {
 void PileCarte::ajouterCarte(Carte *carte) {
     listeCartes_.push_back(carte);
     taille_ = listeCartes_.size();
+    carte->setPileAppartenance(this);
 }
 
 /*!
@@ -168,12 +170,14 @@ void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, Pile
     //TODO pileAppartenance non géré
     pile2->listeCartes_[posCarte2]->setPosX(this->getPosX());
     pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
+    pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
 
     //On ajoute la carte à la position souhaitée
     this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
     this->taille_++;
     //supprime la carte de la pile melange (ou de l'ancienne pile)
     pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2);
+    pile2->taille_--;
 }
 
 

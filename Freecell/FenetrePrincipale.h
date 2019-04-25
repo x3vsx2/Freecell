@@ -46,6 +46,8 @@ public:
 
     void initialiserPilesPostSauvegarde();
 
+    void quitterPartie();
+
 private:
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
@@ -73,6 +75,8 @@ private:
     PileCarte *pileValide2;
     PileCarte *pileValide3;
     PileCarte *pileValide4;
+
+    void effacerFond();
 };
 
 

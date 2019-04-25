@@ -23,7 +23,9 @@ Carte::Carte(Carte *CarteAcopier) : idCarte_(CarteAcopier->idCarte_), Couleur_(C
     image_ = new CImg<unsigned char>(*CarteAcopier->getImg());
 }
 
-Carte::~Carte() {}
+Carte::~Carte() {
+    delete image_;
+}
 
 int Carte::getIdentifiant() {
     return idCarte_;
@@ -40,4 +42,5 @@ int Carte::getPosY() {
 Carte::Carte() {
 
 }
+
 
