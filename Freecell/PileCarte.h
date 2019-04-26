@@ -49,6 +49,7 @@ public:
     PileCarte(PileCarte &pileCopiee);
 
     ~PileCarte();
+
     void ajouterCarte(Carte *carte);
 
     unsigned int getTaille() { return listeCartes_.size(); };

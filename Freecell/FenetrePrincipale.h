@@ -6,6 +6,7 @@
 #include "CImg.h"
 #include "PileCarte.h"
 #include "Carte.h"
+#include "Bouton.h"
 
 class FenetrePrincipale {
 
@@ -36,10 +37,6 @@ public:
 
     void lancerJeu(bool nouvellePartie);
 
-    void sauvegarderPartie();
-
-    void chargerPartie();
-
     void traitementPostChargement();
 
     void etatChargement();
@@ -48,13 +45,30 @@ public:
 
     void quitterPartie();
 
+    bool fenetreChargement();
+
+    void fenetreSauvegarde();
+
+    void ajouterPartieSauvegardee(std::string nomPartie);
+
+    void sauvegarderPartie(std::string nomPartie);
+
+    void chargerPartie(std::string nomPartie);
+
+    void supprimerPartieChargee(std::string nomPartie);
+
+    void chargerTableauParties();
+
+    void sauverTableauParties();
+
+
 private:
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
     cimg_library::CImgDisplay *disp;
     std::vector<std::vector<int>> tableauxIdentifiants;
-
+    std::vector<std::string> tableauParties;
     std::vector<PileCarte *> *piles;
 
     PileCarte *pileDeplacement;

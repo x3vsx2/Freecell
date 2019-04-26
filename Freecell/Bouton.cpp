@@ -35,7 +35,14 @@ void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond) {
     fond->draw_image(this->getpositionX(), this->getpositionY(), render);
 }
 
+bool Bouton::estCliquee(int mx, int my) {
+    return mx >= getpositionX() && mx <= getpositionX() + getTailleX() && my >= getpositionY() &&
+           my <= getpositionY() + getTailleY();
+}
+
 Bouton::~Bouton() {
     delete image_;
 
 }
+
+

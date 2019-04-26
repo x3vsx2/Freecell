@@ -6,6 +6,10 @@
 #include "PileCarte.h"
 #include "Bouton.h"
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
 
 using namespace std;
 using namespace cimg_library;
@@ -27,18 +31,18 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
             case 0: {
                 lancerJeu(true);
                 disp->wait();
-                sauvegarderPartie();
+                fenetreSauvegarde();
                 quitterPartie();
                 break;
             }
 
             case 1: {
-                chargerPartie();
-                lancerJeu(false);
-                sauvegarderPartie();
-                quitterPartie();
-
-                disp->wait();
+                if (fenetreChargement()) {
+                    lancerJeu(false);
+                    disp->wait();
+                    fenetreSauvegarde();
+                    quitterPartie();
+                }
                 break;
             }
             case 2:
@@ -53,6 +57,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
     dessinerEmplacementPiles();
     initialiserCartes();
+
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
     bool click_hold = false;
     int memoirePile = 0;
@@ -63,6 +68,9 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     } else {
         initialiserPiles();
     }
+    Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
+                    "icones_et_boutons/miniQuitter.png");
+
     while (!disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ()) {
 
         //Recuperation positions de la souris
@@ -71,7 +79,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 my = disp->mouse_y() * (*fond_).height() / disp->height();
 
         majAffichage();
-
+        bQuitter.dessinerBouton(visu_);
         // Mouvement souris suite à un déplacement
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
@@ -105,13 +113,18 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 }
                 click_hold = false;
             }
+            if (bQuitter.estCliquee(mx, my)) {
+                break;
+            }
         }
 
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
+
         visu_->display(*disp);
         disp->wait();
+
     }
 
 }
@@ -347,7 +360,6 @@ void FenetrePrincipale::majAffichage() {
         visu_->draw_image(pileDeplacement->getCarte(k)->getPosX(), pileDeplacement->getCarte(k)->getPosY(),
                           pileDeplacement->getCarte(k)->getImg());
     }
-
 }
 
 /*!
@@ -408,9 +420,9 @@ void FenetrePrincipale::initialiserCartes() {
     auto *S08 = new Carte(47, Pique, Huit, "imageCarte/s08.ppm", pileMelange);
     auto *S09 = new Carte(48, Pique, Neuf, "imageCarte/s09.ppm", pileMelange);
     auto *S10 = new Carte(49, Pique, Dix, "imageCarte/s10.ppm", pileMelange);
-    auto *S11 = new Carte(51, Pique, Valet, "imageCarte/s11.ppm", pileMelange);
-    auto *S12 = new Carte(52, Pique, Dame, "imageCarte/s12.ppm", pileMelange);
-    auto *S13 = new Carte(53, Pique, Roi, "imageCarte/s13.ppm", pileMelange);
+    auto *S11 = new Carte(50, Pique, Valet, "imageCarte/s11.ppm", pileMelange);
+    auto *S12 = new Carte(51, Pique, Dame, "imageCarte/s12.ppm", pileMelange);
+    auto *S13 = new Carte(52, Pique, Roi, "imageCarte/s13.ppm", pileMelange);
 
     pileMelange->ajouterCarte(H01);
     pileMelange->ajouterCarte(H02);
@@ -514,7 +526,7 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
             return (validite);
         }
     }
-	return false;
+    return false;
 }
 
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
@@ -571,7 +583,7 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
                 return false;
             }
         }
-		return false;
+        return false;
     }
 }
 
@@ -616,50 +628,6 @@ int FenetrePrincipale::afficherMenu() {
         }
     } while (true);
 
-}
-
-void FenetrePrincipale::sauvegarderPartie() {
-    //ESSAI SAUVEGARDE
-    ofstream ofs("essai.txt");
-    for (unsigned int i = 0; i < piles->size(); i++) {
-        ofs << "PILE" << endl;
-        ofs << (*piles)[i]->getTaille() << endl;
-        for (unsigned int j = 0; j < (*piles)[i]->getTaille(); j++) {
-            ofs << (*piles)[i]->getCarte(j)->getIdentifiant() << " ";
-        }
-        if ((*piles)[i]->getTaille() == 0) {
-            ofs << 0 << " ";
-        }
-        ofs << endl;
-    }
-    ofs.close();
-}
-
-void FenetrePrincipale::chargerPartie() {
-    ifstream ifs("essai.txt");
-    ifs.seekg(0, std::ios::beg);//Debut du fichier
-    string contenu;
-    for (unsigned int i = 0; i < 15; i++) {
-        if (!tableauxIdentifiants[i].empty()) {
-            tableauxIdentifiants[i].clear();
-        }
-        getline(ifs, contenu);
-        int taillePile;
-        if (contenu == "PILE") {
-            ifs >> taillePile;
-            int iDcarte;
-            for (unsigned int j = 0; j < taillePile; j++) {
-                    ifs >> iDcarte;
-                    tableauxIdentifiants[i].push_back(iDcarte);
-            }
-            if (taillePile == 0) {
-                ifs >> iDcarte;//on balance dans le vide
-            }
-            ifs.ignore();
-            ifs.ignore();
-        }
-    }
-    ifs.close();
 }
 
 void FenetrePrincipale::traitementPostChargement() {
@@ -707,3 +675,212 @@ void FenetrePrincipale::quitterPartie() {
     delete pileDeplacement;
 }
 
+bool FenetrePrincipale::fenetreChargement() {
+    initialiserFond();
+    unsigned char white[] = {255, 255, 255};        // Define a purple color
+    unsigned char couleurFond[] = {26, 83, 92};        // Define a purple color
+
+    Bouton partiesSauvegardees("titre", disp->width() / 2 - 400, 10,
+                               "icones_et_boutons/partiesSauvegardees.png");
+    partiesSauvegardees.dessinerBouton(visu_);
+
+    Bouton bchargerPartie("chargerPartie", disp->width() / 2 + 100, disp->height() - 200,
+                          "icones_et_boutons/chargerPartie.png");
+    bchargerPartie.dessinerBouton(visu_);
+
+    Bouton bsupprimerSauvegarde("supprimerSauvegarde", disp->width() / 2 - 400, disp->height() - 200,
+                                "icones_et_boutons/supprimerSauvegarde.png");
+    bsupprimerSauvegarde.dessinerBouton(visu_);
+
+    Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
+                    "icones_et_boutons/miniQuitter.png");
+    bQuitter.dessinerBouton(visu_);
+
+    chargerTableauParties();
+    for (unsigned int i = 0; i < tableauParties.size(); i++) {
+        string nom = tableauParties[i].substr(0, tableauParties[i].length() - 4);
+        visu_->draw_text(disp->width() / 2 - 400, 200 + 30 * i, nom.data(), white, couleurFond, 1, 20);
+    }
+    visu_->display(*disp);
+
+    disp->wait();
+    do {
+        if (disp->button()) {//Test si clique
+            //Recuperation positions de la souris
+            //mx = position souris en x, my = position souris en y
+            const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
+                    my = disp->mouse_y() * (*fond_).height() / disp->height();
+            if (bchargerPartie.estCliquee(mx, my)) {
+                cout << "Entrez le nom de la sauvegarde que vous voulez charger et appuyez sur entrée" << endl;
+                string nomSauvegarde;
+                cin >> nomSauvegarde;
+                nomSauvegarde.append(".txt");
+                bool trouvee = false;
+                for (vector<string>::iterator it = tableauParties.begin(); it != tableauParties.end(); ++it) {
+                    if (*it == nomSauvegarde) {
+                        chargerPartie(nomSauvegarde);
+                        trouvee = true;
+                        break;
+                    }
+                }
+                if (!trouvee) cout << nomSauvegarde << " n'existe pas. Veuillez recommencez." << endl;
+                else { return true; }
+            } else if (bsupprimerSauvegarde.estCliquee(mx, my)) {
+                cout << "Entrez le nom de la sauvegarde que vous voulez supprimer et appuyez sur entrer"
+                     << endl;
+                string nomSauvegarde;
+                cin >> nomSauvegarde;
+                nomSauvegarde.append(".txt");
+                bool trouvee = false;
+                for (vector<string>::iterator it = tableauParties.begin(); it != tableauParties.end(); ++it) {
+                    if (*it == nomSauvegarde) {
+                        supprimerPartieChargee(nomSauvegarde);
+                        trouvee = true;
+                        break;
+                    }
+                }
+                if (!trouvee) cout << nomSauvegarde << " n'existe pas. Veuillez recommencez." << endl;
+                else { return false; }
+            } else if (bQuitter.estCliquee(mx, my)) {
+                return false;
+            }
+        }
+    } while (true);
+}
+
+void FenetrePrincipale::fenetreSauvegarde() {
+    initialiserFond();
+
+    Bouton question("question", disp->width() / 2 - 150, 100,
+                    "icones_et_boutons/question_enregistrer.png");
+    question.dessinerBouton(visu_);
+
+    Bouton non("non", disp->width() / 2 - 400, 400,
+               "icones_et_boutons/non.png");
+    non.dessinerBouton(visu_);
+
+    Bouton oui("oui", disp->width() / 2 + 100, 400,
+               "icones_et_boutons/oui.png");
+    oui.dessinerBouton(visu_);
+
+    Bouton intructions("intstructions", disp->width() / 2 + 100, 500,
+                       "icones_et_boutons/instructions.png");
+    string nomSauvegarde;
+    visu_->display(*disp);
+    disp->wait();
+    do {
+        if (disp->button()) {//Test si clique
+            //Recuperation positions de la souris
+            //mx = position souris en x, my = position souris en y
+            const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
+                    my = disp->mouse_y() * (*fond_).height() / disp->height();
+            if (mx >= oui.getpositionX() &&
+                mx <= oui.getpositionX() + oui.getTailleX()
+                && my >= oui.getpositionY() &&
+                my <= oui.getpositionY() + oui.getTailleY()) {
+                intructions.dessinerBouton(visu_);
+                visu_->display(*disp);
+
+                cout << "Entrez le nom de la sauvegarde (sans espaces) et appuyez sur entrée" << endl;
+                cin >> nomSauvegarde;
+                nomSauvegarde.append(".txt");
+                ajouterPartieSauvegardee(nomSauvegarde);
+                sauvegarderPartie(nomSauvegarde);
+                sauverTableauParties();
+                break;
+            } else if (mx >= non.getpositionX() &&
+                       mx <= non.getpositionX() + non.getTailleX()
+                       && my >= non.getpositionY() &&
+                       my <= non.getpositionY() + non.getTailleY()) {
+                break;
+            }
+        }
+    } while (true);
+}
+
+void FenetrePrincipale::ajouterPartieSauvegardee(std::string nomPartie) {
+    tableauParties.insert(tableauParties.begin(), nomPartie);
+}
+
+void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
+    ofstream ofs(nomPartie);
+    for (unsigned int i = 0; i < piles->size(); i++) {
+        ofs << "PILE" << endl;
+        ofs << (*piles)[i]->getTaille() << endl;
+        for (unsigned int j = 0; j < (*piles)[i]->getTaille(); j++) {
+            ofs << (*piles)[i]->getCarte(j)->getIdentifiant() << " ";
+        }
+        if ((*piles)[i]->getTaille() == 0) {
+            ofs << 0 << " ";
+        }
+        ofs << endl;
+    }
+    ofs.close();
+}
+
+void FenetrePrincipale::chargerPartie(string nomPartie) {
+    ifstream ifs(nomPartie);
+    ifs.seekg(0, std::ios::beg);//Debut du fichier
+    string contenu;
+    for (unsigned int i = 0; i < 15; i++) {
+        if (!tableauxIdentifiants[i].empty()) {
+            tableauxIdentifiants[i].clear();
+        }
+        getline(ifs, contenu);
+        int taillePile;
+        if (contenu == "PILE") {
+            ifs >> taillePile;
+            int iDcarte;
+            for (unsigned int j = 0; j < taillePile; j++) {
+                ifs >> iDcarte;
+                tableauxIdentifiants[i].push_back(iDcarte);
+            }
+            if (taillePile == 0) {
+                ifs >> iDcarte;//on balance dans le vide
+            }
+            ifs.ignore();
+            ifs.ignore();
+        }
+    }
+    ifs.close();
+}
+
+void FenetrePrincipale::supprimerPartieChargee(std::string nomPartie) {
+    for (vector<string>::iterator it = tableauParties.begin(); it != tableauParties.end(); ++it) {
+        if (*it == nomPartie) {
+            it->erase();
+            break;
+        }
+    }
+    if (remove(nomPartie.data()) != 0)
+        perror("Error deleting file");
+    else
+        cout << "File successfully deleted" << endl;
+    sauverTableauParties();
+}
+
+void FenetrePrincipale::chargerTableauParties() {
+    tableauParties.clear();
+
+    ifstream ifs("sauvegardes.txt");
+    ifs.seekg(0, std::ios::beg);//Debut du fichier
+    int taille;
+    ifs >> taille;
+    ifs.ignore();
+    string contenu;
+    for (unsigned int i = 0; i < taille; i++) {
+        getline(ifs, contenu);
+        tableauParties.push_back(contenu);
+    }
+    ifs.close();
+}
+
+void FenetrePrincipale::sauverTableauParties() {
+    ofstream ofs("sauvegardes.txt");
+    ofs << tableauParties.size() << endl;
+    string contenu;
+    for (unsigned int i = 0; i < tableauParties.size(); i++) {
+        ofs << tableauParties[i] << endl;
+    }
+    ofs.close();
+}

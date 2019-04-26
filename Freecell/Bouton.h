@@ -13,6 +13,7 @@ public:
     Bouton(std::string nom, int posX, int posY, const char *fileName);
 
     ~Bouton();
+
     int getTailleX() { return tailleX_; };
 
     int getTailleY() { return tailleY_; };
@@ -30,6 +31,8 @@ public:
     void setpositionY(int pY) { positionY_ = pY; }
 
     void dessinerBouton(cimg_library::CImg<unsigned char> *fond);
+
+    bool estCliquee(int mx, int my);
 
     cimg_library::CImg<unsigned char> getImg() { return *image_; };
 
