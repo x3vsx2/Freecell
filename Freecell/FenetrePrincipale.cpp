@@ -530,7 +530,6 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
 }
 
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
-    //TODO -gérer le fait qu'on ne peut déposer qu'une seule carte sur les piles Libres
     vector<int> positionsCiblee = getClicPositions(mx, my);
     //bool validite = false;
     if (positionsCiblee[0] == -1) { return false; }
