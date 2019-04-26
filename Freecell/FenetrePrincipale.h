@@ -21,7 +21,7 @@ public:
 
     std::vector<int> getClicPositions(int mx, int my);
 
-    void initialiserPiles();
+    void initialiserPiles(bool nouvellePartie);
 
     void deplacerPile(int mx, int my);
 
@@ -37,11 +37,7 @@ public:
 
     void lancerJeu(bool nouvellePartie);
 
-    void traitementPostChargement();
-
     void etatChargement();
-
-    void initialiserPilesPostSauvegarde();
 
     void quitterPartie();
 
@@ -70,7 +66,7 @@ private:
     cimg_library::CImgDisplay *disp;
     std::vector<std::vector<int>> tableauxIdentifiants;
     std::vector<std::string> tableauParties;
-    std::vector<PileCarte *> *piles;
+    std::vector<PileCarte *> piles_;
 
     PileCarte *pileDeplacement;
     PileCarte *pileMelange;
