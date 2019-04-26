@@ -57,6 +57,7 @@ public:
 
     void sauverTableauParties();
 
+    void majFenetre();
 
 private:
     cimg_library::CImg<unsigned char> *visu_;

@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <string>
 
-
 using namespace std;
 using namespace cimg_library;
 
@@ -49,8 +48,8 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
             case 2:
                 break;
         }
-    } while (choix != 2 && !disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ());
 
+    } while (choix != 2 && !disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ());
 
 }
 
@@ -105,6 +104,7 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     pileJeu7 = new PileCarte(910, 300, jeu7);
     pileJeu8 = new PileCarte(1045, 300, jeu8);
 
+    piles_.clear();
     piles_.push_back(pileJeu1);
     piles_.push_back(pileJeu2);
     piles_.push_back(pileJeu3);
@@ -252,8 +252,6 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
         return false;
     }
 }
-
-
 
 void FenetrePrincipale::etatChargement() {
 //Debug

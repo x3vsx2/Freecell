@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include "Couleurs.h"
 
 using namespace std;
 using namespace cimg_library;
@@ -93,7 +94,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
  */
 void FenetrePrincipale::initialiserFond() {
     //declare le plateau de jeu avec longeurXlargeur
-    plateau_ = new CImg<unsigned char>(1280, 720, 1, 1, 0);
+    plateau_ = new CImg<unsigned char>(tailleXDefault, tailleYDefault, 1, 1, 0);
     fond_ = new CImg<unsigned char>((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
     colorierImage(*fond_, 26, 83, 92);
     visu_ = new CImg<unsigned char>(*fond_);
@@ -145,13 +146,14 @@ int FenetrePrincipale::afficherMenu() {
                 return 2;
             }
         }
+        if (disp->is_resized()) {
+            majFenetre();
+        }
     } while (true);
 
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
-    unsigned char couleurBlanche[3] = {255, 255, 255};
-    unsigned char couleurGrise[3] = {125, 125, 125};
     int p1 = 99;
     for (unsigned int i = 0; i < 8; i++) {
         //fond_->draw_rectangle(x1, y1, x2, y2, couleur, 1, ~0U);
@@ -289,4 +291,12 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
         }
         pileDeplacement->inverserListeCartes();
     }
+}
+
+void FenetrePrincipale::majFenetre() {
+    disp->resize(disp->window_width(), disp->window_height());
+    plateau_->resize(disp->width(), disp->height());
+    fond_->resize((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
+    colorierImage(*fond_, 26, 83, 92);
+    visu_->resize(fond_->width(), fond_->height());
 }
