@@ -8,7 +8,8 @@ set(SOURCE_FILES
         pch.cpp pch.h
         FenetrePrincipale.cpp FenetrePrincipale.h
         Carte.cpp Carte.h PileCarte.cpp PileCarte.h
-        Bouton.cpp Bouton.h)
+        Bouton.cpp Bouton.h
+        stb_image.h stb_implement.h)
 
 add_executable(Freecell ${SOURCE_FILES})
 

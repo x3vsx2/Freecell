@@ -1,16 +1,13 @@
-//
-// Created by kamilcaglar on 17/04/19.
-//
-
 #ifndef FREECELL_BOUTON_H
 #define FREECELL_BOUTON_H
 
 #include<string>
 #include "CImg.h"
-
 class Bouton {
 public:
     Bouton(std::string nom, int posX, int posY, const char *fileName);
+
+    //   bool charger(cimg_library::CImg<unsigned char>& image, const char* chemin, Channels c);
 
     ~Bouton();
 
@@ -34,14 +31,14 @@ public:
 
     bool estCliquee(int mx, int my);
 
-    cimg_library::CImg<unsigned char> getImg() { return *image_; };
+    cimg_library::CImg<unsigned char> getImg() { return image_; };
 
 private:
     int positionX_;
     int positionY_;
     int tailleX_;
     int tailleY_;
-    cimg_library::CImg<unsigned char> *image_;
+    cimg_library::CImg<unsigned char> image_;
     std::string nom_;
 };
 
