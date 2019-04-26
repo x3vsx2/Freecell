@@ -97,7 +97,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 if (estDepotValide(mx, my)) {
                     int pileCliquee = getClicPositions(mx, my)[0]; //numéro de la pile sur laquelle il y a eu un clic
                     pileDeplacement->inverserListeCartes();
-                    int nbCartesAEnlever = pileDeplacement->getTaille();
+                    unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     //On dépose la carte sur une pile
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         (*piles)[pileCliquee]->deplacerCartePile(pileDeplacement);
@@ -105,7 +105,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     click_hold = false;
                 } else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
                     pileDeplacement->inverserListeCartes();
-                    int nbCartesAEnlever = pileDeplacement->getTaille();
+                    unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         if (memoirePile == -1)cout << "c'est ici putain" << endl;
                         (*piles)[memoirePile]->deplacerCartePile(pileDeplacement);
@@ -219,6 +219,12 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
         if (mx >= pileX1 && mx <= pileX2 && my >= pileY1 && my <= pileY2) {
             positions[0] = i;
             positions[1] = -2;
+			if (i <=7) { // teste debugage
+				cout << " c'es probalblement là" << endl; // effectivement c'est ici
+				cout << positions[0] << "  " << positions[1] << endl;
+			}
+			
+
             return positions;
         }
     }
@@ -226,7 +232,7 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
 }
 
 /*!
- * Initialise les piles et répartie les cartes entre les différentes piles
+ * Initialise les piles et répartie au hasard les cartes entre les différentes piles 
  */
 void FenetrePrincipale::initialiserPiles() {
 
@@ -349,13 +355,13 @@ void FenetrePrincipale::majAffichage() {
 
     //On affiche les différentes piles
     for (unsigned int i = 0; i < (*piles).size(); ++i) {
-        int nbCarteADeplacer = (*piles)[i]->getTaille();
+        unsigned int nbCarteADeplacer = (*piles)[i]->getTaille();
         for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
             visu_->draw_image((*piles)[i]->getCarte(j)->getPosX(), (*piles)[i]->getCarte(j)->getPosY(),
                               (*piles)[i]->getCarte(j)->getImg());
         }
     }
-    int nbCarteADeplacer = pileDeplacement->getTaille();
+    unsigned int nbCarteADeplacer = pileDeplacement->getTaille();
     for (unsigned int k = 0; k < nbCarteADeplacer; k++) {
         visu_->draw_image(pileDeplacement->getCarte(k)->getPosX(), pileDeplacement->getCarte(k)->getPosY(),
                           pileDeplacement->getCarte(k)->getImg());
@@ -502,6 +508,12 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
     }
 }
 
+/*!
+*Verifie si l'utilisateur à le droit de prendre les cartes à l'emplacement mx,my
+* @param mx position horizontale de la souris
+* @param my position verticale de la souris
+* @return bool
+*/
 bool FenetrePrincipale::estSaisieValide(int mx, int my) {
 
     vector<int> positionsCartecliquee = getClicPositions(mx, my);
@@ -529,6 +541,12 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
     return false;
 }
 
+/*!
+*Verifie si l'utilisateur à le droit de poser les cartes de la pile deplacement à l'emplacement correspondant à mx,my 
+* @param mx position horizontale de la souris
+* @param my position verticale de la souris
+* @return bool
+*/
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
     vector<int> positionsCiblee = getClicPositions(mx, my);
     //bool validite = false;
@@ -537,11 +555,12 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
         //return true;//teste
         if ((*piles)[positionsCiblee[0]]->getType() > 1 && (*piles)[positionsCiblee[0]]->getType() < 10) {
             //si c'est une pile jeu
+			if (positionsCiblee[1] == -2) { return true; } // si la pile est vide alors le dépot est autorisé 
             if (pileDeplacement->getCarte(0)->getCouleur() % 2 !=
                 (*piles)[positionsCiblee[0]]->getCarte((*piles)[positionsCiblee[0]]->getTaille() - 1)->getCouleur() %
                 2 && pileDeplacement->getCarte(0)->getHauteur() == (*piles)[positionsCiblee[0]]->getCarte(
                     (*piles)[positionsCiblee[0]]->getTaille() - 1)->getHauteur() - 1) {
-                // condition 1 : les couleurs sont oppsées
+                // condition 1 : les couleurs sont opposées
                 // condition 2 : les hauteurs se suivent dans le bon ordre
                 return true;
             } else { return false; }
@@ -883,3 +902,18 @@ void FenetrePrincipale::sauverTableauParties() {
     }
     ofs.close();
 }
+
+/*!
+* Renvoie si le joueur à remporter la partie
+* @return bool
+*/
+bool FenetrePrincipale::PartieEstGagnee() {
+	unsigned int nombreDeCartePlacee;
+	if (nombreDeCartePlacee == 52) {
+		return true;
+	}
+	else {
+		return(false);
+	}
+}
+
