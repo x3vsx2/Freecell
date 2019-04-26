@@ -56,7 +56,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 if (estDepotValide(mx, my)) {
                     int pileCliquee = getClicPositions(mx, my)[0]; //numéro de la pile sur laquelle il y a eu un clic
                     pileDeplacement->inverserListeCartes();
-                    int nbCartesAEnlever = pileDeplacement->getTaille();
+                    unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     //On dépose la carte sur une pile
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         piles_[pileCliquee]->deplacerCartePile(pileDeplacement);
@@ -64,7 +64,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     click_hold = false;
                 } else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
                     pileDeplacement->inverserListeCartes();
-                    int nbCartesAEnlever = pileDeplacement->getTaille();
+                    unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         if (memoirePile == -1)cout << "c'est ici putain" << endl;
                         piles_[memoirePile]->deplacerCartePile(pileDeplacement);
@@ -206,7 +206,7 @@ void FenetrePrincipale::majAffichage() {
 
     //On affiche les différentes piles_
     for (unsigned int i = 0; i < piles_.size(); ++i) {
-        int nbCarteADeplacer = piles_[i]->getTaille();
+        unsigned int nbCarteADeplacer = piles_[i]->getTaille();
         for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
             visu_->draw_image(piles_[i]->getCarte(j)->getPosX(), piles_[i]->getCarte(j)->getPosY(),
                               piles_[i]->getCarte(j)->getImg());

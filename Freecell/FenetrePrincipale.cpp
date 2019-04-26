@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string>
 
+
 using namespace std;
 using namespace cimg_library;
 
@@ -49,6 +50,7 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
                 break;
         }
     } while (choix != 2 && !disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ());
+
 
 }
 
@@ -197,14 +199,19 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
     return false;
 }
 
+/*!
+* Renvoie si le depot de cartes à l'emplacement indiqué par mx my est valide
+* @param mx position horizontale de la souris
+* @param my position verticale de la souris
+*@return bool
+*/
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
     vector<int> positionsCiblee = getClicPositions(mx, my);
-    //bool validite = false;
     if (positionsCiblee[0] == -1) { return false; }
     else {
-        //return true;//teste
         if (piles_[positionsCiblee[0]]->getType() > 1 && piles_[positionsCiblee[0]]->getType() < 10) {
             //si c'est une pile jeu
+			if (positionsCiblee[1] == -2) { return true; } // si la pile est vide alors le dépot est autorisé
             if (pileDeplacement->getCarte(0)->getCouleur() % 2 !=
                 piles_[positionsCiblee[0]]->getCarte(piles_[positionsCiblee[0]]->getTaille() - 1)->getCouleur() %
                 2 && pileDeplacement->getCarte(0)->getHauteur() == piles_[positionsCiblee[0]]->getCarte(
@@ -252,6 +259,21 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
         }
         return false;
     }
+}
+
+/*!
+* Renvoie si le joueur à remporter la partie
+* @return bool
+*/
+bool FenetrePrincipale::PartieEstGagnee() {
+	//TODO : faire le calcule nombre de carte placee
+	unsigned int nombreDeCartePlacee = 0;
+	if (nombreDeCartePlacee == 52) {
+		return true;
+	}
+	else {
+		return(false);
+	}
 }
 
 void FenetrePrincipale::etatChargement() {

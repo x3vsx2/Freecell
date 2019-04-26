@@ -58,6 +58,7 @@ public:
     void sauverTableauParties();
 
     void majFenetre();
+	bool PartieEstGagnee();
 
 private:
     cimg_library::CImg<unsigned char> *visu_;
