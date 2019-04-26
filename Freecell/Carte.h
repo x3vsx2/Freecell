@@ -37,7 +37,7 @@ private:
 public:
     Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur,
           const char *fileName,
-          PileCarte *pileAppartenance); // on utilise const char à cause du constructeur de CIMG
+          PileCarte *pileAppartenance);
 
     Carte(Carte *CarteAcopier);
 
