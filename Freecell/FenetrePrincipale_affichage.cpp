@@ -22,12 +22,10 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
     bool click_hold = false;
     int memoirePile = 0;
-    if (!nouvellePartie) {
-        initialiserPilesPostSauvegarde();
-        traitementPostChargement();
-        delete pileMelange;
+    if (nouvellePartie) {
+        initialiserPiles(true);
     } else {
-        initialiserPiles();
+        initialiserPiles(true);
     }
     Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
                     "icones_et_boutons/miniQuitter.png");
@@ -61,7 +59,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     int nbCartesAEnlever = pileDeplacement->getTaille();
                     //On dépose la carte sur une pile
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
-                        (*piles)[pileCliquee]->deplacerCartePile(pileDeplacement);
+                        piles_[pileCliquee]->deplacerCartePile(pileDeplacement);
                     }
                     click_hold = false;
                 } else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
@@ -69,7 +67,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         if (memoirePile == -1)cout << "c'est ici putain" << endl;
-                        (*piles)[memoirePile]->deplacerCartePile(pileDeplacement);
+                        piles_[memoirePile]->deplacerCartePile(pileDeplacement);
                     }
                 }
                 click_hold = false;
@@ -192,19 +190,18 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
     }
 }
 
-
 /*!
  * Redessine chaque carte selon sa position
  */
 void FenetrePrincipale::majAffichage() {
     visu_->draw_image(*fond_);
 
-    //On affiche les différentes piles
-    for (unsigned int i = 0; i < (*piles).size(); ++i) {
-        int nbCarteADeplacer = (*piles)[i]->getTaille();
+    //On affiche les différentes piles_
+    for (unsigned int i = 0; i < piles_.size(); ++i) {
+        int nbCarteADeplacer = piles_[i]->getTaille();
         for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
-            visu_->draw_image((*piles)[i]->getCarte(j)->getPosX(), (*piles)[i]->getCarte(j)->getPosY(),
-                              (*piles)[i]->getCarte(j)->getImg());
+            visu_->draw_image(piles_[i]->getCarte(j)->getPosX(), piles_[i]->getCarte(j)->getPosY(),
+                              piles_[i]->getCarte(j)->getImg());
         }
     }
     int nbCarteADeplacer = pileDeplacement->getTaille();
@@ -219,7 +216,8 @@ void FenetrePrincipale::majAffichage() {
  */
 void FenetrePrincipale::initialiserCartes() {
     pileMelange = new PileCarte(0, 0, melange);
-
+    pileMelange->ajouterCarte(new Carte(1, Coeur, As, "imageCarte/h01.ppm", pileMelange));
+    pileMelange->ajouterCarte(new Carte(2, Coeur, Deux, "imageCarte/h02.ppm", pileMelange));
     pileMelange->ajouterCarte(new Carte(3, Coeur, Trois, "imageCarte/h03.ppm", pileMelange));
     pileMelange->ajouterCarte(new Carte(4, Coeur, Quatre, "imageCarte/h04.ppm", pileMelange));
     pileMelange->ajouterCarte(new Carte(5, Coeur, Cinq, "imageCarte/h05.ppm", pileMelange));
@@ -278,16 +276,16 @@ void FenetrePrincipale::initialiserCartes() {
  * @param my position verticale de la souris
  */
 void FenetrePrincipale::deplacerPile(int mx, int my) {
-    //récupère la position d'une carte dans les piles
+    //récupère la position d'une carte dans les piles_
     //Si vector = -1 -1 alors aucune carte n'a été cliquée
     vector<int> positions = getClicPositions(mx, my);
 
     //On change les cartes de pile si on a cliqué sur une carte
     if (positions[0] != -1) {
         //déplacement d'une ou de plusieurs cartes dans la pile déplacée
-        int nbCarteAEnlever = (*piles)[positions[0]]->getTaille() - positions[1];
+        int nbCarteAEnlever = piles_[positions[0]]->getTaille() - positions[1];
         for (unsigned int i = 0; i < nbCarteAEnlever; i++) {
-            pileDeplacement->deplacerCartePile((*piles)[positions[0]]);
+            pileDeplacement->deplacerCartePile(piles_[positions[0]]);
         }
         pileDeplacement->inverserListeCartes();
     }

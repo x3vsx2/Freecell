@@ -15,6 +15,7 @@ using namespace std;
 using namespace cimg_library;
 
 FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)) {
+    vector<PileCarte *> piles;
     initialiserFond();
     //Declare un display pour afficher le fond
     disp = new CImgDisplay(*fond_, "FreeCell", 0, false, false);
@@ -65,9 +66,9 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
     positions.push_back(-1);
     positions.push_back(-1);
 
-    //Cherche si il y a une carte qui correspond à la position de la souris dans les piles de Jeu
-    for (unsigned int i = 0; i < piles->size(); i++) {
-        positions[1] = (*piles)[i]->getClicPositionCarte(mx, my);
+    //Cherche si il y a une carte qui correspond à la position de la souris dans les piles_ de Jeu
+    for (unsigned int i = 0; i < piles_.size(); i++) {
+        positions[1] = piles_[i]->getClicPositionCarte(mx, my);
         if (positions[1] != -1) {
             positions[0] = i;
             return positions;
@@ -75,12 +76,12 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
     }
 
     //==================Partie utilisée dans le cas d'un dépôt  de carte=================================
-    //Cherche si il y a une position Libre qui correspond à la position de la souris dans les piles Jeu
-    for (unsigned int i = 0; i < piles->size(); i++) {
-        int pileX1 = (*piles)[i]->getPosX();
-        int pileX2 = (*piles)[i]->getPosX() + 74;
-        int pileY1 = (*piles)[i]->getPosY();
-        int pileY2 = (*piles)[i]->getPosY() + 99;
+    //Cherche si il y a une position Libre qui correspond à la position de la souris dans les piles_ Jeu
+    for (unsigned int i = 0; i < piles_.size(); i++) {
+        int pileX1 = piles_[i]->getPosX();
+        int pileX2 = piles_[i]->getPosX() + 74;
+        int pileY1 = piles_[i]->getPosY();
+        int pileY2 = piles_[i]->getPosY() + 99;
         if (mx >= pileX1 && mx <= pileX2 && my >= pileY1 && my <= pileY2) {
             positions[0] = i;
             positions[1] = -2;
@@ -93,13 +94,8 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
 /*!
  * Initialise les piles et répartie les cartes entre les différentes piles
  */
-void FenetrePrincipale::initialiserPiles() {
-
-    //Initialisation des piles
-    piles = new vector<PileCarte *>;
-
+void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     pileDeplacement = new PileCarte(0, 0, deplacement);
-
     pileJeu1 = new PileCarte(100, 300, jeu1);
     pileJeu2 = new PileCarte(235, 300, jeu2);
     pileJeu3 = new PileCarte(370, 300, jeu3);
@@ -109,32 +105,46 @@ void FenetrePrincipale::initialiserPiles() {
     pileJeu7 = new PileCarte(910, 300, jeu7);
     pileJeu8 = new PileCarte(1045, 300, jeu8);
 
-    piles->push_back(pileJeu1);
-    piles->push_back(pileJeu2);
-    piles->push_back(pileJeu3);
-    piles->push_back(pileJeu4);
-    piles->push_back(pileJeu5);
-    piles->push_back(pileJeu6);
-    piles->push_back(pileJeu7);
-    piles->push_back(pileJeu8);
+    piles_.push_back(pileJeu1);
+    piles_.push_back(pileJeu2);
+    piles_.push_back(pileJeu3);
+    piles_.push_back(pileJeu4);
+    piles_.push_back(pileJeu5);
+    piles_.push_back(pileJeu6);
+    piles_.push_back(pileJeu7);
+    piles_.push_back(pileJeu8);
 
-    //Les cartes sont mélangés, repartition dans les listes de jeu
-    pileMelange->brassagePile();
-
-    for (unsigned int i = 0; i < 6; i++) {
+    if (nouvellePartie) {//On mélange et répartie les cartes seulement si c'est une nouvelle partie
+        pileMelange->brassagePile();
+        for (unsigned int i = 0; i < 6; i++) {
+            pileJeu1->deplacerCartePile(pileMelange);
+            pileJeu2->deplacerCartePile(pileMelange);
+            pileJeu3->deplacerCartePile(pileMelange);
+            pileJeu4->deplacerCartePile(pileMelange);
+            pileJeu5->deplacerCartePile(pileMelange);
+            pileJeu6->deplacerCartePile(pileMelange);
+            pileJeu7->deplacerCartePile(pileMelange);
+            pileJeu8->deplacerCartePile(pileMelange);
+        }
         pileJeu1->deplacerCartePile(pileMelange);
         pileJeu2->deplacerCartePile(pileMelange);
         pileJeu3->deplacerCartePile(pileMelange);
         pileJeu4->deplacerCartePile(pileMelange);
-        pileJeu5->deplacerCartePile(pileMelange);
-        pileJeu6->deplacerCartePile(pileMelange);
-        pileJeu7->deplacerCartePile(pileMelange);
-        pileJeu8->deplacerCartePile(pileMelange);
+    } else {//Initialise les piles selon le chargement
+        for (unsigned int i = 0; i < 15; i++) {
+            for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
+                int idAchercher = tableauxIdentifiants[i][j];
+                if (idAchercher == 0) {
+                    break;
+                }
+                int posPileMelange = -1;
+                //On regarde dans la pile Melange pour trouver sa position
+                posPileMelange = pileMelange->trouverPosCarteId(idAchercher);
+                piles_[i]->deplacerCartePileAvecPosition(piles_[i]->getTaille(), posPileMelange, pileMelange);
+                etatChargement();
+            }
+        }
     }
-    pileJeu1->deplacerCartePile(pileMelange);
-    pileJeu2->deplacerCartePile(pileMelange);
-    pileJeu3->deplacerCartePile(pileMelange);
-    pileJeu4->deplacerCartePile(pileMelange);
 
     pileLibre1 = new PileCarte(100, 50, libre1);
     pileLibre2 = new PileCarte(200, 50, libre2);
@@ -146,64 +156,17 @@ void FenetrePrincipale::initialiserPiles() {
     pileValide3 = new PileCarte(980, 50, valide3);
     pileValide4 = new PileCarte(1080, 50, valide4);
 
-    piles->push_back(pileLibre1);
-    piles->push_back(pileLibre2);
-    piles->push_back(pileLibre3);
-    piles->push_back(pileLibre4);
+    piles_.push_back(pileLibre1);
+    piles_.push_back(pileLibre2);
+    piles_.push_back(pileLibre3);
+    piles_.push_back(pileLibre4);
 
-    piles->push_back(pileValide1);
-    piles->push_back(pileValide2);
-    piles->push_back(pileValide3);
-    piles->push_back(pileValide4);
+    piles_.push_back(pileValide1);
+    piles_.push_back(pileValide2);
+    piles_.push_back(pileValide3);
+    piles_.push_back(pileValide4);
 
     delete pileMelange;
-}
-
-void FenetrePrincipale::initialiserPilesPostSauvegarde() {
-    //TODO Simplifier avec initialiser piles (ajotuer un parametre de chargement)
-    //Initialisation des piles
-    piles = new vector<PileCarte *>;
-    pileDeplacement = new PileCarte(0, 0, deplacement);
-
-    pileJeu1 = new PileCarte(100, 300, jeu1);
-    pileJeu2 = new PileCarte(235, 300, jeu2);
-    pileJeu3 = new PileCarte(370, 300, jeu3);
-    pileJeu4 = new PileCarte(505, 300, jeu4);
-    pileJeu5 = new PileCarte(640, 300, jeu5);
-    pileJeu6 = new PileCarte(775, 300, jeu6);
-    pileJeu7 = new PileCarte(910, 300, jeu7);
-    pileJeu8 = new PileCarte(1045, 300, jeu8);
-
-    piles->push_back(pileJeu1);
-    piles->push_back(pileJeu2);
-    piles->push_back(pileJeu3);
-    piles->push_back(pileJeu4);
-    piles->push_back(pileJeu5);
-    piles->push_back(pileJeu6);
-    piles->push_back(pileJeu7);
-    piles->push_back(pileJeu8);
-
-    pileLibre1 = new PileCarte(100, 50, libre1);
-    pileLibre2 = new PileCarte(200, 50, libre2);
-    pileLibre3 = new PileCarte(300, 50, libre3);
-    pileLibre4 = new PileCarte(400, 50, libre4);
-
-    pileValide1 = new PileCarte(780, 50, valide1);
-    pileValide2 = new PileCarte(880, 50, valide2);
-    pileValide3 = new PileCarte(980, 50, valide3);
-    pileValide4 = new PileCarte(1080, 50, valide4);
-
-    piles->push_back(pileLibre1);
-    piles->push_back(pileLibre2);
-    piles->push_back(pileLibre3);
-    piles->push_back(pileLibre4);
-
-    piles->push_back(pileValide1);
-    piles->push_back(pileValide2);
-    piles->push_back(pileValide3);
-    piles->push_back(pileValide4);
-
-
 }
 
 bool FenetrePrincipale::estSaisieValide(int mx, int my) {
@@ -220,12 +183,12 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
         return false;
     } else {
         if (positionsCartecliquee[1] ==
-            (*piles)[positionsCartecliquee[0]]->getTaille()) { return true; }// si il y a une seul carte return true
+            piles_[positionsCartecliquee[0]]->getTaille()) { return true; }// si il y a une seul carte return true
         else {
             bool validite = true;
-            for (unsigned int k = (*piles)[positionsCartecliquee[0]]->getTaille() - 1;
+            for (unsigned int k = piles_[positionsCartecliquee[0]]->getTaille() - 1;
                  k > positionsCartecliquee[1]; k--) {
-                validite &= (*piles)[positionsCartecliquee[0]]->precedentEstValide(k);
+                validite &= piles_[positionsCartecliquee[0]]->precedentEstValide(k);
             }
             return (validite);
         }
@@ -239,31 +202,31 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
     if (positionsCiblee[0] == -1) { return false; }
     else {
         //return true;//teste
-        if ((*piles)[positionsCiblee[0]]->getType() > 1 && (*piles)[positionsCiblee[0]]->getType() < 10) {
+        if (piles_[positionsCiblee[0]]->getType() > 1 && piles_[positionsCiblee[0]]->getType() < 10) {
             //si c'est une pile jeu
             if (pileDeplacement->getCarte(0)->getCouleur() % 2 !=
-                (*piles)[positionsCiblee[0]]->getCarte((*piles)[positionsCiblee[0]]->getTaille() - 1)->getCouleur() %
-                2 && pileDeplacement->getCarte(0)->getHauteur() == (*piles)[positionsCiblee[0]]->getCarte(
-                    (*piles)[positionsCiblee[0]]->getTaille() - 1)->getHauteur() - 1) {
+                piles_[positionsCiblee[0]]->getCarte(piles_[positionsCiblee[0]]->getTaille() - 1)->getCouleur() %
+                2 && pileDeplacement->getCarte(0)->getHauteur() == piles_[positionsCiblee[0]]->getCarte(
+                    piles_[positionsCiblee[0]]->getTaille() - 1)->getHauteur() - 1) {
                 // condition 1 : les couleurs sont oppsées
                 // condition 2 : les hauteurs se suivent dans le bon ordre
                 return true;
             } else { return false; }
         }
-        if ((*piles)[positionsCiblee[0]]->getType() >= 10 && (*piles)[positionsCiblee[0]]->getType() <= 13) {
+        if (piles_[positionsCiblee[0]]->getType() >= 10 && piles_[positionsCiblee[0]]->getType() <= 13) {
             // si c'est une pile libre
-            if (pileDeplacement->getTaille() == 1 && (*piles)[positionsCiblee[0]]->getTaille() == 0) {
+            if (pileDeplacement->getTaille() == 1 && piles_[positionsCiblee[0]]->getTaille() == 0) {
                 return true;
             } else {
                 return false;
             }
 
         }
-        if ((*piles)[positionsCiblee[0]]->getType() >= 14 && (*piles)[positionsCiblee[0]]->getType() <= 17) {
+        if (piles_[positionsCiblee[0]]->getType() >= 14 && piles_[positionsCiblee[0]]->getType() <= 17) {
             // si c'est une pile valide
             if (pileDeplacement->getTaille() == 1) {
                 //si pris une seul carte
-                if ((*piles)[positionsCiblee[0]]->getTaille() == 0) {
+                if (piles_[positionsCiblee[0]]->getTaille() == 0) {
                     // si pile valide vide alors on accepte que des as
                     if (pileDeplacement->getCarte(0)->getHauteur() == As) {
                         return true;
@@ -271,10 +234,10 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
                         return false;
                     }
                 } else {
-                    if (pileDeplacement->getCarte(0)->getHauteur() == (*piles)[positionsCiblee[0]]->getCarte(
-                            (*piles)[positionsCiblee[0]]->getTaille() - 1)->getHauteur() + 1 &&
-                        pileDeplacement->getCarte(0)->getCouleur() == (*piles)[positionsCiblee[0]]->getCarte(
-                                (*piles)[positionsCiblee[0]]->getTaille() - 1)->getCouleur()) {
+                    if (pileDeplacement->getCarte(0)->getHauteur() == piles_[positionsCiblee[0]]->getCarte(
+                            piles_[positionsCiblee[0]]->getTaille() - 1)->getHauteur() + 1 &&
+                        pileDeplacement->getCarte(0)->getCouleur() == piles_[positionsCiblee[0]]->getCarte(
+                                piles_[positionsCiblee[0]]->getTaille() - 1)->getCouleur()) {
                         //condition 1 : les hauteurs se succèdent
                         //condition 2 : les cartes sont de meme couleur
                         return true;
@@ -290,21 +253,7 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
     }
 }
 
-void FenetrePrincipale::traitementPostChargement() {
-    for (unsigned int i = 0; i < 15; i++) {
-        for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
-            int idAchercher = tableauxIdentifiants[i][j];
-            if (idAchercher == 0) {
-                break;
-            }
-            int posPileMelange = -1;
-            //On regarde dans la pile Melange pour trouver sa position
-            posPileMelange = pileMelange->trouverPosCarteId(idAchercher);
-            (*piles)[i]->deplacerCartePileAvecPosition((*piles)[i]->getTaille(), posPileMelange, pileMelange);
-            etatChargement();
-        }
-    }
-}
+
 
 void FenetrePrincipale::etatChargement() {
 //Debug
@@ -316,9 +265,9 @@ void FenetrePrincipale::etatChargement() {
     }
     cout << endl;
     //Liste actuelle
-    for (unsigned int k = 0; k < piles->size(); k++) {
-        for (unsigned int l = 0; l < (*piles)[k]->getTaille(); l++) {
-            cout << (*piles)[k]->getCarte(l)->getIdentifiant() << " ";
+    for (unsigned int k = 0; k < piles_.size(); k++) {
+        for (unsigned int l = 0; l < piles_[k]->getTaille(); l++) {
+            cout << piles_[k]->getCarte(l)->getIdentifiant() << " ";
         }
     }
     cout << endl;
@@ -329,7 +278,7 @@ void FenetrePrincipale::quitterPartie() {
     delete visu_;
     delete plateau_;
     delete fond_;
-    for (vector<PileCarte *>::iterator itPile = piles->begin(); itPile != piles->end(); ++itPile) {
+    for (vector<PileCarte *>::iterator itPile = piles_.begin(); itPile != piles_.end(); ++itPile) {
         delete *itPile;
     }
     delete pileDeplacement;
@@ -464,13 +413,13 @@ void FenetrePrincipale::ajouterPartieSauvegardee(std::string nomPartie) {
 
 void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
     ofstream ofs(nomPartie);
-    for (unsigned int i = 0; i < piles->size(); i++) {
+    for (unsigned int i = 0; i < piles_.size(); i++) {
         ofs << "PILE" << endl;
-        ofs << (*piles)[i]->getTaille() << endl;
-        for (unsigned int j = 0; j < (*piles)[i]->getTaille(); j++) {
-            ofs << (*piles)[i]->getCarte(j)->getIdentifiant() << " ";
+        ofs << piles_[i]->getTaille() << endl;
+        for (unsigned int j = 0; j < piles_[i]->getTaille(); j++) {
+            ofs << piles_[i]->getCarte(j)->getIdentifiant() << " ";
         }
-        if ((*piles)[i]->getTaille() == 0) {
+        if (piles_[i]->getTaille() == 0) {
             ofs << 0 << " ";
         }
         ofs << endl;
