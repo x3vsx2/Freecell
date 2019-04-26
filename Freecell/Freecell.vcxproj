@@ -164,6 +164,7 @@
     <ClCompile Include="Bouton.cpp" />
     <ClCompile Include="Carte.cpp" />
     <ClCompile Include="FenetrePrincipale.cpp" />
+    <ClCompile Include="FenetrePrincipale_affichage.cpp" />
     <ClCompile Include="Freecell.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
