@@ -157,6 +157,8 @@
     <ClInclude Include="FenetrePrincipale.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="pileCarte.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="stb_implement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bouton.cpp" />
