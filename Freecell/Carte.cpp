@@ -43,4 +43,9 @@ Carte::Carte() {
 
 }
 
+void Carte::resize(int tailleX, int tailleY) {
+    tailleX_ = tailleX;
+    tailleY_ = tailleY;
+    image_->resize(tailleX, tailleY);
+}
 

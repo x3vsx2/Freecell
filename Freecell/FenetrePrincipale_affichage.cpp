@@ -17,17 +17,16 @@ using namespace cimg_library;
 
 void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
-    dessinerEmplacementPiles();
     initialiserCartes();
-
     //Boucle Principale, ferme la fenetre si ESC or Q key is hit
     bool click_hold = false;
     int memoirePile = 0;
     if (nouvellePartie) {
         initialiserPiles(true);
     } else {
-        initialiserPiles(true);
+        initialiserPiles(false);
     }
+
     Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
                     "icones_et_boutons/miniQuitter.png");
 
@@ -76,6 +75,9 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
             if (bQuitter.estCliquee(mx, my)) {
                 break;
             }
+        }
+        if (disp->is_resized()) {
+            majFenetre();
         }
 
         if (click_hold && pileDeplacement->getTaille() != 0) {
@@ -154,20 +156,24 @@ int FenetrePrincipale::afficherMenu() {
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
-    int p1 = 99;
-    for (unsigned int i = 0; i < 8; i++) {
-        //fond_->draw_rectangle(x1, y1, x2, y2, couleur, 1, ~0U);
+    int tailleX;
+    int tailleY;
+    int c = 0;
+    while (true) {//trouve ua moins une carte et récupère sa taille
+        if (piles_[c]->getCarte(0)->getTailleX() != 0) {
+            tailleX = piles_[c]->getCarte(0)->getTailleX();
+            tailleY = piles_[c]->getCarte(0)->getTailleY();
+            break;
+        }
+        c++;
+    }
+    for (unsigned int i = 0; i < 16; i++) {
         //Piles Jeu
-        fond_->draw_rectangle(p1 + (135 * i), 299, p1 + (135 * i) + 72, 299 + 97, couleurGrise, 1, ~0U);
+        fond_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(), piles_[i]->getPosX() + tailleX,
+                              piles_[i]->getPosY() + tailleY,
+                              couleurBlanche, 1, ~0U);
     }
-    p1 = 99;
-    int p2 = 1279 - 500;
-    for (unsigned int i = 0; i < 4; i++) {
-        //Piles Libres
-        fond_->draw_rectangle(p1 + (100 * i), 49, p1 + (100 * i) + 72, 50 + 97, couleurBlanche, 1, ~0U);
-        //Piles Valide
-        fond_->draw_rectangle(p2 + (100 * i), 49, p2 + (100 * i) + 72, 50 + 97, couleurBlanche, 1, ~0U);
-    }
+
 }
 
 /*!
@@ -270,6 +276,11 @@ void FenetrePrincipale::initialiserCartes() {
     pileMelange->ajouterCarte(new Carte(50, Pique, Valet, "imageCarte/s11.ppm", pileMelange));
     pileMelange->ajouterCarte(new Carte(51, Pique, Dame, "imageCarte/s12.ppm", pileMelange));
     pileMelange->ajouterCarte(new Carte(52, Pique, Roi, "imageCarte/s13.ppm", pileMelange));
+
+    for (unsigned int i = 0; i < pileMelange->getTaille(); i++) {
+        pileMelange->getCarte(i)->resize(1.5 * pileMelange->getCarte(i)->getTailleX(),
+                                         1.5 * pileMelange->getCarte(i)->getTailleY());
+    }
 }
 
 /*!
@@ -294,9 +305,25 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 }
 
 void FenetrePrincipale::majFenetre() {
-    disp->resize(disp->window_width(), disp->window_height());
-    plateau_->resize(disp->width(), disp->height());
-    fond_->resize((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
-    colorierImage(*fond_, 26, 83, 92);
-    visu_->resize(fond_->width(), fond_->height());
+    disp->resize();
+    tailleXDefault = disp->window_width();
+    tailleYDefault = disp->window_height();
+    //  disp->resize(disp->window_width(), disp->window_height());
+    //  plateau_->resize(disp->width(), disp->height());
+    //  fond_->resize((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
+    //  colorierImage(*fond_, 26, 83, 92);
+    //  visu_->resize(fond_->width(), fond_->height());
+    //  for (unsigned int i = 1; i <= 8; i++) {
+    //      piles_[i - 1]->setPosX((i / 10)* disp->window_height());
+    //  }
+    //  pileLibre1->setPosX(0.08 * disp->window_width());
+    //  pileLibre2->setPosX(0.18 * disp->window_width());
+    //  pileLibre3->setPosX(0.28 * disp->window_width());
+    //  pileLibre4->setPosX(0.38 * disp->window_width());
+    //  pileValide1->setPosX(0.52 * disp->window_width());
+    //  pileValide2->setPosX(0.62 * disp->window_width());
+    //  pileValide3->setPosX(0.72 * disp->window_width());
+    //  pileValide4->setPosX(0.82 * disp->window_width());
+
+//      dessinerEmplacementPiles();
 }

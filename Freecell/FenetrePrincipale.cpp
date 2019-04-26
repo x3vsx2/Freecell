@@ -48,7 +48,6 @@ FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(15, vector<int>(0)
             case 2:
                 break;
         }
-
     } while (choix != 2 && !disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ());
 
 }
@@ -95,14 +94,14 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
  */
 void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     pileDeplacement = new PileCarte(0, 0, deplacement);
-    pileJeu1 = new PileCarte(100, 300, jeu1);
-    pileJeu2 = new PileCarte(235, 300, jeu2);
-    pileJeu3 = new PileCarte(370, 300, jeu3);
-    pileJeu4 = new PileCarte(505, 300, jeu4);
-    pileJeu5 = new PileCarte(640, 300, jeu5);
-    pileJeu6 = new PileCarte(775, 300, jeu6);
-    pileJeu7 = new PileCarte(910, 300, jeu7);
-    pileJeu8 = new PileCarte(1045, 300, jeu8);
+    pileJeu1 = new PileCarte(0.10 * disp->width(), 300, jeu1);
+    pileJeu2 = new PileCarte(0.20 * disp->width(), 300, jeu2);
+    pileJeu3 = new PileCarte(0.30 * disp->width(), 300, jeu3);
+    pileJeu4 = new PileCarte(0.40 * disp->width(), 300, jeu4);
+    pileJeu5 = new PileCarte(0.50 * disp->width(), 300, jeu5);
+    pileJeu6 = new PileCarte(0.60 * disp->width(), 300, jeu6);
+    pileJeu7 = new PileCarte(0.70 * disp->width(), 300, jeu7);
+    pileJeu8 = new PileCarte(0.80 * disp->width(), 300, jeu8);
 
     piles_.clear();
     piles_.push_back(pileJeu1);
@@ -146,15 +145,14 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
         }
     }
 
-    pileLibre1 = new PileCarte(100, 50, libre1);
-    pileLibre2 = new PileCarte(200, 50, libre2);
-    pileLibre3 = new PileCarte(300, 50, libre3);
-    pileLibre4 = new PileCarte(400, 50, libre4);
-
-    pileValide1 = new PileCarte(780, 50, valide1);
-    pileValide2 = new PileCarte(880, 50, valide2);
-    pileValide3 = new PileCarte(980, 50, valide3);
-    pileValide4 = new PileCarte(1080, 50, valide4);
+    pileLibre1 = new PileCarte(0.08 * disp->width(), 50, libre1);
+    pileLibre2 = new PileCarte(0.18 * disp->width(), 50, libre2);
+    pileLibre3 = new PileCarte(0.28 * disp->width(), 50, libre3);
+    pileLibre4 = new PileCarte(0.38 * disp->width(), 50, libre4);
+    pileValide1 = new PileCarte(0.52 * disp->width(), 50, valide1);
+    pileValide2 = new PileCarte(0.62 * disp->width(), 50, valide2);
+    pileValide3 = new PileCarte(0.72 * disp->width(), 50, valide3);
+    pileValide4 = new PileCarte(0.82 * disp->width(), 50, valide4);
 
     piles_.push_back(pileLibre1);
     piles_.push_back(pileLibre2);
@@ -167,6 +165,9 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     piles_.push_back(pileValide4);
 
     delete pileMelange;
+
+    dessinerEmplacementPiles();
+
 }
 
 bool FenetrePrincipale::estSaisieValide(int mx, int my) {
@@ -351,6 +352,9 @@ bool FenetrePrincipale::fenetreChargement() {
             } else if (bQuitter.estCliquee(mx, my)) {
                 return false;
             }
+        }
+        if (disp->is_resized()) {
+            majFenetre();
         }
     } while (true);
 }
