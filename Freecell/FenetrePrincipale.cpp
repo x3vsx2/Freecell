@@ -420,9 +420,9 @@ void FenetrePrincipale::initialiserCartes() {
     auto *S08 = new Carte(47, Pique, Huit, "imageCarte/s08.ppm", pileMelange);
     auto *S09 = new Carte(48, Pique, Neuf, "imageCarte/s09.ppm", pileMelange);
     auto *S10 = new Carte(49, Pique, Dix, "imageCarte/s10.ppm", pileMelange);
-    auto *S11 = new Carte(50, Pique, Valet, "imageCarte/s11.ppm", pileMelange);
-    auto *S12 = new Carte(51, Pique, Dame, "imageCarte/s12.ppm", pileMelange);
-    auto *S13 = new Carte(52, Pique, Roi, "imageCarte/s13.ppm", pileMelange);
+    auto *S11 = new Carte(51, Pique, Valet, "imageCarte/s11.ppm", pileMelange);
+    auto *S12 = new Carte(52, Pique, Dame, "imageCarte/s12.ppm", pileMelange);
+    auto *S13 = new Carte(53, Pique, Roi, "imageCarte/s13.ppm", pileMelange);
 
     pileMelange->ajouterCarte(H01);
     pileMelange->ajouterCarte(H02);
@@ -591,14 +591,14 @@ int FenetrePrincipale::afficherMenu() {
     initialiserFond();
 
     Bouton boutonNouvellePartie("BoutonNouvellePartie", disp->width() / 2 - 150, 100,
-                                "icones_et_boutons/bouton_nouvellePartie.ppm");
+                                "icones_et_boutons/bouton_nouvellePartie.png");
     boutonNouvellePartie.dessinerBouton(visu_);
 
     Bouton boutonChargerPartie("boutonChargerPartie", disp->width() / 2 - 150, 250,
-                               "icones_et_boutons/bouton_chargerPartie.ppm");
+                               "icones_et_boutons/bouton_chargerPartie.png");
     boutonChargerPartie.dessinerBouton(visu_);
 
-    Bouton boutonQuitter("boutonQuitter", disp->width() / 2 - 150, 400, "icones_et_boutons/bouton_quitter.ppm");
+    Bouton boutonQuitter("boutonQuitter", disp->width() / 2 - 150, 400, "icones_et_boutons/bouton_quitter.png");
     boutonQuitter.dessinerBouton(visu_);
 
     visu_->display(*disp);
