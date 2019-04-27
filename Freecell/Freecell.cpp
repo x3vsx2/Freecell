@@ -18,6 +18,7 @@ int main() {
                 fen.lancerJeu(true);
                 fen.attendre();
                 fen.fenetreSauvegarde();
+
                 break;
             }
             case 1: {

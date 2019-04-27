@@ -35,6 +35,7 @@ PileCarte::~PileCarte() {
     for (unsigned int i = 0; i < listeCartes_.size(); i++) {
         delete listeCartes_[i];
     }
+    listeCartes_.clear();
 }
 
 /*!

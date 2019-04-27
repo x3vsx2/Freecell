@@ -276,15 +276,6 @@ void FenetrePrincipale::quitterFenetre() {
     delete visu_;
     delete plateau_;
     delete fond_;
-    if (piles_.size() != 0) {
-        for (vector<PileCarte *>::iterator itPile = piles_.begin(); itPile != piles_.end(); ++itPile) {
-            delete *itPile;
-        }
-        piles_.clear();
-    }
-    if (pileDeplacement->getTaille() != 0) {
-        delete pileDeplacement;
-    }
 }
 
 bool FenetrePrincipale::fenetreChargement() {
@@ -314,14 +305,11 @@ bool FenetrePrincipale::fenetreChargement() {
         visu_->draw_text(disp->width() / 2 - 400, 200 + 30 * i, nom.data(), white, couleurFond, 1, 20);
     }
     visu_->display(*disp);
-
-    disp->wait();
     do {
         if (disp->button()) {//Test si clique
-            //Recuperation positions de la souris
-            //mx = position souris en x, my = position souris en y
-            const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
-                    my = disp->mouse_y() * (*fond_).height() / disp->height();
+            const int mx = getPosSourisX();
+            const int my = getPosSourisY();
+
             if (bchargerPartie.estCliquee(mx, my)) {
                 cout << "Entrez le nom de la sauvegarde que vous voulez charger et appuyez sur entrée" << endl;
                 string nomSauvegarde;
@@ -336,7 +324,10 @@ bool FenetrePrincipale::fenetreChargement() {
                     }
                 }
                 if (!trouvee) cout << nomSauvegarde << " n'existe pas. Veuillez recommencez." << endl;
-                else { return true; }
+                else {
+                    quitterFenetre();
+                    return true;
+                }
             } else if (bsupprimerSauvegarde.estCliquee(mx, my)) {
                 cout << "Entrez le nom de la sauvegarde que vous voulez supprimer et appuyez sur entrer"
                      << endl;
@@ -352,14 +343,19 @@ bool FenetrePrincipale::fenetreChargement() {
                     }
                 }
                 if (!trouvee) cout << nomSauvegarde << " n'existe pas. Veuillez recommencez." << endl;
-                else { return false; }
+                else {
+                    quitterFenetre();
+                    return false;
+                }
             } else if (bQuitter.estCliquee(mx, my)) {
+                quitterFenetre();
                 return false;
             }
         }
         if (disp->is_resized()) {
             majFenetre();
         }
+        attendre();
     } while (true);
 }
 
@@ -382,7 +378,6 @@ void FenetrePrincipale::fenetreSauvegarde() {
                        "icones_et_boutons/instructions.png");
     string nomSauvegarde;
     visu_->display(*disp);
-    disp->wait();
     do {
         if (disp->button()) {//Test si clique
             if (oui.estCliquee(getPosSourisX(), getPosSourisY())) {
@@ -399,7 +394,9 @@ void FenetrePrincipale::fenetreSauvegarde() {
                 break;
             }
         }
+        attendre();
     } while (true);
+    supprimerPiles();
     quitterFenetre();
 }
 
@@ -498,4 +495,16 @@ bool FenetrePrincipale::commandeFermerFenetre() {
     if (disp->is_closed() || disp->is_keyESC() || disp->is_keyQ()) {
         return true;
     } else { return false; }
+}
+
+void FenetrePrincipale::supprimerPiles() {
+    if (!piles_.empty()) {
+        for (auto &pile : piles_) {
+            delete pile;
+        }
+        piles_.clear();
+    }
+    if (pileDeplacement->getTaille() != 0) {
+        delete pileDeplacement;
+    }
 }

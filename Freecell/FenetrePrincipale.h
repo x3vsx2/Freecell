@@ -59,6 +59,8 @@ public:
 
     void quitterFenetre();
 
+    void supprimerPiles();
+
     //FONCTIONS SAUVEGARDE ET CHARGEMENT
     void etatChargement();
 

@@ -130,6 +130,7 @@ int FenetrePrincipale::afficherMenu() {
         if (disp->is_resized()) {
             majFenetre();
         }
+        attendre();
     } while (true);
 }
 
