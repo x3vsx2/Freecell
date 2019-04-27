@@ -175,8 +175,12 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
     vector<int> positionsCartecliquee = getClicPositions(mx, my);
     //On verifie si on a clique sur une pile qui serait vide, c'est à dire qu'il n'y a plus de cartes dedans
     //Laisser ce test en PREMIER, sinon on cherche à accéder à des éléments non existants
-
-    if (positionsCartecliquee[0] == -1)return false;
+	if (positionsCartecliquee[0] == -1)return false;
+	int nbEmplacementLibreDisponible = 4 - piles_[8]->getTaille() - piles_[9]->getTaille() - piles_[10]->getTaille() - piles_[11]->getTaille();
+	if (piles_[positionsCartecliquee[0]]->getTaille()-1-positionsCartecliquee[1]>nbEmplacementLibreDisponible) {
+		// si plus de cartes saisie qu'autorisé return false
+		return false; 
+	}
     if (positionsCartecliquee[1] == -2 || positionsCartecliquee[0] == -1) {
         //La pile est VIDE (JEU ou LIBRES), on ne peut pas prendre de carte
         //OU
@@ -184,7 +188,9 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
         return false;
     } else {
         if (positionsCartecliquee[1] ==
-            piles_[positionsCartecliquee[0]]->getTaille()) { return true; }// si il y a une seul carte return true
+			piles_[positionsCartecliquee[0]]->getTaille()-1) {
+			return true; 
+		}// si il y a une seul carte return true
         else {
             bool validite = true;
             for (unsigned int k = piles_[positionsCartecliquee[0]]->getTaille() - 1;
