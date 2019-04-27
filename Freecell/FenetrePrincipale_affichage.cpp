@@ -157,8 +157,8 @@ int FenetrePrincipale::afficherMenu() {
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
-    int tailleX; //semble inutile
-    int tailleY; //semble inutile
+    int tailleX; 
+    int tailleY; 
     int c = 0;
     while (true) {//trouve ua moins une carte et récupère sa taille
 		if (piles_[c]->getTaille() != 0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
