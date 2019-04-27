@@ -3,8 +3,6 @@
 //
 #include"pch.h"
 #include "FenetrePrincipale.h"
-#include "PileCarte.h"
-#include "Bouton.h"
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +14,12 @@ using namespace cimg_library;
 /*!
  * Constructeur qui initialise le display
  */
-FenetrePrincipale::FenetrePrincipale() : tableauxIdentifiants(16, vector<int>(0)) {
+FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScale) : tableauxIdentifiants(16,
+                                                                                                               vector<int>(
+                                                                                                                       0)),
+                                                                                          tailleFenX_(tailleFenX),
+                                                                                          tailleFenY_(tailleFenY),
+                                                                                          factorScalling_(factorScale) {
     initialiserFond();
 
     //Declare un display pour afficher le fond

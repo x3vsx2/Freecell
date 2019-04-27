@@ -1,9 +1,10 @@
 #include <utility>
+#include <iostream>
+
 #include "pch.h"
 #include "Bouton.h"
-#include "CImg.h"
 #include "stb_implement.h"
-#include <iostream>
+
 using namespace cimg_library;
 
 Bouton::Bouton(std::string nom, int posX, int posY, const char *fileName) : nom_(std::move(nom)), positionX_(posX),
@@ -14,16 +15,15 @@ Bouton::Bouton(std::string nom, int posX, int posY, const char *fileName) : nom_
 }
 
 void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond) {
-    CImg<unsigned char> render(image_.width(), image_.height(), 1, 3, 255);
-    //TODO Optimiser code
+    CImg<unsigned char> render(image_.width(), image_.height(), couleurFond[0], couleurFond[1], couleurFond[2]);
     cimg_forXY(render, x, y)
     {
         //Rouge
-        render(x, y, 0, 0) = 26;
+        render(x, y, 0, 0) = couleurFond[0];
         //Vert
-        render(x, y, 0, 1) = 83;
+        render(x, y, 0, 1) = couleurFond[1];
         //Bleu
-        render(x, y, 0, 2) = 92;
+        render(x, y, 0, 2) = couleurFond[2];
 
     }
     render.draw_image(0, 0, 0, 0, image_, image_.get_channel(3), 1, 255);

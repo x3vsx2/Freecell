@@ -11,7 +11,7 @@
 class FenetrePrincipale {
 
 public:
-    FenetrePrincipale();
+    FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScale);
 
     //FONCTIONS MENUS ET FENETRES
     void lancerJeu(bool nouvellePartie);
@@ -78,6 +78,9 @@ public:
 
 
 private:
+    int tailleFenX_;
+    int tailleFenY_;
+    float factorScalling_;
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
@@ -104,6 +107,9 @@ private:
     PileCarte *pileValide2;
     PileCarte *pileValide3;
     PileCarte *pileValide4;
+
+    //COULEURS
+
 };
 
 

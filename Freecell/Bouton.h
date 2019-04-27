@@ -3,11 +3,11 @@
 
 #include<string>
 #include "CImg.h"
+#include "Couleurs.h"
+
 class Bouton {
 public:
     Bouton(std::string nom, int posX, int posY, const char *fileName);
-
-    //   bool charger(cimg_library::CImg<unsigned char>& image, const char* chemin, Channels c);
 
     ~Bouton();
 

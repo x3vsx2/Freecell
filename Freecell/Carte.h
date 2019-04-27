@@ -31,17 +31,19 @@ private:
     int positionY_;
     int tailleX_;
     int tailleY_;
-    CImg<unsigned char> *image_;
+    CImg<unsigned char> image_;
     PileCarte *pileAppartenance_;
 
 public:
     Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur,
           const char *fileName,
-          PileCarte *pileAppartenance);
+          PileCarte *pileAppartenance, float factorScale);
 
     Carte(Carte *CarteAcopier);
 
     Carte();
+
+    void dessinerCarte(cimg_library::CImg<unsigned char> *visu);
 
     ~Carte();
 
@@ -59,7 +61,7 @@ public:
 
     void setPosY(int posY) { positionY_ = posY; };
 
-    CImg<unsigned char> getImg() { return *image_; };
+    CImg<unsigned char> getImg() { return image_; };
 
     TypeCouleur getCouleur() { return Couleur_; }
 
