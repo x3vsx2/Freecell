@@ -265,7 +265,7 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
 */
 bool FenetrePrincipale::PartieEstGagnee() {
 	//TODO : faire le calcule nombre de carte placee
-	unsigned int nombreDeCartePlacee = 0;
+	unsigned int nombreDeCartePlacee =piles_[12]->getTaille()+ piles_[13]->getTaille() + piles_[14]->getTaille() + piles_[15]->getTaille() ;
 	if (nombreDeCartePlacee == 52) {
 		return true;
 	}
