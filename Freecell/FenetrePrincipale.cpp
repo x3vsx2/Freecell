@@ -159,12 +159,9 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
                     break;
                 }
                 int posPileMelange = -1;
-				if (i > 7) {
-					cout << " C'est là cette fois" << endl;
-				}
                 //On regarde dans la pile Melange pour trouver sa position
                 posPileMelange = pileMelange->trouverPosCarteId(idAchercher);
-                piles_[i]->deplacerCartePileAvecPosition(piles_[i]->getTaille(), posPileMelange, pileMelange); //pile.size = 8 donc out of range pour i>8
+                piles_[i]->deplacerCartePileAvecPosition(piles_[i]->getTaille(), posPileMelange, pileMelange);
                 etatChargement();
             }
         }
