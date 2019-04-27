@@ -72,6 +72,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 }
                 click_hold = false;
             }
+			if (PartieEstGagnee()) { cout << "Le joueur a remporter la partie" << endl; } // TODO ajouter le retour au menu
             if (bQuitter.estCliquee(mx, my)) {
                 break;
             }
