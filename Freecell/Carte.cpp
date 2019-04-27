@@ -11,23 +11,13 @@ Carte::Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur, const char *
     idCarte_ = idCarte;
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
-    charger(image_, fileName, Channels::RGBA);
+    image_ = CImg<unsigned char>(fileName);
+    //charger(image_, fileName, Channels::RGBA);
+    image_ = image_.get_crop(1, 1, 0, 222, 323, 0, 0);
     tailleX_ = image_.width() * factorScale;
     tailleY_ = image_.height() * factorScale;
-    image_.resize(tailleX_, tailleY_);
-    CImg<unsigned char> render(image_.width(), image_.height(), couleurFond[0], couleurFond[1], couleurFond[2]);
-    cimg_forXY(render, x, y)
-    {
-        //Rouge
-        render(x, y, 0, 0) = couleurFond[0];
-        //Vert
-        render(x, y, 0, 1) = couleurFond[1];
-        //Bleu
-        render(x, y, 0, 2) = couleurFond[2];
-
-    }
-    render.draw_image(0, 0, 0, 0, image_, image_.get_channel(3), 1, 255);
-    image_ = render;
+    image_.resize(tailleX_, tailleY_, 1, 3);
+    image_.draw_rectangle(0, 0, tailleX_, tailleY_, couleurBordureCartes, 1, ~0U);
     pileAppartenance_ = pileAppartenance;
     positionX_ = pileAppartenance->getPosX();
     positionY_ = pileAppartenance->getPosY();
@@ -63,14 +53,7 @@ Carte::Carte() {
 
 }
 
-void Carte::resize(int tailleX, int tailleY) {
-    tailleX_ = tailleX;
-    tailleY_ = tailleY;
-    image_.resize(tailleX, tailleY);
-}
-
 void Carte::dessinerCarte(cimg_library::CImg<unsigned char> *visu) {
-
     visu->draw_image(this->getPosX(), this->getPosY(), image_);
 }
 

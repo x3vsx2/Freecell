@@ -7,6 +7,7 @@
 static unsigned char couleurBlanche[3] = {255, 255, 255};
 static unsigned char couleurGrise[3] = {125, 125, 125};
 static unsigned char couleurFond[3] = {1, 121, 107};
+static unsigned char couleurBordureCartes[3] = {0, 0, 0};
 
 static float factorScalling = 1;
 
