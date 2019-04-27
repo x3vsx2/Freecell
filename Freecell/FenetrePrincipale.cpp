@@ -456,7 +456,7 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
     ifstream ifs(nomPartie);
     ifs.seekg(0, std::ios::beg);//Debut du fichier
     string contenu;
-    for (unsigned int i = 0; i < 15; i++) {
+    for (unsigned int i = 0; i <= 15; i++) {
         if (!tableauxIdentifiants[i].empty()) {
             tableauxIdentifiants[i].clear();
         }
