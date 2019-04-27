@@ -14,12 +14,9 @@ using namespace cimg_library;
 /*!
  * Constructeur qui initialise le display
  */
-FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScale) : tableauxIdentifiants(16,
-                                                                                                               vector<int>(
-                                                                                                                       0)),
-                                                                                          tailleFenX_(tailleFenX),
-                                                                                          tailleFenY_(tailleFenY),
-                                                                                          factorScalling_(factorScale) {
+FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons)
+        : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
+          facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons) {
     initialiserFond();
 
     //Declare un display pour afficher le fond
@@ -283,29 +280,30 @@ void FenetrePrincipale::quitterFenetre() {
 
 bool FenetrePrincipale::fenetreChargement() {
     initialiserFond();
-    unsigned char white[] = {255, 255, 255};        // Define a purple color
-    unsigned char couleurFond[] = {26, 83, 92};        // Define a purple color
 
-    Bouton partiesSauvegardees("titre", disp->width() / 2 - 400, 10,
-                               "icones_et_boutons/partiesSauvegardees.png");
-    partiesSauvegardees.dessinerBouton(visu_);
+    Bouton partiesSauvegardees("titre", "icones_et_boutons/partiesSauvegardees.png", facteurEchelleBoutons_);
+    partiesSauvegardees.dessinerBouton(visu_, disp->width() / 2 - partiesSauvegardees.getTailleX() / 2,
+                                       disp->height() * 0.1);
 
-    Bouton bchargerPartie("chargerPartie", disp->width() / 2 + 100, disp->height() - 200,
-                          "icones_et_boutons/chargerPartie.png");
-    bchargerPartie.dessinerBouton(visu_);
+    Bouton bchargerPartie("chargerPartie", "icones_et_boutons/chargerPartie.png", facteurEchelleBoutons_);
+    bchargerPartie.dessinerBouton(visu_, disp->width() / 2 + bchargerPartie.getTailleX() * 0.1,
+                                  disp->height() * 0.7);
 
-    Bouton bsupprimerSauvegarde("supprimerSauvegarde", disp->width() / 2 - 400, disp->height() - 200,
-                                "icones_et_boutons/supprimerSauvegarde.png");
-    bsupprimerSauvegarde.dessinerBouton(visu_);
+    Bouton bsupprimerSauvegarde("supprimerSauvegarde", "icones_et_boutons/supprimerSauvegarde.png",
+                                facteurEchelleBoutons_);
+    bsupprimerSauvegarde.dessinerBouton(visu_, disp->width() / 2 - bsupprimerSauvegarde.getTailleX() * 1.1,
+                                        disp->height() * 0.7);
 
-    Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
-                    "icones_et_boutons/miniQuitter.png");
-    bQuitter.dessinerBouton(visu_);
+    Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
+    bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX() * 1.1,
+                            disp->height() - bQuitter.getTailleY() * 1.1);
+
+    Bouton bInstructions("Instructions", "icones_et_boutons/instructionsSuppression.png", facteurEchelleBoutons_ / 2);
 
     chargerTableauParties();
     for (unsigned int i = 0; i < tableauParties.size(); i++) {
         string nom = tableauParties[i].substr(0, tableauParties[i].length() - 4);
-        visu_->draw_text(disp->width() / 2 - 400, 200 + 30 * i, nom.data(), white, couleurFond, 1, 20);
+        visu_->draw_text(disp->width() / 2 - 400, 200 + 30 * i, nom.data(), couleurBlanche, couleurFond, 1, 20);
     }
     visu_->display(*disp);
     do {
@@ -314,6 +312,8 @@ bool FenetrePrincipale::fenetreChargement() {
             const int my = getPosSourisY();
 
             if (bchargerPartie.estCliquee(mx, my)) {
+                bInstructions.dessinerBouton(visu_, disp->width() / 2 - bInstructions.getTailleX() / 2,
+                                             disp->height() / 2 - bInstructions.getTailleY() / 2);
                 cout << "Entrez le nom de la sauvegarde que vous voulez charger et appuyez sur entrée" << endl;
                 string nomSauvegarde;
                 cin >> nomSauvegarde;
@@ -332,6 +332,8 @@ bool FenetrePrincipale::fenetreChargement() {
                     return true;
                 }
             } else if (bsupprimerSauvegarde.estCliquee(mx, my)) {
+                bInstructions.dessinerBouton(visu_, disp->width() / 2 - bInstructions.getTailleX() / 2,
+                                             disp->height() / 2 - bInstructions.getTailleY() / 2);
                 cout << "Entrez le nom de la sauvegarde que vous voulez supprimer et appuyez sur entrer"
                      << endl;
                 string nomSauvegarde;
@@ -365,26 +367,27 @@ bool FenetrePrincipale::fenetreChargement() {
 void FenetrePrincipale::fenetreSauvegarde() {
     initialiserFond();
 
-    Bouton question("question", disp->width() / 2 - 150, 100,
-                    "icones_et_boutons/question_enregistrer.png");
-    question.dessinerBouton(visu_);
+    Bouton question("question", "icones_et_boutons/question_enregistrer.png", facteurEchelleBoutons_);
+    question.dessinerBouton(visu_, disp->width() / 2 - question.getTailleX() / 2,
+                            disp->height() * 0.1);
 
-    Bouton non("non", disp->width() / 2 - 400, 400,
-               "icones_et_boutons/non.png");
-    non.dessinerBouton(visu_);
+    Bouton non("non", "icones_et_boutons/non.png", facteurEchelleBoutons_);
+    non.dessinerBouton(visu_, disp->width() / 2 - non.getTailleX() * 1.1,
+                       disp->height() * 0.7);
 
-    Bouton oui("oui", disp->width() / 2 + 100, 400,
-               "icones_et_boutons/oui.png");
-    oui.dessinerBouton(visu_);
+    Bouton oui("oui", "icones_et_boutons/oui.png", facteurEchelleBoutons_);
+    oui.dessinerBouton(visu_, disp->width() / 2 + oui.getTailleX() * 0.1,
+                       disp->height() * 0.7);
 
-    Bouton intructions("intstructions", disp->width() / 2 + 100, 500,
-                       "icones_et_boutons/instructions.png");
+
+    Bouton intructions("intstructions", "icones_et_boutons/instructions.png", facteurEchelleBoutons_);
     string nomSauvegarde;
     visu_->display(*disp);
     do {
         if (disp->button()) {//Test si clique
             if (oui.estCliquee(getPosSourisX(), getPosSourisY())) {
-                intructions.dessinerBouton(visu_);
+                intructions.dessinerBouton(visu_, disp->width() / 2 - intructions.getTailleX() / 2,
+                                           disp->height() / 2 - intructions.getTailleY() / 2);
                 visu_->display(*disp);
                 cout << "Entrez le nom de la sauvegarde (sans espaces) et appuyez sur entrée" << endl;
                 cin >> nomSauvegarde;

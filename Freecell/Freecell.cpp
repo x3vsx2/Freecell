@@ -8,7 +8,7 @@ using namespace std;
 using namespace cimg_library;
 
 int main() {
-    FenetrePrincipale fen(1280, 720, 0.50);
+    FenetrePrincipale fen(1280, 720, 0.50, 0.8);
     int choix;
     do {
         choix = fen.afficherMenu();

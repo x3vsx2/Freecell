@@ -12,7 +12,6 @@ Carte::Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur, const char *
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
     image_ = CImg<unsigned char>(fileName);
-    //charger(image_, fileName, Channels::RGBA);
     image_ = image_.get_crop(1, 1, 0, 222, 323, 0, 0);
     tailleX_ = image_.width() * factorScale;
     tailleY_ = image_.height() * factorScale;

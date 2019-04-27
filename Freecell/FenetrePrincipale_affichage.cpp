@@ -18,22 +18,21 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     int memoirePile = 0;
     initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
 
-    Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
-                    "icones_et_boutons/miniQuitter.png");
+    Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
 
     while (!commandeFermerFenetre()) {
         int mx = getPosSourisX();
         int my = getPosSourisY();
 
         majAffichage();
-        bQuitter.dessinerBouton(visu_);
+        bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX() * 1.1,
+                                disp->height() - bQuitter.getTailleY() * 1.1);
 
         // Mouvement souris suite à un déplacement
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
                 //Déplacement des cartes dans la pile pileDeplacement
                 if (estSaisieValide(mx, my)) {
-                    cout << "Clic Bloqué" << endl;
                     memoirePile = getClicPositions(mx, my)[0];
                     deplacerPile(mx, my);
                     //On recupere la pile qui a été cliquée, réutilisation si le mouvement n'est pas valide
@@ -41,7 +40,6 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 }
 
             } else {//Dépot de la pile pileDeplacement
-                cout << "Clic Débloqué" << endl;
                 if (estDepotValide(mx, my)) {
                     int pileCliquee = getClicPositions(mx, my)[0]; //numéro de la pile sur laquelle il y a eu un clic
                     pileDeplacement->inverserListeCartes();
@@ -98,16 +96,19 @@ void FenetrePrincipale::initialiserFond() {
 int FenetrePrincipale::afficherMenu() {
     initialiserFond();
 
-    Bouton boutonNouvellePartie("BoutonNouvellePartie", disp->width() / 2 - 150, 100,
-                                "icones_et_boutons/bouton_nouvellePartie.png");
-    boutonNouvellePartie.dessinerBouton(visu_);
+    Bouton boutonNouvellePartie("BoutonNouvellePartie", "icones_et_boutons/bouton_nouvellePartie.png",
+                                facteurEchelleBoutons_);
+    boutonNouvellePartie.dessinerBouton(visu_, disp->width() / 2 - boutonNouvellePartie.getTailleX() / 2,
+                                        disp->height() * 0.10);
 
-    Bouton boutonChargerPartie("boutonChargerPartie", disp->width() / 2 - 150, 250,
-                               "icones_et_boutons/bouton_chargerPartie.png");
-    boutonChargerPartie.dessinerBouton(visu_);
+    Bouton boutonChargerPartie("boutonChargerPartie", "icones_et_boutons/bouton_chargerPartie.png",
+                               facteurEchelleBoutons_);
+    boutonChargerPartie.dessinerBouton(visu_, disp->width() / 2 - boutonChargerPartie.getTailleX() / 2,
+                                       disp->height() * 0.40);
 
-    Bouton boutonQuitter("boutonQuitter", disp->width() / 2 - 150, 400, "icones_et_boutons/bouton_quitter.png");
-    boutonQuitter.dessinerBouton(visu_);
+    Bouton boutonQuitter("boutonQuitter", "icones_et_boutons/bouton_quitter.png", facteurEchelleBoutons_);
+    boutonQuitter.dessinerBouton(visu_, disp->width() / 2 - boutonQuitter.getTailleX() / 2,
+                                 disp->height() * 0.70);
 
     visu_->display(*disp);
     disp->wait();
@@ -202,58 +203,58 @@ void FenetrePrincipale::majAffichage() {
  */
 void FenetrePrincipale::initialiserCartes() {
     pileMelange = new PileCarte(0, 0, melange);
-    pileMelange->ajouterCarte(new Carte(1, Coeur, As, "imageCarte/h01.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(2, Coeur, Deux, "imageCarte/h02.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(3, Coeur, Trois, "imageCarte/h03.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(4, Coeur, Quatre, "imageCarte/h04.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(5, Coeur, Cinq, "imageCarte/h05.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(6, Coeur, Six, "imageCarte/h06.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(7, Coeur, Sept, "imageCarte/h07.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(8, Coeur, Huit, "imageCarte/h08.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(9, Coeur, Neuf, "imageCarte/h09.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(10, Coeur, Dix, "imageCarte/h10.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(11, Coeur, Valet, "imageCarte/h11.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(12, Coeur, Dame, "imageCarte/h12.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(13, Coeur, Roi, "imageCarte/h13.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(14, Trefle, As, "imageCarte/c01.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(15, Trefle, Deux, "imageCarte/c02.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(16, Trefle, Trois, "imageCarte/c03.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(17, Trefle, Quatre, "imageCarte/c04.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(18, Trefle, Cinq, "imageCarte/c05.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(19, Trefle, Six, "imageCarte/c06.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(20, Trefle, Sept, "imageCarte/c07.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(21, Trefle, Huit, "imageCarte/c08.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(22, Trefle, Neuf, "imageCarte/c09.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(23, Trefle, Dix, "imageCarte/c10.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(24, Trefle, Valet, "imageCarte/c11.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(25, Trefle, Dame, "imageCarte/c12.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(26, Trefle, Roi, "imageCarte/c13.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(27, Carreau, As, "imageCarte/d01.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(28, Carreau, Deux, "imageCarte/d02.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(29, Carreau, Trois, "imageCarte/d03.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(30, Carreau, Quatre, "imageCarte/d04.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(31, Carreau, Cinq, "imageCarte/d05.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(32, Carreau, Six, "imageCarte/d06.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(33, Carreau, Sept, "imageCarte/d07.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(34, Carreau, Huit, "imageCarte/d08.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(35, Carreau, Neuf, "imageCarte/d09.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(36, Carreau, Dix, "imageCarte/d10.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(37, Carreau, Valet, "imageCarte/d11.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(38, Carreau, Dame, "imageCarte/d12.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(39, Carreau, Roi, "imageCarte/d13.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(40, Pique, As, "imageCarte/s01.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(41, Pique, Deux, "imageCarte/s02.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(42, Pique, Trois, "imageCarte/s03.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(43, Pique, Quatre, "imageCarte/s04.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(44, Pique, Cinq, "imageCarte/s05.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(45, Pique, Six, "imageCarte/s06.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(46, Pique, Sept, "imageCarte/s07.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(47, Pique, Huit, "imageCarte/s08.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(48, Pique, Neuf, "imageCarte/s09.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(49, Pique, Dix, "imageCarte/s10.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(50, Pique, Valet, "imageCarte/s11.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(51, Pique, Dame, "imageCarte/s12.svg", pileMelange, factorScalling_));
-    pileMelange->ajouterCarte(new Carte(52, Pique, Roi, "imageCarte/s13.svg", pileMelange, factorScalling_));
+    pileMelange->ajouterCarte(new Carte(1, Coeur, As, "imageCarte/h01.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(2, Coeur, Deux, "imageCarte/h02.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(3, Coeur, Trois, "imageCarte/h03.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(4, Coeur, Quatre, "imageCarte/h04.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(5, Coeur, Cinq, "imageCarte/h05.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(6, Coeur, Six, "imageCarte/h06.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(7, Coeur, Sept, "imageCarte/h07.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(8, Coeur, Huit, "imageCarte/h08.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(9, Coeur, Neuf, "imageCarte/h09.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(10, Coeur, Dix, "imageCarte/h10.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(11, Coeur, Valet, "imageCarte/h11.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(12, Coeur, Dame, "imageCarte/h12.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(13, Coeur, Roi, "imageCarte/h13.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(14, Trefle, As, "imageCarte/c01.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(15, Trefle, Deux, "imageCarte/c02.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(16, Trefle, Trois, "imageCarte/c03.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(17, Trefle, Quatre, "imageCarte/c04.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(18, Trefle, Cinq, "imageCarte/c05.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(19, Trefle, Six, "imageCarte/c06.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(20, Trefle, Sept, "imageCarte/c07.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(21, Trefle, Huit, "imageCarte/c08.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(22, Trefle, Neuf, "imageCarte/c09.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(23, Trefle, Dix, "imageCarte/c10.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(24, Trefle, Valet, "imageCarte/c11.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(25, Trefle, Dame, "imageCarte/c12.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(26, Trefle, Roi, "imageCarte/c13.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(27, Carreau, As, "imageCarte/d01.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(28, Carreau, Deux, "imageCarte/d02.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(29, Carreau, Trois, "imageCarte/d03.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(30, Carreau, Quatre, "imageCarte/d04.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(31, Carreau, Cinq, "imageCarte/d05.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(32, Carreau, Six, "imageCarte/d06.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(33, Carreau, Sept, "imageCarte/d07.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(34, Carreau, Huit, "imageCarte/d08.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(35, Carreau, Neuf, "imageCarte/d09.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(36, Carreau, Dix, "imageCarte/d10.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(37, Carreau, Valet, "imageCarte/d11.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(38, Carreau, Dame, "imageCarte/d12.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(39, Carreau, Roi, "imageCarte/d13.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(40, Pique, As, "imageCarte/s01.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(41, Pique, Deux, "imageCarte/s02.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(42, Pique, Trois, "imageCarte/s03.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(43, Pique, Quatre, "imageCarte/s04.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(44, Pique, Cinq, "imageCarte/s05.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(45, Pique, Six, "imageCarte/s06.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(46, Pique, Sept, "imageCarte/s07.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(47, Pique, Huit, "imageCarte/s08.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(48, Pique, Neuf, "imageCarte/s09.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(49, Pique, Dix, "imageCarte/s10.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(50, Pique, Valet, "imageCarte/s11.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(51, Pique, Dame, "imageCarte/s12.svg", pileMelange, facteurEchelleCartes_));
+    pileMelange->ajouterCarte(new Carte(52, Pique, Roi, "imageCarte/s13.svg", pileMelange, facteurEchelleCartes_));
 
 }
 
@@ -279,7 +280,10 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 }
 
 void FenetrePrincipale::majFenetre() {
+    int coefX = disp->width();
     disp->resize();
     tailleFenX_ = disp->window_width();
     tailleFenY_ = disp->window_height();
+    //facteurEchelleBoutons_ = (coefX * facteurEchelleBoutons_) / tailleFenX_;
+    //facteurEchelleCartes_ = (coefX* facteurEchelleCartes_)/tailleFenX_;
 }

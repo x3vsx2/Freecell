@@ -7,14 +7,17 @@
 
 using namespace cimg_library;
 
-Bouton::Bouton(std::string nom, int posX, int posY, const char *fileName) : nom_(std::move(nom)), positionX_(posX),
-                                                                            positionY_(posY) {
+Bouton::Bouton(std::string nom, const char *fileName, float factorScale) : nom_(std::move(nom)) {
     charger(image_, fileName, Channels::RGBA);
-    tailleX_ = image_.width();
-    tailleY_ = image_.height();
+    tailleX_ = image_.width() * factorScale;
+    tailleY_ = image_.height() * factorScale;
+    image_.resize(tailleX_, tailleY_);
+
 }
 
-void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond) {
+void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, int posY) {
+    positionX_ = posX;
+    positionY_ = posY;
     CImg<unsigned char> render(image_.width(), image_.height(), couleurFond[0], couleurFond[1], couleurFond[2]);
     cimg_forXY(render, x, y)
     {

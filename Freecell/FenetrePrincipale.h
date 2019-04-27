@@ -11,7 +11,7 @@
 class FenetrePrincipale {
 
 public:
-    FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScale);
+    FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons);
 
     //FONCTIONS MENUS ET FENETRES
     void lancerJeu(bool nouvellePartie);
@@ -80,7 +80,8 @@ public:
 private:
     int tailleFenX_;
     int tailleFenY_;
-    float factorScalling_;
+    float facteurEchelleCartes_;
+    float facteurEchelleBoutons_;
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;

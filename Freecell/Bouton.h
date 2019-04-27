@@ -7,7 +7,7 @@
 
 class Bouton {
 public:
-    Bouton(std::string nom, int posX, int posY, const char *fileName);
+    Bouton(std::string nom, const char *fileName, float factorScale = 1);
 
     ~Bouton();
 
@@ -27,7 +27,7 @@ public:
 
     void setpositionY(int pY) { positionY_ = pY; }
 
-    void dessinerBouton(cimg_library::CImg<unsigned char> *fond);
+    void dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, int posY);
 
     bool estCliquee(int mx, int my);
 
