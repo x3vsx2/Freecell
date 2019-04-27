@@ -18,27 +18,20 @@ using namespace cimg_library;
 void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
     initialiserCartes();
-    //Boucle Principale, ferme la fenetre si ESC or Q key is hit
     bool click_hold = false;
     int memoirePile = 0;
-    if (nouvellePartie) {
-        initialiserPiles(true);
-    } else {
-        initialiserPiles(false);
-    }
+    initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
 
     Bouton bQuitter("Quitter", disp->width() - 85, disp->height() - 100,
                     "icones_et_boutons/miniQuitter.png");
 
-    while (!disp->is_closed() && !disp->is_keyESC() && !disp->is_keyQ()) {
-
-        //Recuperation positions de la souris
-        //mx = position souris en x, my = position souris en y
-        const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
-                my = disp->mouse_y() * (*fond_).height() / disp->height();
+    while (!commandeFermerFenetre()) {
+        int mx = getPosSourisX();
+        int my = getPosSourisY();
 
         majAffichage();
         bQuitter.dessinerBouton(visu_);
+
         // Mouvement souris suite à un déplacement
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
@@ -72,7 +65,9 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 }
                 click_hold = false;
             }
-			if (PartieEstGagnee()) { cout << "Le joueur a remporter la partie" << endl; } // TODO ajouter le retour au menu
+            if (PartieEstGagnee()) {// TODO Afficher Partie gagne !
+                cout << "Le joueur a remporté la partie" << endl;
+            }
             if (bQuitter.estCliquee(mx, my)) {
                 break;
             }
@@ -80,16 +75,13 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         if (disp->is_resized()) {
             majFenetre();
         }
-
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
-
         visu_->display(*disp);
         disp->wait();
-
     }
-
+    quitterFenetre();
 }
 
 /*!
@@ -103,13 +95,10 @@ void FenetrePrincipale::initialiserFond() {
     visu_ = new CImg<unsigned char>(*fond_);
 }
 
-void FenetrePrincipale::effacerFond() {
-    //declare le plateau de jeu avec longeurXlargeur
-    delete plateau_;
-    delete fond_;
-    delete visu_;
-}
-
+/*!
+ *Initialise le plateau, le fond et visu
+ * @return int, 1 pour nouvelle partie, 2 pour charger partie, 3 pour quitter
+ */
 int FenetrePrincipale::afficherMenu() {
     initialiserFond();
 
@@ -128,24 +117,13 @@ int FenetrePrincipale::afficherMenu() {
     disp->wait();
     do {
         if (disp->button()) {//Test si clique
-            //Recuperation positions de la souris
-            //mx = position souris en x, my = position souris en y
-            const int mx = disp->mouse_x() * (*fond_).width() / disp->width(),
-                    my = disp->mouse_y() * (*fond_).height() / disp->height();
-            if (mx >= boutonNouvellePartie.getpositionX() &&
-                mx <= boutonNouvellePartie.getpositionX() + boutonNouvellePartie.getTailleX()
-                && my >= boutonNouvellePartie.getpositionY() &&
-                my <= boutonNouvellePartie.getpositionY() + boutonNouvellePartie.getTailleY()) {
+            int mx = getPosSourisX();
+            int my = getPosSourisY();
+            if (boutonNouvellePartie.estCliquee(mx, my)) {
                 return 0;
-            } else if (mx >= boutonChargerPartie.getpositionX() &&
-                       mx <= boutonChargerPartie.getpositionX() + boutonChargerPartie.getTailleX()
-                       && my >= boutonChargerPartie.getpositionY() &&
-                       my <= boutonChargerPartie.getpositionY() + boutonChargerPartie.getTailleY()) {
+            } else if (boutonChargerPartie.estCliquee(mx, my)) {
                 return 1;
-            } else if (mx >= boutonQuitter.getpositionX() &&
-                       mx <= boutonQuitter.getpositionX() + boutonQuitter.getTailleX()
-                       && my >= boutonQuitter.getpositionY() &&
-                       my <= boutonQuitter.getpositionY() + boutonQuitter.getTailleY()) {
+            } else if (boutonQuitter.estCliquee(mx, my)) {
                 return 2;
             }
         }
@@ -153,21 +131,21 @@ int FenetrePrincipale::afficherMenu() {
             majFenetre();
         }
     } while (true);
-
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
-    int tailleX; 
-    int tailleY; 
+    int tailleX;
+    int tailleY;
     int c = 0;
     while (true) {//trouve ua moins une carte et récupère sa taille
-		if (piles_[c]->getTaille() != 0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
-			if (piles_[c]->getCarte(0)->getTailleX() != 0) {
-				tailleX = piles_[c]->getCarte(0)->getTailleX();
-				tailleY = piles_[c]->getCarte(0)->getTailleY();
-				break;
-			}
-		}
+        if (piles_[c]->getTaille() !=
+            0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
+            if (piles_[c]->getCarte(0)->getTailleX() != 0) {
+                tailleX = piles_[c]->getCarte(0)->getTailleX();
+                tailleY = piles_[c]->getCarte(0)->getTailleY();
+                break;
+            }
+        }
         c++;// lol mdr
     }
     for (unsigned int i = 0; i < 16; i++) {
@@ -220,6 +198,7 @@ void FenetrePrincipale::majAffichage() {
         visu_->draw_image(pileDeplacement->getCarte(k)->getPosX(), pileDeplacement->getCarte(k)->getPosY(),
                           pileDeplacement->getCarte(k)->getImg());
     }
+
 }
 
 /*!
@@ -311,22 +290,4 @@ void FenetrePrincipale::majFenetre() {
     disp->resize();
     tailleXDefault = disp->window_width();
     tailleYDefault = disp->window_height();
-    //  disp->resize(disp->window_width(), disp->window_height());
-    //  plateau_->resize(disp->width(), disp->height());
-    //  fond_->resize((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
-    //  colorierImage(*fond_, 26, 83, 92);
-    //  visu_->resize(fond_->width(), fond_->height());
-    //  for (unsigned int i = 1; i <= 8; i++) {
-    //      piles_[i - 1]->setPosX((i / 10)* disp->window_height());
-    //  }
-    //  pileLibre1->setPosX(0.08 * disp->window_width());
-    //  pileLibre2->setPosX(0.18 * disp->window_width());
-    //  pileLibre3->setPosX(0.28 * disp->window_width());
-    //  pileLibre4->setPosX(0.38 * disp->window_width());
-    //  pileValide1->setPosX(0.52 * disp->window_width());
-    //  pileValide2->setPosX(0.62 * disp->window_width());
-    //  pileValide3->setPosX(0.72 * disp->window_width());
-    //  pileValide4->setPosX(0.82 * disp->window_width());
-
-//      dessinerEmplacementPiles();
 }

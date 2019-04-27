@@ -13,37 +13,54 @@ class FenetrePrincipale {
 public:
     FenetrePrincipale();
 
-    void initialiserFond();
+    //FONCTIONS MENUS ET FENETRES
+    void lancerJeu(bool nouvellePartie);
 
-    void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
+    bool fenetreChargement();
+
+    void fenetreSauvegarde();
+
+    //FONCTIONS D'INITIALISATION
+    void initialiserFond();
 
     void initialiserCartes();
 
-    std::vector<int> getClicPositions(int mx, int my);
-
     void initialiserPiles(bool nouvellePartie);
 
+    //FONCTIONS GESTION JEU
     void deplacerPile(int mx, int my);
 
-    void majAffichage();
+    std::vector<int> getClicPositions(int mx, int my);
 
     bool estSaisieValide(int mx, int my);
 
     bool estDepotValide(int mx, int my);
 
+    bool PartieEstGagnee();
+
+    bool commandeFermerFenetre();
+
+    int getPosSourisX() { return disp->mouse_x(); };
+
+    int getPosSourisY() { return disp->mouse_y(); };
+
+    //FONCTIONS D'AFFICHAGE
+    void attendre();
+
+    void majAffichage();
+
+    void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
+
     void dessinerEmplacementPiles();
 
     int afficherMenu();
 
-    void lancerJeu(bool nouvellePartie);
+    void majFenetre();
 
+    void quitterFenetre();
+
+    //FONCTIONS SAUVEGARDE ET CHARGEMENT
     void etatChargement();
-
-    void quitterPartie();
-
-    bool fenetreChargement();
-
-    void fenetreSauvegarde();
 
     void ajouterPartieSauvegardee(std::string nomPartie);
 
@@ -57,8 +74,6 @@ public:
 
     void sauverTableauParties();
 
-    void majFenetre();
-	bool PartieEstGagnee();
 
 private:
     cimg_library::CImg<unsigned char> *visu_;
@@ -87,8 +102,6 @@ private:
     PileCarte *pileValide2;
     PileCarte *pileValide3;
     PileCarte *pileValide4;
-
-    void effacerFond();
 };
 
 

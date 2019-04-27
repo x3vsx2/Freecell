@@ -23,6 +23,9 @@ Carte::Carte(Carte *CarteAcopier) : idCarte_(CarteAcopier->idCarte_), Couleur_(C
     image_ = new CImg<unsigned char>(*CarteAcopier->getImg());
 }
 
+/*!
+ *Destructeur, supprime l'image de la carte
+ */
 Carte::~Carte() {
     delete image_;
 }

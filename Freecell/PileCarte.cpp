@@ -28,6 +28,9 @@ PileCarte::PileCarte(PileCarte &pileCopiee) : taille_(pileCopiee.taille_),
     }
 }
 
+/*!
+ *Destructeur, supprime les cartes contenu dans listeCartes_
+ */
 PileCarte::~PileCarte() {
     for (unsigned int i = 0; i < listeCartes_.size(); i++) {
         delete listeCartes_[i];

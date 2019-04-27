@@ -3,7 +3,7 @@
 #include "Bouton.h"
 #include "CImg.h"
 #include "stb_implement.h"
-
+#include <iostream>
 using namespace cimg_library;
 
 Bouton::Bouton(std::string nom, int posX, int posY, const char *fileName) : nom_(std::move(nom)), positionX_(posX),
@@ -12,7 +12,6 @@ Bouton::Bouton(std::string nom, int posX, int posY, const char *fileName) : nom_
     tailleX_ = image_.width();
     tailleY_ = image_.height();
 }
-
 
 void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond) {
     CImg<unsigned char> render(image_.width(), image_.height(), 1, 3, 255);
