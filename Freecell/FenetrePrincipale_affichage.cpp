@@ -72,6 +72,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 }
                 click_hold = false;
             }
+			if (PartieEstGagnee()) { cout << "Le joueur a remporter la partie" << endl; } // TODO ajouter le retour au menu
             if (bQuitter.estCliquee(mx, my)) {
                 break;
             }
@@ -156,16 +157,18 @@ int FenetrePrincipale::afficherMenu() {
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
-    int tailleX;
-    int tailleY;
+    int tailleX; 
+    int tailleY; 
     int c = 0;
     while (true) {//trouve ua moins une carte et récupère sa taille
-        if (piles_[c]->getCarte(0)->getTailleX() != 0) {
-            tailleX = piles_[c]->getCarte(0)->getTailleX();
-            tailleY = piles_[c]->getCarte(0)->getTailleY();
-            break;
-        }
-        c++;
+		if (piles_[c]->getTaille() != 0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
+			if (piles_[c]->getCarte(0)->getTailleX() != 0) {
+				tailleX = piles_[c]->getCarte(0)->getTailleX();
+				tailleY = piles_[c]->getCarte(0)->getTailleY();
+				break;
+			}
+		}
+        c++;// lol mdr
     }
     for (unsigned int i = 0; i < 16; i++) {
         //Piles Jeu
