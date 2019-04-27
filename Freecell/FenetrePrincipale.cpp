@@ -105,6 +105,17 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     pileJeu7 = new PileCarte(0.70 * disp->width(), 300, jeu7);
     pileJeu8 = new PileCarte(0.80 * disp->width(), 300, jeu8);
 
+	pileLibre1 = new PileCarte(0.08 * disp->width(), 50, libre1);
+	pileLibre2 = new PileCarte(0.18 * disp->width(), 50, libre2);
+	pileLibre3 = new PileCarte(0.28 * disp->width(), 50, libre3);
+	pileLibre4 = new PileCarte(0.38 * disp->width(), 50, libre4);
+	pileValide1 = new PileCarte(0.52 * disp->width(), 50, valide1);
+	pileValide2 = new PileCarte(0.62 * disp->width(), 50, valide2);
+	pileValide3 = new PileCarte(0.72 * disp->width(), 50, valide3);
+	pileValide4 = new PileCarte(0.82 * disp->width(), 50, valide4);
+
+	
+
     piles_.clear();
     piles_.push_back(pileJeu1);
     piles_.push_back(pileJeu2);
@@ -114,6 +125,15 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     piles_.push_back(pileJeu6);
     piles_.push_back(pileJeu7);
     piles_.push_back(pileJeu8);
+	piles_.push_back(pileLibre1);
+	piles_.push_back(pileLibre2);
+	piles_.push_back(pileLibre3);
+	piles_.push_back(pileLibre4);
+
+	piles_.push_back(pileValide1);
+	piles_.push_back(pileValide2);
+	piles_.push_back(pileValide3);
+	piles_.push_back(pileValide4);
 
     if (nouvellePartie) {//On mélange et répartie les cartes seulement si c'est une nouvelle partie
         pileMelange->brassagePile();
@@ -149,25 +169,6 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
             }
         }
     }
-
-    pileLibre1 = new PileCarte(0.08 * disp->width(), 50, libre1);
-    pileLibre2 = new PileCarte(0.18 * disp->width(), 50, libre2);
-    pileLibre3 = new PileCarte(0.28 * disp->width(), 50, libre3);
-    pileLibre4 = new PileCarte(0.38 * disp->width(), 50, libre4);
-    pileValide1 = new PileCarte(0.52 * disp->width(), 50, valide1);
-    pileValide2 = new PileCarte(0.62 * disp->width(), 50, valide2);
-    pileValide3 = new PileCarte(0.72 * disp->width(), 50, valide3);
-    pileValide4 = new PileCarte(0.82 * disp->width(), 50, valide4);
-
-    piles_.push_back(pileLibre1);
-    piles_.push_back(pileLibre2);
-    piles_.push_back(pileLibre3);
-    piles_.push_back(pileLibre4);
-
-    piles_.push_back(pileValide1);
-    piles_.push_back(pileValide2);
-    piles_.push_back(pileValide3);
-    piles_.push_back(pileValide4);
 
     delete pileMelange;
 
