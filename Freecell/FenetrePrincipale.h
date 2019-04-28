@@ -1,6 +1,9 @@
 #ifndef FREECELL_FENETREPRINCIPALE_H
 #define FREECELL_FENETREPRINCIPALE_H
 
+#include <cstdlib>
+
+
 #include <iostream>
 #include <vector>
 #include "CImg.h"
@@ -19,6 +22,8 @@ public:
     bool fenetreChargement();
 
     void fenetreSauvegarde();
+
+    void FenetresParametres();
 
     //FONCTIONS D'INITIALISATION
     void initialiserFond();
@@ -61,6 +66,8 @@ public:
 
     void supprimerPiles();
 
+    static void clear_screen();
+
     //FONCTIONS SAUVEGARDE ET CHARGEMENT
     void etatChargement();
 
@@ -76,6 +83,7 @@ public:
 
     void sauverTableauParties();
 
+    void sauverFichierSettings(int dispX, int dispY, float cardScale, float buttonScale);
 
 private:
     int tailleFenX_;
@@ -108,8 +116,6 @@ private:
     PileCarte *pileValide2;
     PileCarte *pileValide3;
     PileCarte *pileValide4;
-
-    //COULEURS
 
 };
 

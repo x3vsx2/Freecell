@@ -71,7 +71,7 @@ public:
 
     void setPileAppartenance(PileCarte *pile) { pileAppartenance_ = pile; };
 
-    void resize(int tailleX, int tailleY);
+    void resize(float coeffX, float coeffY);
 };
 
 

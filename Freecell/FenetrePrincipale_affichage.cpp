@@ -1,6 +1,12 @@
 //
 // Created by kamilcaglar on 26/04/19.
 //
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif
+
 #include"pch.h"
 #include "FenetrePrincipale.h"
 #include <fstream>
@@ -110,6 +116,10 @@ int FenetrePrincipale::afficherMenu() {
     boutonQuitter.dessinerBouton(visu_, disp->width() / 2 - boutonQuitter.getTailleX() / 2,
                                  disp->height() * 0.70);
 
+    Bouton boutonParametres("boutonParametres", "icones_et_boutons/parametres.png", facteurEchelleBoutons_);
+    boutonParametres.dessinerBouton(visu_, disp->width() - boutonParametres.getTailleX() * 1.1,
+                                    disp->height() - boutonParametres.getTailleY() * 1.1);
+
     visu_->display(*disp);
     disp->wait();
     do {
@@ -120,8 +130,10 @@ int FenetrePrincipale::afficherMenu() {
                 return 0;
             } else if (boutonChargerPartie.estCliquee(mx, my)) {
                 return 1;
-            } else if (boutonQuitter.estCliquee(mx, my)) {
+            } else if (boutonParametres.estCliquee(mx, my)) {
                 return 2;
+            } else if (boutonQuitter.estCliquee(mx, my)) {
+                return 3;
             }
         }
         if (disp->is_resized()) {
@@ -129,6 +141,42 @@ int FenetrePrincipale::afficherMenu() {
         }
         attendre();
     } while (true);
+}
+
+void FenetrePrincipale::FenetresParametres() {
+    initialiserFond();
+
+    Bouton binstructionsParametres("instructionsParametres", "icones_et_boutons/instructionsParametres.png",
+                                   facteurEchelleBoutons_);
+    binstructionsParametres.dessinerBouton(visu_, disp->width() / 2 - binstructionsParametres.getTailleX() / 2,
+                                           disp->height() / 2 - binstructionsParametres.getTailleY() / 2);
+    visu_->display(*disp);
+
+    system(CLEAR);
+    cout << "Entrez la nouvelle longeur de la fenetre" << endl;
+    int newTailleFenX;
+    cin >> newTailleFenX;
+
+    system(CLEAR);
+    cout << "Entrez la nouvelle largeur de la fenetre" << endl;
+    int newTailleFenY;
+    cin >> newTailleFenY;
+
+    system(CLEAR);
+    cout << "Entrez la nouvelle echelle de la carte" << endl;
+    float newCardsScale;
+    cin >> newCardsScale;
+
+    system(CLEAR);
+    cout << "Entrez la nouvelle echelle des boutons" << endl;
+    float newButtonScale;
+    cin >> newButtonScale;
+
+    cout << "Pour utiliser les nouveaux parametres, veuillez relancer FreeCell" << endl;
+
+    sauverFichierSettings(newTailleFenX, newTailleFenY, newCardsScale, newButtonScale);
+    quitterFenetre();
+
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
@@ -281,9 +329,23 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 
 void FenetrePrincipale::majFenetre() {
     int coefX = disp->width();
+    int coefY = disp->height();
+
     disp->resize();
     tailleFenX_ = disp->window_width();
     tailleFenY_ = disp->window_height();
+    coefX = (tailleFenX_ / coefX);
+    coefY = (tailleFenY_ / coefY);
+
+    sauverFichierSettings(tailleFenX_, tailleFenY_, facteurEchelleCartes_, facteurEchelleBoutons_);
+    if (!piles_.empty()) {
+        for (unsigned int i = 0; i < piles_.size(); ++i) {
+            unsigned int nbCarteADeplacer = piles_[i]->getTaille();
+            for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
+                piles_[i]->getCarte(j)->resize(coefX, coefY);
+            }
+        }
+    }
     //facteurEchelleBoutons_ = (coefX * facteurEchelleBoutons_) / tailleFenX_;
     //facteurEchelleCartes_ = (coefX* facteurEchelleCartes_)/tailleFenX_;
 }

@@ -5,10 +5,26 @@
 #include "FenetrePrincipale.h"
 
 using namespace std;
-using namespace cimg_library;
+
+void initFreecellSettings(int &dispX, int &dispY, float &factorScallingCards, float &factorScallingButton) {
+    ifstream ifs("settings.txt");
+    ifs.seekg(0, std::ios::beg);//Debut du fichier
+    string contenu;
+    ifs >> dispX;
+    ifs.ignore();
+    ifs >> dispY;
+    ifs.ignore();
+    ifs >> factorScallingCards;
+    ifs.ignore();
+    ifs >> factorScallingButton;
+    ifs.close();
+}
 
 int main() {
-    FenetrePrincipale fen(1280, 720, 0.50, 0.8);
+    int dispX_, dispY_;
+    float factorScallingButton_, factorScallingCards_;
+    initFreecellSettings(dispX_, dispY_, factorScallingCards_, factorScallingButton_);
+    FenetrePrincipale fen(dispX_, dispY_, factorScallingCards_, factorScallingButton_);
     int choix;
     do {
         choix = fen.afficherMenu();
@@ -30,10 +46,13 @@ int main() {
                 break;
             }
             case 2: {
+                fen.FenetresParametres();
+            }
+            case 3: {
                 break;
             }
         }
-    } while (choix != 2 && !fen.commandeFermerFenetre());
+    } while (choix != 3 && !fen.commandeFermerFenetre());
 
     return (0);
 }

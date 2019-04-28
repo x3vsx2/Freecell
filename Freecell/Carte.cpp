@@ -56,3 +56,7 @@ void Carte::dessinerCarte(cimg_library::CImg<unsigned char> *visu) {
     visu->draw_image(this->getPosX(), this->getPosY(), image_);
 }
 
+void Carte::resize(float coeffX, float coeffY) {
+    image_.resize(coeffX * tailleX_, coeffY * tailleY_);
+}
+

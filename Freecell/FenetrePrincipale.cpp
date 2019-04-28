@@ -1,6 +1,7 @@
 //
 // Created by kamilcaglar on 02/04/19.
 //
+
 #include"pch.h"
 #include "FenetrePrincipale.h"
 #include <fstream>
@@ -514,3 +515,23 @@ void FenetrePrincipale::supprimerPiles() {
         delete pileDeplacement;
     }
 }
+
+void FenetrePrincipale::clear_screen() {
+#ifdef WINDOWS
+    std::system("cls");
+#else
+    // Assume POSIX
+    std::system("clear");
+#endif
+}
+
+void FenetrePrincipale::sauverFichierSettings(int newTailleFenX, int newTailleFenY, float newCardsScale,
+                                              float newButtonScale) {
+    ofstream ofs("settings.txt");
+    ofs << newTailleFenX << endl;
+    ofs << newTailleFenY << endl;
+    ofs << newCardsScale << endl;
+    ofs << newButtonScale << endl;
+    ofs.close();
+}
+
