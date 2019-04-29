@@ -33,6 +33,7 @@ private:
     int tailleY_;
     CImg<unsigned char> image_;
     PileCarte *pileAppartenance_;
+    const char *chemin;
 
 public:
     Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur,
@@ -71,7 +72,7 @@ public:
 
     void setPileAppartenance(PileCarte *pile) { pileAppartenance_ = pile; };
 
-    void resize(float coeffX, float coeffY);
+    void reload(float coeffX, float coeffY);
 };
 
 

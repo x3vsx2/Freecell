@@ -1,9 +1,11 @@
 #ifndef FREECELL_FENETREPRINCIPALE_H
 #define FREECELL_FENETREPRINCIPALE_H
-
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif
 #include <cstdlib>
-
-
 #include <iostream>
 #include <vector>
 #include "CImg.h"
@@ -52,7 +54,9 @@ public:
     //FONCTIONS D'AFFICHAGE
     void attendre();
 
-    void majAffichage();
+    void majAffichageJeu(bool postResize, Bouton &boutonQuitter);
+
+    void majAffichageMenu(Bouton &boutonNouvelleP, Bouton &boutonCharger, Bouton &boutonQuitter, Bouton &boutonParam);
 
     void colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b);
 
@@ -90,6 +94,8 @@ private:
     int tailleFenY_;
     float facteurEchelleCartes_;
     float facteurEchelleBoutons_;
+    float coeffX_;
+    float coeffY_;
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;

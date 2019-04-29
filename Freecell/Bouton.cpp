@@ -8,6 +8,7 @@
 using namespace cimg_library;
 
 Bouton::Bouton(std::string nom, const char *fileName, float factorScale) : nom_(std::move(nom)) {
+    chemin = fileName;
     charger(image_, fileName, Channels::RGBA);
     tailleX_ = image_.width() * factorScale;
     tailleY_ = image_.height() * factorScale;
@@ -18,7 +19,7 @@ Bouton::Bouton(std::string nom, const char *fileName, float factorScale) : nom_(
 void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, int posY) {
     positionX_ = posX;
     positionY_ = posY;
-    CImg<unsigned char> render(image_.width(), image_.height(), couleurFond[0], couleurFond[1], couleurFond[2]);
+    CImg<unsigned char> render(tailleX_, tailleY_, couleurFond[0], couleurFond[1], couleurFond[2]);
     cimg_forXY(render, x, y)
     {
         //Rouge
@@ -30,7 +31,7 @@ void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, i
 
     }
     render.draw_image(0, 0, 0, 0, image_, image_.get_channel(3), 1, 255);
-    fond->draw_image(this->getpositionX(), this->getpositionY(), render);
+    fond->draw_image(this->positionX_, positionY_, render);
 }
 
 bool Bouton::estCliquee(int mx, int my) {
@@ -41,5 +42,13 @@ bool Bouton::estCliquee(int mx, int my) {
 Bouton::~Bouton() {
 
 }
+
+void Bouton::reload(float coeffX, float coeffY, float factorScale) {
+    charger(image_, chemin, Channels::RGBA);
+    tailleX_ = image_.width() * coeffX * factorScale;
+    tailleY_ = image_.height() * coeffY * factorScale;
+    image_.resize(tailleX_, tailleY_);
+}
+
 
 
