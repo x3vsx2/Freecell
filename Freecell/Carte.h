@@ -72,7 +72,7 @@ public:
 
     void setPileAppartenance(PileCarte *pile) { pileAppartenance_ = pile; };
 
-    void reload(float coeffX, float coeffY);
+    void reload(float coeffX, float coeffY, float factorScale);
 };
 
 

@@ -66,7 +66,6 @@ void FenetrePrincipale::majAffichageMenu(Bouton &boutonNouvelleP, Bouton &bouton
     boutonParam.dessinerBouton(visu_, disp->width() - boutonParam.getTailleX() * 1.1,
                                disp->height() - boutonParam.getTailleY() * 1.1);
     visu_->display(*disp);
-    cout << "Fin affi menu" << endl;
 
 }
 

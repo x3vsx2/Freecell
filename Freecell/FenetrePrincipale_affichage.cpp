@@ -158,7 +158,7 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
     bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX() * 1.1,
                             disp->height() - bQuitter.getTailleY() * 1.1);
     if (postResize) {
-        dessinerEmplacementPiles();
+        //TODO, sauver et revenir
     }
     visu_->display(*disp);
 

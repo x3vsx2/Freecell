@@ -60,9 +60,10 @@ void Carte::dessinerCarte(cimg_library::CImg<unsigned char> *visu) {
 }
 
 
-void Carte::reload(float coeffX, float coeffY) {
+void Carte::reload(float coeffX, float coeffY, float factorScale) {
     charger(image_, chemin, Channels::RGBA);
-    //image_ = image_.get_crop(1, 1, 0, 222, 323, 0, 0);
+    tailleX_ = image_.width() * coeffX * factorScale;
+    tailleY_ = image_.height() * coeffY * factorScale;
     image_.resize(coeffX * tailleX_, coeffY * tailleY_);
 }
 
