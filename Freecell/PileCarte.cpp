@@ -184,4 +184,9 @@ void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, Pile
     pile2->taille_--;
 }
 
+void PileCarte::setPositions(int posX, int posY) {
+    this->setPosX(posX);
+    this->setPosY(posY);
+}
+
 

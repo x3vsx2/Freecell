@@ -87,6 +87,7 @@ public:
 
     void sauvegarderPile(std::ofstream &ofs);
 
+    void setPositions(int posX, int posY);
 
 private:
     unsigned int taille_;

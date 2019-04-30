@@ -40,7 +40,7 @@ private:
 public:
     Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur,
           const char *fileName,
-          PileCarte *pileAppartenance, float factorScale);
+          PileCarte *pileAppartenance, float factorScale, float coeffX, float coeffY);
 
     Carte(Carte *CarteAcopier);
 

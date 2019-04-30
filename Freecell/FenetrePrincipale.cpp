@@ -17,7 +17,7 @@ using namespace cimg_library;
  */
 FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons)
         : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
-          facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons) {
+          facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1) {
     initialiserFond();
 
     //Declare un display pour afficher le fond
@@ -69,23 +69,23 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
  */
 void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     pileDeplacement = new PileCarte(0, 0, deplacement);
-    pileJeu1 = new PileCarte(0.10 * disp->width(), 300, jeu1);
-    pileJeu2 = new PileCarte(0.20 * disp->width(), 300, jeu2);
-    pileJeu3 = new PileCarte(0.30 * disp->width(), 300, jeu3);
-    pileJeu4 = new PileCarte(0.40 * disp->width(), 300, jeu4);
-    pileJeu5 = new PileCarte(0.50 * disp->width(), 300, jeu5);
-    pileJeu6 = new PileCarte(0.60 * disp->width(), 300, jeu6);
-    pileJeu7 = new PileCarte(0.70 * disp->width(), 300, jeu7);
-    pileJeu8 = new PileCarte(0.80 * disp->width(), 300, jeu8);
+    pileJeu1 = new PileCarte(0.10 * disp->width(), 0.40 * disp->height(), jeu1);
+    pileJeu2 = new PileCarte(0.20 * disp->width(), 0.40 * disp->height(), jeu2);
+    pileJeu3 = new PileCarte(0.30 * disp->width(), 0.40 * disp->height(), jeu3);
+    pileJeu4 = new PileCarte(0.40 * disp->width(), 0.40 * disp->height(), jeu4);
+    pileJeu5 = new PileCarte(0.50 * disp->width(), 0.40 * disp->height(), jeu5);
+    pileJeu6 = new PileCarte(0.60 * disp->width(), 0.40 * disp->height(), jeu6);
+    pileJeu7 = new PileCarte(0.70 * disp->width(), 0.40 * disp->height(), jeu7);
+    pileJeu8 = new PileCarte(0.80 * disp->width(), 0.40 * disp->height(), jeu8);
 
-    pileLibre1 = new PileCarte(0.08 * disp->width(), 50, libre1);
-    pileLibre2 = new PileCarte(0.18 * disp->width(), 50, libre2);
-    pileLibre3 = new PileCarte(0.28 * disp->width(), 50, libre3);
-    pileLibre4 = new PileCarte(0.38 * disp->width(), 50, libre4);
-    pileValide1 = new PileCarte(0.52 * disp->width(), 50, valide1);
-    pileValide2 = new PileCarte(0.62 * disp->width(), 50, valide2);
-    pileValide3 = new PileCarte(0.72 * disp->width(), 50, valide3);
-    pileValide4 = new PileCarte(0.82 * disp->width(), 50, valide4);
+    pileLibre1 = new PileCarte(0.08 * disp->width(), 0.10 * disp->height(), libre1);
+    pileLibre2 = new PileCarte(0.18 * disp->width(), 0.10 * disp->height(), libre2);
+    pileLibre3 = new PileCarte(0.28 * disp->width(), 0.10 * disp->height(), libre3);
+    pileLibre4 = new PileCarte(0.38 * disp->width(), 0.10 * disp->height(), libre4);
+    pileValide1 = new PileCarte(0.52 * disp->width(), 0.10 * disp->height(), valide1);
+    pileValide2 = new PileCarte(0.62 * disp->width(), 0.10 * disp->height(), valide2);
+    pileValide3 = new PileCarte(0.72 * disp->width(), 0.10 * disp->height(), valide3);
+    pileValide4 = new PileCarte(0.82 * disp->width(), 0.10 * disp->height(), valide4);
 
     piles_.clear();
     piles_.push_back(pileJeu1);
@@ -138,8 +138,6 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     }
 
     delete pileMelange;
-
-    dessinerEmplacementPiles();
 
 }
 

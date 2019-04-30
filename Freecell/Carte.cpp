@@ -7,15 +7,15 @@
 using namespace cimg_library;
 
 Carte::Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur, const char *fileName, PileCarte *pileAppartenance,
-             float factorScale) {
+             float factorScale, float coeffX, float coeffY) {
     idCarte_ = idCarte;
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
     chemin = (fileName);
     charger(image_, fileName, Channels::RGBA);
     //image_ = image_.get_crop(1, 1, 0, 222, 323, 0, 0);
-    OriginalTailleX_ = image_.width() * factorScale;
-    OriginalTailleY_ = image_.height() * factorScale;
+    OriginalTailleX_ = image_.width() * factorScale * coeffX;
+    OriginalTailleY_ = image_.height() * factorScale * coeffY;
     tailleX_ = OriginalTailleX_;
     tailleY_ = OriginalTailleY_;
     image_.resize(tailleX_, tailleY_, 1, 3);
