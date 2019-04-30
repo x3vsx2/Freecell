@@ -144,9 +144,9 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
                             disp->height() - bQuitter.getTailleY());
     if (postResize) {
         for (unsigned int i = 0; i < piles_.size(); ++i) {
-            for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
-                piles_[i]->getCarte(j)->reload(coeffX_, coeffY_);
-            }
+			for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
+				piles_[i]->getCarte(j)->reload(coeffX_, coeffY_);
+			}
         }
         pileJeu1->setPositions(0.10 * disp->width(), 0.40 * disp->height());
         pileJeu2->setPositions(0.20 * disp->width(), 0.40 * disp->height());
@@ -175,9 +175,15 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
 
     //On affiche les différentes piles_
     for (unsigned int i = 0; i < piles_.size(); ++i) {
-        for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
-            piles_[i]->getCarte(j)->dessinerCarte(visu_);
-        }
+		if (i >= 11 && piles_[i]->getTaille()>0) {
+			int j = piles_[i]->getTaille()-1 ;
+			piles_[i]->getCarte(j)->dessinerCarte(visu_);
+		}
+		else {
+			for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
+				piles_[i]->getCarte(j)->dessinerCarte(visu_);
+			}
+		}
     }
     for (unsigned int k = 0; k < pileDeplacement->getTaille(); k++) {
         pileDeplacement->getCarte(k)->dessinerCarte(visu_);
