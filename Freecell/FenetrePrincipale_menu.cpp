@@ -45,10 +45,10 @@ int FenetrePrincipale::afficherMenu() {
         }
         if (disp->is_resized()) {
             majFenetre();
-            boutonNouvellePartie.reload(coeffX_, coeffY_, facteurEchelleBoutons_);
-            boutonChargerPartie.reload(coeffX_, coeffY_, facteurEchelleBoutons_);
-            boutonQuitter.reload(coeffX_, coeffY_, facteurEchelleBoutons_);
-            boutonParametres.reload(coeffX_, coeffY_, facteurEchelleBoutons_ / 2);
+            boutonNouvellePartie.reload(coeffX_, coeffY_);
+            boutonChargerPartie.reload(coeffX_, coeffY_);
+            boutonQuitter.reload(coeffX_, coeffY_);
+            boutonParametres.reload(coeffX_, coeffY_);
             majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
         }
     } while (true);

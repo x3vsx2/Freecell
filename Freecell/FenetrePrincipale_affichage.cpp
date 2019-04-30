@@ -68,7 +68,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         }
         if (disp->is_resized()) {
             majFenetre();
-            bQuitter.reload(coeffX_, coeffY_, facteurEchelleBoutons_);
+            bQuitter.reload(coeffX_, coeffY_);
             majAffichageJeu(true, bQuitter);
 
         }
@@ -158,7 +158,13 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
     bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX() * 1.1,
                             disp->height() - bQuitter.getTailleY() * 1.1);
     if (postResize) {
-        //TODO, sauver et revenir
+        for (unsigned int i = 0; i < piles_.size(); ++i) {
+            unsigned int nbCarteADeplacer = piles_[i]->getTaille();
+            for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
+                piles_[i]->getCarte(j)->reload(coeffX_, coeffY_);
+            }
+        }
+        dessinerEmplacementPiles();
     }
     visu_->display(*disp);
 
@@ -256,15 +262,7 @@ void FenetrePrincipale::majFenetre() {
 
     quitterFenetre();
     initialiserFond();
-    //sauverFichierSettings(tailleFenX_, tailleFenY_, facteurEchelleCartes_, facteurEchelleBoutons_);
-    //if (!piles_.empty()) {
-    //    for (unsigned int i = 0; i < piles_.size(); ++i) {
-    //        unsigned int nbCarteADeplacer = piles_[i]->getTaille();
-    //        for (unsigned int j = 0; j < nbCarteADeplacer; ++j) {
-    //            piles_[i]->getCarte(j)->resize(coefX, coefY);
-    //        }
-    //    }
-    //}
+
 }
 
 

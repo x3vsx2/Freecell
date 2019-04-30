@@ -31,15 +31,15 @@ public:
 
     bool estCliquee(int mx, int my);
 
-    void reload(float coeffX, float coeffY, float factorScale);
-
-
+    void reload(float coeffX, float coeffY);
 
     cimg_library::CImg<unsigned char> getImg() { return image_; };
 
 private:
     int positionX_;
     int positionY_;
+    int tailleOriginaleX_;
+    int tailleOriginaleY_;
     int tailleX_;
     int tailleY_;
     cimg_library::CImg<unsigned char> image_;

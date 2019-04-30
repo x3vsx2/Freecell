@@ -29,6 +29,8 @@ private:
     TypeHauteur Hauteur_;
     int positionX_;
     int positionY_;
+    int OriginalTailleX_;
+    int OriginalTailleY_;
     int tailleX_;
     int tailleY_;
     CImg<unsigned char> image_;
@@ -72,7 +74,7 @@ public:
 
     void setPileAppartenance(PileCarte *pile) { pileAppartenance_ = pile; };
 
-    void reload(float coeffX, float coeffY, float factorScale);
+    void reload(float coeffX, float coeffY);
 };
 
 

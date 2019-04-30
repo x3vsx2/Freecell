@@ -10,8 +10,10 @@ using namespace cimg_library;
 Bouton::Bouton(std::string nom, const char *fileName, float factorScale) : nom_(std::move(nom)) {
     chemin = fileName;
     charger(image_, fileName, Channels::RGBA);
-    tailleX_ = image_.width() * factorScale;
-    tailleY_ = image_.height() * factorScale;
+    tailleOriginaleX_ = image_.width() * factorScale;
+    tailleOriginaleY_ = image_.height() * factorScale;
+    tailleX_ = tailleOriginaleX_;
+    tailleY_ = tailleOriginaleY_;
     image_.resize(tailleX_, tailleY_);
 
 }
@@ -31,7 +33,7 @@ void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, i
 
     }
     render.draw_image(0, 0, 0, 0, image_, image_.get_channel(3), 1, 255);
-    fond->draw_image(this->positionX_, positionY_, render);
+    fond->draw_image(positionX_, positionY_, render);
 }
 
 bool Bouton::estCliquee(int mx, int my) {
@@ -43,10 +45,10 @@ Bouton::~Bouton() {
 
 }
 
-void Bouton::reload(float coeffX, float coeffY, float factorScale) {
+void Bouton::reload(float coeffX, float coeffY) {
     charger(image_, chemin, Channels::RGBA);
-    tailleX_ = image_.width() * coeffX * factorScale;
-    tailleY_ = image_.height() * coeffY * factorScale;
+    tailleX_ = tailleOriginaleX_ * coeffX;
+    tailleY_ = tailleOriginaleY_ * coeffY;
     image_.resize(tailleX_, tailleY_);
 }
 
