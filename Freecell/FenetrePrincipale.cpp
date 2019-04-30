@@ -19,7 +19,8 @@ FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float facto
         : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
           facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1) {
     initialiserFond();
-
+    tailleFenOriginaleX_ = tailleFenX;
+    tailleFenOriginaleY_ = tailleFenY;
     //Declare un display pour afficher le fond
     disp = new CImgDisplay(*fond_, "FreeCell", 0, false, false);
     //Centre la fenetre
@@ -138,7 +139,6 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     }
 
     delete pileMelange;
-
 }
 
 bool FenetrePrincipale::estSaisieValide(int mx, int my) {

@@ -90,6 +90,8 @@ public:
     void sauverFichierSettings(int dispX, int dispY, float cardScale, float buttonScale);
 
 private:
+    int tailleFenOriginaleX_;
+    int tailleFenOriginaleY_;
     int tailleFenX_;
     int tailleFenY_;
     float facteurEchelleCartes_;

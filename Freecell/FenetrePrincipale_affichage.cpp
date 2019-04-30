@@ -26,7 +26,6 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         int my = getPosSourisY();
 
         majAffichageJeu(false, bQuitter);
-
         // Mouvement souris suite à un déplacement
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
@@ -108,11 +107,9 @@ void FenetrePrincipale::dessinerEmplacementPiles() {
     }
     for (unsigned int i = 0; i < 16; i++) {
         //Piles Jeu
-        cout << piles_[i]->getPosX() << endl;
         visu_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(), piles_[i]->getPosX() + tailleX,
                               piles_[i]->getPosY() + tailleY, couleurPiles, 1);
     }
-
 }
 
 /*!
@@ -142,10 +139,9 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
  */
 void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
     visu_->draw_image(*fond_);
-    dessinerEmplacementPiles();
 
-    bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX() * 1.1,
-                            disp->height() - bQuitter.getTailleY() * 1.1);
+    bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX(),
+                            disp->height() - bQuitter.getTailleY());
     if (postResize) {
         for (unsigned int i = 0; i < piles_.size(); ++i) {
             for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
@@ -168,7 +164,14 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
         pileValide2->setPositions(0.62 * disp->width(), 0.10 * disp->height());
         pileValide3->setPositions(0.72 * disp->width(), 0.10 * disp->height());
         pileValide4->setPositions(0.82 * disp->width(), 0.10 * disp->height());
+        for (unsigned int i = 0; i < piles_.size(); i++) {
+            for (unsigned int j = 0; j < piles_[i]->getTaille(); j++) {
+                piles_[i]->getCarte(j)->setPosX(piles_[i]->getPosX());
+                piles_[i]->getCarte(j)->setPosY(piles_[i]->getPosY() + 20 * coeffY_ * j);
+            }
+        }
     }
+    dessinerEmplacementPiles();
 
     //On affiche les différentes piles_
     for (unsigned int i = 0; i < piles_.size(); ++i) {
@@ -179,9 +182,7 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
     for (unsigned int k = 0; k < pileDeplacement->getTaille(); k++) {
         pileDeplacement->getCarte(k)->dessinerCarte(visu_);
     }
-
     visu_->display(*disp);
-
 }
 
 /*!
@@ -318,17 +319,14 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 }
 
 void FenetrePrincipale::majFenetre() {
-    float ancienneTailleX = disp->width();
-    float ancienneTailleY = disp->height();
+    attendre();
     disp->resize();
     tailleFenX_ = disp->width();
     tailleFenY_ = disp->height();
-    coeffX_ = tailleFenX_ / ancienneTailleX;
-    coeffY_ = tailleFenY_ / ancienneTailleY;
-
+    coeffX_ = float(tailleFenX_) / float(tailleFenOriginaleX_);
+    coeffY_ = float(tailleFenY_) / float(tailleFenOriginaleY_);
     quitterFenetre();
     initialiserFond();
-
 }
 
 

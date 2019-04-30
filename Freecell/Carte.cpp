@@ -14,12 +14,11 @@ Carte::Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur, const char *
     chemin = (fileName);
     charger(image_, fileName, Channels::RGBA);
     //image_ = image_.get_crop(1, 1, 0, 222, 323, 0, 0);
-    OriginalTailleX_ = image_.width() * factorScale * coeffX;
-    OriginalTailleY_ = image_.height() * factorScale * coeffY;
-    tailleX_ = OriginalTailleX_;
-    tailleY_ = OriginalTailleY_;
+    OriginalTailleX_ = image_.width() * factorScale;
+    OriginalTailleY_ = image_.height() * factorScale;
+    tailleX_ = OriginalTailleX_ * coeffX;
+    tailleY_ = OriginalTailleY_ * coeffY;
     image_.resize(tailleX_, tailleY_, 1, 3);
-    image_.draw_rectangle(0, 0, tailleX_, tailleY_, couleurBordureCartes, 1, ~0U);
     pileAppartenance_ = pileAppartenance;
     positionX_ = pileAppartenance->getPosX();
     positionY_ = pileAppartenance->getPosY();
@@ -58,7 +57,6 @@ Carte::Carte() {
 void Carte::dessinerCarte(cimg_library::CImg<unsigned char> *visu) {
     visu->draw_image(this->getPosX(), this->getPosY(), image_);
     image_.draw_rectangle(0, 0, tailleX_, tailleY_, couleurBordureCartes, 1, ~0U);
-
 }
 
 

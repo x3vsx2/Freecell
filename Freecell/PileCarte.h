@@ -76,7 +76,6 @@ public:
 
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
-
     void brassagePile();
 
     Type getType() { return type_; }
