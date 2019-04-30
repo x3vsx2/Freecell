@@ -1,7 +1,7 @@
 //
 // Created by kamilcaglar on 27/04/19.
 //
-
+#include "pch.h"
 #include "stb_implement.h"
 
 #define STB_IMAGE_IMPLEMENTATION
