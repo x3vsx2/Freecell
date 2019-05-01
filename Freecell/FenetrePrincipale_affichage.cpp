@@ -80,7 +80,7 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
 }
 
 /*!
- *Initialise le plateau, le fond et visu
+ *Initialise le plateau, le fond et visu selon la taille du jeu
  */
 void FenetrePrincipale::initialiserFond() {
     //declare le plateau de jeu avec longeurXlargeur

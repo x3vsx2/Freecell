@@ -19,6 +19,7 @@ FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float facto
         : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
           facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1) {
     initialiserFond();
+    //On enregistre les tailles originales pour le cas d'un resize
     tailleFenOriginaleX_ = tailleFenX;
     tailleFenOriginaleY_ = tailleFenY;
     //Declare un display pour afficher le fond
@@ -26,6 +27,7 @@ FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float facto
     //Centre la fenetre
     disp->move((CImgDisplay::screen_width() - disp->width()) / 2,
                (CImgDisplay::screen_height() - disp->height()) / 2);
+    quitterFenetre();
 }
 
 /*!
