@@ -178,7 +178,6 @@ int PileCarte::trouverPosCarteId(int id) {
 }
 
 void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, PileCarte *pile2) {
-    //TODO pileAppartenance non géré
     pile2->listeCartes_[posCarte2]->setPosX(this->getPosX());
     pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
     pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
