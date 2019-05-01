@@ -36,6 +36,7 @@ Carte::Carte(Carte *CarteAcopier) : idCarte_(CarteAcopier->idCarte_), Couleur_(C
  *Destructeur, supprime l'image de la carte
  */
 Carte::~Carte() {
+    pileAppartenance_ = nullptr;
 }
 
 int Carte::getIdentifiant() {
