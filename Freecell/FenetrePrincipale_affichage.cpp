@@ -20,7 +20,7 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
 
     Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
-
+	bool victoire = false;
     while (!commandeFermerFenetre()) {
         int mx = getPosSourisX();
         int my = getPosSourisY();
@@ -73,6 +73,10 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
+		if (PartieEstGagnee()) {
+			victoire = false;
+			break;
+		}
         attendre();
     }
     quitterFenetre();
