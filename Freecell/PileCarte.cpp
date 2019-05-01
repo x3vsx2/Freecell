@@ -42,9 +42,9 @@ PileCarte::~PileCarte() {
  *Deplace une carte d'une pile à une autre
  * @param pointeur vers la pile retrait
  */
-void PileCarte::deplacerCartePile(PileCarte *pileRetrait) {
+void PileCarte::deplacerCartePile(PileCarte *pileRetrait, int ecartEntreCartes) {
     //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
-    //la pile multipliée par le nombre de carte dans la pilex20
+    //la pile multipliée par le nombre de carte dans la pilex30xcoeff
     if (pileRetrait->getTaille() == 0) { std::cout << "pile vide"; }
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
 	if (this->getType() > 13 && this->getType() < 18) {
@@ -52,7 +52,8 @@ void PileCarte::deplacerCartePile(PileCarte *pileRetrait) {
 		pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY());
 	}
 	else {
-		pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
+        pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(
+                this->getPosY() + this->listeCartes_.size() * ecartEntreCartes);
 	}
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPileAppartenance(this);
 

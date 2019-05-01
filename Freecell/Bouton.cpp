@@ -18,9 +18,9 @@ Bouton::Bouton(std::string nom, const char *fileName, float factorScale) : nom_(
 
 }
 
-void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, int posY) {
-    positionX_ = posX;
-    positionY_ = posY;
+void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *visu, int posX, int posY) {
+    setpositionX(posX);
+    setpositionY(posY);
     CImg<unsigned char> render(tailleX_, tailleY_, couleurFond[0], couleurFond[1], couleurFond[2]);
     cimg_forXY(render, x, y)
     {
@@ -33,7 +33,7 @@ void Bouton::dessinerBouton(cimg_library::CImg<unsigned char> *fond, int posX, i
 
     }
     render.draw_image(0, 0, 0, 0, image_, image_.get_channel(3), 1, 255);
-    fond->draw_image(positionX_, positionY_, render);
+    visu->draw_image(getpositionX(), getpositionY(), render);
 }
 
 bool Bouton::estCliquee(int mx, int my) {
@@ -42,13 +42,12 @@ bool Bouton::estCliquee(int mx, int my) {
 }
 
 Bouton::~Bouton() {
-
 }
 
 void Bouton::reload(float coeffX, float coeffY) {
     charger(image_, chemin, Channels::RGBA);
-    tailleX_ = tailleOriginaleX_ * coeffX;
-    tailleY_ = tailleOriginaleY_ * coeffY;
+    setTailleX(tailleOriginaleX_ * coeffX);
+    setTailleY(tailleOriginaleY_ * coeffY);
     image_.resize(tailleX_, tailleY_);
 }
 

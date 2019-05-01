@@ -15,9 +15,9 @@ public:
 
     int getTailleY() { return tailleY_; };
 
-    int getpositionX() { return positionX_; };
+    int getpositionX() const { return positionX_; };
 
-    int getpositionY() { return positionY_; };
+    int getpositionY() const { return positionY_; };
 
     void setTailleX(int tX) { tailleX_ = tX; }
 

@@ -56,9 +56,13 @@ public:
 
     int getPosY();
 
-    int getTailleX() { return tailleX_; };
+    int getTailleX() const { return tailleX_; };
 
-    int getTailleY() { return tailleY_; };
+    int getTailleY() const { return tailleY_; };
+
+    void setTailleX(int newTailleX) { tailleX_ = newTailleX; };
+
+    void setTailleY(int newTailleY) { tailleY_ = newTailleY; };
 
     void setPosX(int posX) { positionX_ = posX; };
 

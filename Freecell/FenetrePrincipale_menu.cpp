@@ -25,11 +25,10 @@ int FenetrePrincipale::afficherMenu() {
                                facteurEchelleBoutons_);
     Bouton boutonQuitter("boutonQuitter", "icones_et_boutons/bouton_quitter.png", facteurEchelleBoutons_);
     Bouton boutonParametres("boutonParametres", "icones_et_boutons/parametres.png", facteurEchelleBoutons_ / 2);
-    majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
 
+    majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
     do {
         attendre();
-
         if (disp->button()) {//Test si clique
             int mx = getPosSourisX();
             int my = getPosSourisY();
@@ -66,7 +65,6 @@ void FenetrePrincipale::majAffichageMenu(Bouton &boutonNouvelleP, Bouton &bouton
     boutonParam.dessinerBouton(visu_, disp->width() - boutonParam.getTailleX() * 1.1,
                                disp->height() - boutonParam.getTailleY() * 1.1);
     visu_->display(*disp);
-
 }
 
 void FenetrePrincipale::FenetresParametres() {

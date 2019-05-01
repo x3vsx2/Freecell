@@ -36,7 +36,9 @@ bool FenetrePrincipale::fenetreChargement() {
     chargerTableauParties();
     for (unsigned int i = 0; i < tableauParties.size(); i++) {
         string nom = tableauParties[i].substr(0, tableauParties[i].length() - 4);
-        visu_->draw_text(disp->width() / 2 - 400, 200 + 30 * i, nom.data(), couleurBlanche, couleurFond, 1, 20);
+        visu_->draw_text(partiesSauvegardees.getpositionX(),
+                         partiesSauvegardees.getpositionY() + partiesSauvegardees.getTailleY() + 30 * (i + 1),
+                         nom.data(), couleurBlanche, couleurFond, 1, 20);
     }
     visu_->display(*disp);
     do {
@@ -47,13 +49,14 @@ bool FenetrePrincipale::fenetreChargement() {
             if (bchargerPartie.estCliquee(mx, my)) {
                 bInstructions.dessinerBouton(visu_, disp->width() / 2 - bInstructions.getTailleX() / 2,
                                              disp->height() / 2 - bInstructions.getTailleY() / 2);
+                system(CLEAR);
                 cout << "Entrez le nom de la sauvegarde que vous voulez charger et appuyez sur entrée" << endl;
                 string nomSauvegarde;
                 cin >> nomSauvegarde;
                 nomSauvegarde.append(".txt");
                 bool trouvee = false;
-                for (vector<string>::iterator it = tableauParties.begin(); it != tableauParties.end(); ++it) {
-                    if (*it == nomSauvegarde) {
+                for (auto &tableauPartie : tableauParties) {
+                    if (tableauPartie == nomSauvegarde) {
                         chargerPartie(nomSauvegarde);
                         trouvee = true;
                         break;
@@ -112,7 +115,6 @@ void FenetrePrincipale::fenetreSauvegarde() {
     oui.dessinerBouton(visu_, disp->width() / 2 + oui.getTailleX() * 0.1,
                        disp->height() * 0.7);
 
-
     Bouton intructions("intstructions", "icones_et_boutons/instructions.png", facteurEchelleBoutons_);
     string nomSauvegarde;
     visu_->display(*disp);
@@ -135,61 +137,78 @@ void FenetrePrincipale::fenetreSauvegarde() {
         }
         attendre();
     } while (true);
+
     supprimerPiles();
     quitterFenetre();
 }
 
 void FenetrePrincipale::ajouterPartieSauvegardee(std::string nomPartie) {
-    tableauParties.insert(tableauParties.begin(), nomPartie);
+    if (std::find(tableauParties.begin(), tableauParties.end(), nomPartie) != tableauParties.end()) {
+        /* tableauParties contains nomPartie */
+    } else {
+        /* tableauParties does not contain nomPartie */
+        tableauParties.insert(tableauParties.begin(), nomPartie);
+    }
 }
 
 void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
     ofstream ofs(nomPartie);
-    for (unsigned int i = 0; i < piles_.size(); i++) {
-        ofs << "PILE" << endl;
-        ofs << piles_[i]->getTaille() << endl;
-        for (unsigned int j = 0; j < piles_[i]->getTaille(); j++) {
-            ofs << piles_[i]->getCarte(j)->getIdentifiant() << " ";
+    if (!ofs.is_open()) cerr << "Erreur d'ouverture de " << nomPartie << endl;
+    else {
+        for (unsigned int i = 0; i < piles_.size(); i++) {
+            ofs << "PILE" << endl;
+            ofs << piles_[i]->getTaille() << endl;
+            for (unsigned int j = 0; j < piles_[i]->getTaille(); j++) {
+                ofs << piles_[i]->getCarte(j)->getIdentifiant() << " ";
+            }
+            if (piles_[i]->getTaille() == 0) {
+                ofs << 0 << " ";
+            }
+            ofs << endl;
         }
-        if (piles_[i]->getTaille() == 0) {
-            ofs << 0 << " ";
-        }
-        ofs << endl;
+        if (!ofs.good()) cout << "Erreur d'écriture sur" << nomPartie << endl;
+        ofs.close();
     }
-    ofs.close();
+
 }
 
 void FenetrePrincipale::chargerPartie(string nomPartie) {
     ifstream ifs(nomPartie);
-    ifs.seekg(0, std::ios::beg);//Debut du fichier
-    string contenu;
-    for (unsigned int i = 0; i < 16; i++) {
-        if (!tableauxIdentifiants[i].empty()) {
-            tableauxIdentifiants[i].clear();
-        }
-        getline(ifs, contenu);
-        int taillePile;
-        if (contenu == "PILE") {
-            ifs >> taillePile;
-            int iDcarte;
-            for (unsigned int j = 0; j < taillePile; j++) {
-                ifs >> iDcarte;
-                tableauxIdentifiants[i].push_back(iDcarte);
+    if (!ifs.is_open()) cerr << "Erreur d'ouverture" << endl;
+    else {
+        ifs.seekg(0, std::ios::beg);//Debut du fichier
+        string contenu;
+        for (unsigned int i = 0; i < 16; i++) {
+            if (!tableauxIdentifiants[i].empty()) {
+                tableauxIdentifiants[i].clear();
             }
-            if (taillePile == 0) {
-                ifs >> iDcarte;//on balance dans le vide
+            getline(ifs, contenu);
+            int taillePile;
+            if (contenu == "PILE") {
+                ifs >> taillePile;
+                int iDcarte;
+                for (unsigned int j = 0; j < taillePile; j++) {
+                    ifs >> iDcarte;
+                    tableauxIdentifiants[i].push_back(iDcarte);
+                }
+                if (taillePile == 0) {
+                    ifs >> iDcarte;//on balance dans le vide
+                }
+                ifs.ignore();
+                ifs.ignore();
             }
-            ifs.ignore();
-            ifs.ignore();
         }
+        if (!ifs.good()) cerr << "Erreur de lecture du fichier" << nomPartie << endl;
+
+        ifs.close();
     }
-    ifs.close();
+
 }
 
 void FenetrePrincipale::supprimerPartieChargee(std::string nomPartie) {
-    for (vector<string>::iterator it = tableauParties.begin(); it != tableauParties.end(); ++it) {
-        if (*it == nomPartie) {
-            it->erase();
+    for (auto &itTableauPartie : tableauParties) {
+        if (itTableauPartie == nomPartie) {
+            itTableauPartie.erase();
             break;
         }
     }
@@ -217,4 +236,38 @@ void FenetrePrincipale::etatChargement() {
     }
     cout << endl;
     cout << endl;
+}
+
+void FenetrePrincipale::chargerTableauParties() {
+    tableauParties.clear();
+    ifstream ifs("sauvegardes.txt");
+    if (!ifs.is_open()) cerr << "Erreur d'ouverture " << "sauvegardes.txt" << endl;
+    else {
+        ifs.seekg(0, std::ios::beg);//Debut du fichier
+        int taille;
+        ifs >> taille;
+        ifs.ignore();
+        string contenu;
+        for (unsigned int i = 0; i < taille; i++) {
+            getline(ifs, contenu);
+            tableauParties.push_back(contenu);
+        }
+        if (!ifs.good()) cerr << "Erreur de lecture du fichier sauvegardes.txt" << endl;
+        ifs.close();
+    }
+
+}
+
+void FenetrePrincipale::sauverTableauParties() {
+    ofstream ofs("sauvegardes.txt");
+    if (!ofs.is_open()) cerr << "Erreur d'ouverture de " << " sauvegardes.txt" << endl;
+    else {
+        ofs << tableauParties.size() << endl;
+        string contenu;
+        for (const auto &tableauPartie : tableauParties) {
+            ofs << tableauPartie << endl;
+        }
+        ofs.close();
+    }
+
 }

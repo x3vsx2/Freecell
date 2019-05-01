@@ -66,7 +66,7 @@ public:
 
     void melangerCartes();
 
-    void deplacerCartePile(PileCarte *pileRetrait);
+    void deplacerCartePile(PileCarte *pileRetrait, int ecartEntreCartes);
 
     int getClicPositionCarte(int mx, int my);
 

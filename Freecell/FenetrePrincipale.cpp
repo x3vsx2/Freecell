@@ -71,6 +71,7 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
  * Initialise les piles et répartie les cartes entre les différentes piles
  */
 void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
+    ecartEntreCartes_ = 30;
     pileDeplacement = new PileCarte(0, 0, deplacement);
     pileJeu1 = new PileCarte(0.10 * disp->width(), 0.40 * disp->height(), jeu1);
     pileJeu2 = new PileCarte(0.20 * disp->width(), 0.40 * disp->height(), jeu2);
@@ -111,19 +112,19 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     if (nouvellePartie) {//On mélange et répartie les cartes seulement si c'est une nouvelle partie
         pileMelange->brassagePile();
         for (unsigned int i = 0; i < 6; i++) {
-            pileJeu1->deplacerCartePile(pileMelange);
-            pileJeu2->deplacerCartePile(pileMelange);
-            pileJeu3->deplacerCartePile(pileMelange);
-            pileJeu4->deplacerCartePile(pileMelange);
-            pileJeu5->deplacerCartePile(pileMelange);
-            pileJeu6->deplacerCartePile(pileMelange);
-            pileJeu7->deplacerCartePile(pileMelange);
-            pileJeu8->deplacerCartePile(pileMelange);
+            pileJeu1->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu2->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu3->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu4->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu5->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu6->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu7->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu8->deplacerCartePile(pileMelange, ecartEntreCartes_);
         }
-        pileJeu1->deplacerCartePile(pileMelange);
-        pileJeu2->deplacerCartePile(pileMelange);
-        pileJeu3->deplacerCartePile(pileMelange);
-        pileJeu4->deplacerCartePile(pileMelange);
+        pileJeu1->deplacerCartePile(pileMelange, ecartEntreCartes_);
+        pileJeu2->deplacerCartePile(pileMelange, ecartEntreCartes_);
+        pileJeu3->deplacerCartePile(pileMelange, ecartEntreCartes_);
+        pileJeu4->deplacerCartePile(pileMelange, ecartEntreCartes_);
     } else {//Initialise les piles selon le chargement
         for (unsigned int i = 0; i < 16; i++) {
             for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
@@ -256,35 +257,13 @@ bool FenetrePrincipale::PartieEstGagnee() {
 
 void FenetrePrincipale::quitterFenetre() {
     delete visu_;
+    visu_ = nullptr;
     delete plateau_;
+    plateau_ = nullptr;
     delete fond_;
+    fond_ = nullptr;
 }
 
-void FenetrePrincipale::chargerTableauParties() {
-    tableauParties.clear();
-
-    ifstream ifs("sauvegardes.txt");
-    ifs.seekg(0, std::ios::beg);//Debut du fichier
-    int taille;
-    ifs >> taille;
-    ifs.ignore();
-    string contenu;
-    for (unsigned int i = 0; i < taille; i++) {
-        getline(ifs, contenu);
-        tableauParties.push_back(contenu);
-    }
-    ifs.close();
-}
-
-void FenetrePrincipale::sauverTableauParties() {
-    ofstream ofs("sauvegardes.txt");
-    ofs << tableauParties.size() << endl;
-    string contenu;
-    for (unsigned int i = 0; i < tableauParties.size(); i++) {
-        ofs << tableauParties[i] << endl;
-    }
-    ofs.close();
-}
 
 void FenetrePrincipale::attendre() {
     disp->wait();
@@ -303,9 +282,7 @@ void FenetrePrincipale::supprimerPiles() {
         }
         piles_.clear();
     }
-    if (pileDeplacement->getTaille() != 0) {
-        delete pileDeplacement;
-    }
+    delete pileDeplacement;
 }
 
 void FenetrePrincipale::clear_screen() {

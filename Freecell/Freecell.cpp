@@ -61,7 +61,7 @@ int main() {
     initFreecellSettings(dispX_, dispY_, factorScallingCards_, factorScallingButton_);
     FenetrePrincipale fen(dispX_, dispY_, factorScallingCards_, factorScallingButton_);
     int choix;
-    bool victoire = false;
+    bool victoire;
     do {
         choix = fen.afficherMenu();
         fen.quitterFenetre();
@@ -72,7 +72,6 @@ int main() {
                 if (!victoire) {
                     fen.fenetreSauvegarde();
                 }
-
                 break;
             }
             case 1: {

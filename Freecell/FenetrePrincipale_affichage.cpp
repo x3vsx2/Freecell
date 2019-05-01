@@ -13,20 +13,22 @@ using namespace std;
 using namespace cimg_library;
 
 bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
+    //INITIALISATION DES ELEMENTS DU JEU
     initialiserFond();
     initialiserCartes();
-    bool click_hold = false;
-    int memoirePile = 0;
     initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
 
+    //Memoire clic et pile
+    bool click_hold = false;
+    int memoirePile = 0;
+
     Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
-	bool victoire = false;
+
     while (!commandeFermerFenetre()) {
         int mx = getPosSourisX();
         int my = getPosSourisY();
 
         majAffichageJeu(false, bQuitter);
-        // Mouvement souris suite à un déplacement
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
                 //Déplacement des cartes dans la pile pileDeplacement
@@ -36,7 +38,6 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     //On recupere la pile qui a été cliquée, réutilisation si le mouvement n'est pas valide
                     click_hold = true; //on bloque le clic, seulement si il est valide
                 }
-
             } else {//Dépot de la pile pileDeplacement
                 if (estDepotValide(mx, my)) {
                     int pileCliquee = getClicPositions(mx, my)[0]; //numéro de la pile sur laquelle il y a eu un clic
@@ -44,15 +45,14 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     //On dépose la carte sur une pile
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
-                        piles_[pileCliquee]->deplacerCartePile(pileDeplacement);
+                        piles_[pileCliquee]->deplacerCartePile(pileDeplacement, ecartEntreCartes_);
                     }
-                    click_hold = false;
                 } else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
                     pileDeplacement->inverserListeCartes();
                     unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         if (memoirePile == -1)cout << "c'est ici putain" << endl;
-                        piles_[memoirePile]->deplacerCartePile(pileDeplacement);
+                        piles_[memoirePile]->deplacerCartePile(pileDeplacement, ecartEntreCartes_);
                     }
                 }
                 click_hold = false;
@@ -70,13 +70,15 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
-		if (PartieEstGagnee()) {
-			return true;
-		}
+        if (PartieEstGagnee()) {
+            supprimerPiles();
+            quitterFenetre();
+            return true;
+        }
         attendre();
     }
     quitterFenetre();
-	return false;
+    return false;
 }
 
 /*!
@@ -90,11 +92,11 @@ void FenetrePrincipale::initialiserFond() {
     visu_ = new CImg<unsigned char>(*fond_);
 }
 
-
 void FenetrePrincipale::dessinerEmplacementPiles() {
     int tailleX;
     int tailleY;
     int c = 0;
+    //TODO peut etre optimisé
     while (true) {//trouve ua moins une carte et récupère sa taille
         if (piles_[c]->getTaille() !=
             0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
@@ -106,8 +108,8 @@ void FenetrePrincipale::dessinerEmplacementPiles() {
         }
         c++;// lol mdr
     }
+    //Dessine l'emplacement des piles selon la taille des cartes
     for (unsigned int i = 0; i < 16; i++) {
-        //Piles Jeu
         visu_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(), piles_[i]->getPosX() + tailleX,
                               piles_[i]->getPosY() + tailleY, couleurPiles, 1);
     }
@@ -143,11 +145,12 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
 
     bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX(),
                             disp->height() - bQuitter.getTailleY());
-    if (postResize) {
+
+    if (postResize) {//Si il y a eu un resize il faut modifier la taille des éléments
         for (unsigned int i = 0; i < piles_.size(); ++i) {
-			for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
-				piles_[i]->getCarte(j)->reload(coeffX_, coeffY_);
-			}
+            for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
+                piles_[i]->getCarte(j)->reload(coeffX_, coeffY_);
+            }
         }
         pileJeu1->setPositions(0.10 * disp->width(), 0.40 * disp->height());
         pileJeu2->setPositions(0.20 * disp->width(), 0.40 * disp->height());
@@ -165,10 +168,11 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
         pileValide2->setPositions(0.62 * disp->width(), 0.10 * disp->height());
         pileValide3->setPositions(0.72 * disp->width(), 0.10 * disp->height());
         pileValide4->setPositions(0.82 * disp->width(), 0.10 * disp->height());
+        ecartEntreCartes_ = ecartEntreCartes_ * coeffY_;
         for (unsigned int i = 0; i < piles_.size(); i++) {
             for (unsigned int j = 0; j < piles_[i]->getTaille(); j++) {
                 piles_[i]->getCarte(j)->setPosX(piles_[i]->getPosX());
-                piles_[i]->getCarte(j)->setPosY(piles_[i]->getPosY() + 20 * coeffY_ * j);
+                piles_[i]->getCarte(j)->setPosY(piles_[i]->getPosY() + ecartEntreCartes_ * j);
             }
         }
     }
@@ -176,15 +180,14 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
 
     //On affiche les différentes piles_
     for (unsigned int i = 0; i < piles_.size(); ++i) {
-		if (i >= 11 && piles_[i]->getTaille()>0) { // si c'est une pile valide on affiche que la dernière carte
-			int j = piles_[i]->getTaille()-1 ;
-			piles_[i]->getCarte(j)->dessinerCarte(visu_);
-		}
-		else {
-			for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
-				piles_[i]->getCarte(j)->dessinerCarte(visu_);
-			}
-		}
+        if (i >= 11 && piles_[i]->getTaille() > 0) { //Si c'est une pile valide on affiche que la dernière carte
+            int j = piles_[i]->getTaille() - 1;
+            piles_[i]->getCarte(j)->dessinerCarte(visu_);
+        } else {
+            for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
+                piles_[i]->getCarte(j)->dessinerCarte(visu_);
+            }
+        }
     }
     for (unsigned int k = 0; k < pileDeplacement->getTaille(); k++) {
         pileDeplacement->getCarte(k)->dessinerCarte(visu_);
@@ -319,21 +322,25 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
         //déplacement d'une ou de plusieurs cartes dans la pile déplacée
         int nbCarteAEnlever = piles_[positions[0]]->getTaille() - positions[1];
         for (unsigned int i = 0; i < nbCarteAEnlever; i++) {
-            pileDeplacement->deplacerCartePile(piles_[positions[0]]);
+            pileDeplacement->deplacerCartePile(piles_[positions[0]], ecartEntreCartes_);
         }
         pileDeplacement->inverserListeCartes();
     }
 }
 
 void FenetrePrincipale::majFenetre() {
-    attendre();
-    disp->resize();
-    tailleFenX_ = disp->width();
+    attendre();//Evite que la fonction soit relancée plusieurs fois de suite
+    disp->resize();//maj des attributs du display
+    tailleFenX_ = disp->width();//recupération des nouveaux attributs
     tailleFenY_ = disp->height();
-    coeffX_ = float(tailleFenX_) / float(tailleFenOriginaleX_);
+    coeffX_ = float(tailleFenX_) / float(tailleFenOriginaleX_);//Calcul du coefficient de redimensionnement
     coeffY_ = float(tailleFenY_) / float(tailleFenOriginaleY_);
-    quitterFenetre();
-    initialiserFond();
+    quitterFenetre();//Supprime fond, plateau et visu
+    initialiserFond();//Nouveau fond, plateau et visu à la nouvelle taille
+}
+
+FenetrePrincipale::~FenetrePrincipale() {
+    delete disp;
 }
 
 

@@ -6,6 +6,7 @@
 #define CLEAR "clear"
 #endif
 #include <cstdlib>
+#include <stdio.h>
 #include <iostream>
 #include <vector>
 #include "CImg.h"
@@ -17,6 +18,8 @@ class FenetrePrincipale {
 
 public:
     FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons);
+
+    ~FenetrePrincipale();
 
     //FONCTIONS MENUS ET FENETRES
     bool lancerJeu(bool nouvellePartie);
@@ -94,6 +97,7 @@ private:
     int tailleFenOriginaleY_;
     int tailleFenX_;
     int tailleFenY_;
+    int ecartEntreCartes_;
     float facteurEchelleCartes_;
     float facteurEchelleBoutons_;
     float coeffX_;
