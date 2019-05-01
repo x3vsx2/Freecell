@@ -12,7 +12,7 @@
 using namespace std;
 using namespace cimg_library;
 
-void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
+bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
     initialiserCartes();
     bool click_hold = false;
@@ -57,9 +57,6 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                 }
                 click_hold = false;
             }
-            if (PartieEstGagnee()) {// TODO Afficher Partie gagne !
-                cout << "Le joueur a remporté la partie" << endl;
-            }
             if (bQuitter.estCliquee(mx, my)) {
                 break;
             }
@@ -74,12 +71,12 @@ void FenetrePrincipale::lancerJeu(bool nouvellePartie) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
 		if (PartieEstGagnee()) {
-			victoire = false;
-			break;
+			return true;
 		}
         attendre();
     }
     quitterFenetre();
+	return false;
 }
 
 /*!

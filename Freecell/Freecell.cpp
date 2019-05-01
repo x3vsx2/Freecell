@@ -26,22 +26,27 @@ int main() {
     initFreecellSettings(dispX_, dispY_, factorScallingCards_, factorScallingButton_);
     FenetrePrincipale fen(dispX_, dispY_, factorScallingCards_, factorScallingButton_);
     int choix;
+	bool victoire = false;
     do {
         choix = fen.afficherMenu();
         fen.quitterFenetre();
         switch (choix) {
             case 0: {
-                fen.lancerJeu(true);
+                victoire=fen.lancerJeu(true);
                 fen.attendre();
-                fen.fenetreSauvegarde();
+				if (!victoire) {
+					fen.fenetreSauvegarde();
+				}
 
                 break;
             }
             case 1: {
                 if (fen.fenetreChargement()) {
-                    fen.lancerJeu(false); // out of range
+                    victoire =fen.lancerJeu(false); // out of range
                     fen.attendre();
-                    fen.fenetreSauvegarde();
+					if (!victoire) {
+						fen.fenetreSauvegarde();
+					}
                 }
                 break;
             }

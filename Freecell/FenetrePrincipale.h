@@ -19,7 +19,7 @@ public:
     FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons);
 
     //FONCTIONS MENUS ET FENETRES
-    void lancerJeu(bool nouvellePartie);
+    bool lancerJeu(bool nouvellePartie);
 
     bool fenetreChargement();
 
