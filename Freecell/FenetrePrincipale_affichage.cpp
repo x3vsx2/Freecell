@@ -175,7 +175,7 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
 
     //On affiche les différentes piles_
     for (unsigned int i = 0; i < piles_.size(); ++i) {
-		if (i >= 11 && piles_[i]->getTaille()>0) {
+		if (i >= 11 && piles_[i]->getTaille()>0) { // si c'est une pile valide on affiche que la dernière carte
 			int j = piles_[i]->getTaille()-1 ;
 			piles_[i]->getCarte(j)->dessinerCarte(visu_);
 		}

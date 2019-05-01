@@ -47,7 +47,13 @@ void PileCarte::deplacerCartePile(PileCarte *pileRetrait) {
     //la pile multipliée par le nombre de carte dans la pilex20
     if (pileRetrait->getTaille() == 0) { std::cout << "pile vide"; }
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
-    pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
+	if (this->getType() > 13 && this->getType() < 18) {
+		//si c'est une pile valide on ne décale pas la postion sur y
+		pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY());
+	}
+	else {
+		pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY() + this->listeCartes_.size() * 20);
+	}
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPileAppartenance(this);
 
     //Ajout de la carte dans sa nouvelle pile
