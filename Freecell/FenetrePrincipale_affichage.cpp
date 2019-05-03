@@ -154,7 +154,7 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
     bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX(),
                             disp->height() - bQuitter.getTailleY());
     bNbCoupsJoues.dessinerBouton(visu_, disp->width() / 2 - bNbCoupsJoues.getTailleX() / 2, disp->height() * 0.001);
-    visu_->draw_text(bNbCoupsJoues.getpositionX() + bNbCoupsJoues.getTailleX() - bNbCoupsJoues.getTailleX() * 0.1,
+    visu_->draw_text(bNbCoupsJoues.getpositionX() + bNbCoupsJoues.getTailleX() - bNbCoupsJoues.getTailleX() * 0.15,
                      bNbCoupsJoues.getpositionY() + bNbCoupsJoues.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
                      couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
     bTime.dessinerBouton(visu_, disp->width() * 0.001, disp->height() * 0.001);
