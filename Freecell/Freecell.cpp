@@ -78,7 +78,7 @@ int main() {
             }
             case 1: {
                 if (fen.fenetreChargement()) {
-                    victoire = fen.lancerJeu(false); // out of range
+                    victoire = fen.lancerJeu(false);
                     fen.attendre();
                     if (!victoire) {
                         fen.fenetreSauvegarde();

@@ -2,8 +2,12 @@
 #define FREECELL_FENETREPRINCIPALE_H
 
 #include <stdio.h>
+#include <chrono>
 #include "PileCarte.h"
 #include "Bouton.h"
+
+typedef std::chrono::high_resolution_clock Clock;
+typedef Clock::time_point ClockTime;
 
 class FenetrePrincipale {
 
@@ -22,6 +26,7 @@ public:
     void fenetreParametres();
 
     void fenetreVictoire();
+
     //FONCTIONS D'INITIALISATION
     void initialiserFond();
 
@@ -46,10 +51,12 @@ public:
 
     int getPosSourisY() { return disp->mouse_y(); };
 
+    void mesurerTemps(const ClockTime &start_time, const ClockTime &end_time, std::vector<int> &tempsEcoule_);
+
     //FONCTIONS D'AFFICHAGE
     void attendre();
 
-    void majAffichageJeu(bool postResize, Bouton &boutonQuitter, Bouton &bounNbCoups);
+    void majAffichageJeu(bool postResize, Bouton &boutonQuitter, Bouton &bounNbCoups, Bouton &bTime);
 
     void majAffichageMenu(Bouton &boutonNouvelleP, Bouton &boutonCharger, Bouton &boutonQuitter, Bouton &boutonParam);
 
@@ -94,6 +101,10 @@ private:
     float coeffX_;
     float coeffY_;
     int nbCoupsJoues_;
+    ClockTime start_time_;
+    ClockTime end_time_;
+    std::vector<int> tempsEcoule_;
+    std::vector<int> tempsEcouleSauvegarde_;
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;

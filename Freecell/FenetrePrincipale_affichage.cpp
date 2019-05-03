@@ -13,19 +13,25 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     initialiserFond();
     initialiserCartes();
     initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
-
+    start_time_ = Clock::now();
     //Memoire clic et pile
     bool click_hold = false;
     int memoirePile = 0;
 
     Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
     Bouton bNbCoupJoues("NbCoupsJoues", "icones_et_boutons/nbcoupsjoues.png", facteurEchelleBoutons_ * 1.2);
+    Bouton bTime("bTime", "icones_et_boutons/time.png", facteurEchelleBoutons_ * 1.2);
 
+    if (!nouvellePartie) {
+        majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime);
+    }
     while (!commandeFermerFenetre()) {
         int mx = getPosSourisX();
         int my = getPosSourisY();
 
-        majAffichageJeu(false, bQuitter, bNbCoupJoues);
+        end_time_ = Clock::now();
+        majAffichageJeu(false, bQuitter, bNbCoupJoues, bTime);
+
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
                 //Déplacement des cartes dans la pile pileDeplacement
@@ -63,7 +69,8 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
             majFenetre();
             bQuitter.reload(coeffX_, coeffY_);
             bNbCoupJoues.reload(coeffX_, coeffY_);
-            majAffichageJeu(true, bQuitter, bNbCoupJoues);
+            bTime.reload(coeffX_, coeffY_);
+            majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime);
 
         }
         if (click_hold && pileDeplacement->getTaille() != 0) {
@@ -139,14 +146,22 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
 /*!
  * Redessine chaque carte selon sa position
  */
-void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues) {
+void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime) {
     visu_->draw_image(*fond_);
+    end_time_ = Clock::now();
+    mesurerTemps(start_time_, end_time_, tempsEcoule_);
 
     bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX(),
                             disp->height() - bQuitter.getTailleY());
     bNbCoupsJoues.dessinerBouton(visu_, disp->width() / 2 - bNbCoupsJoues.getTailleX() / 2, disp->height() * 0.001);
     visu_->draw_text(bNbCoupsJoues.getpositionX() + bNbCoupsJoues.getTailleX() - bNbCoupsJoues.getTailleX() * 0.1,
-                     bNbCoupsJoues.getpositionY() + bNbCoupsJoues.getTailleY() / 3, to_string(nbCoupsJoues_).data(),
+                     bNbCoupsJoues.getpositionY() + bNbCoupsJoues.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
+                     couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
+    bTime.dessinerBouton(visu_, disp->width() * 0.001, disp->height() * 0.001);
+    string temps =
+            to_string(tempsEcoule_[0]) + "h " + to_string(tempsEcoule_[1]) + "m " + to_string(tempsEcoule_[2]) + "s";
+    visu_->draw_text(bTime.getpositionX() + bTime.getTailleX() - bTime.getTailleX() * 0.5,
+                     bTime.getpositionY() + bTime.getTailleY() / 2.7, temps.data(),
                      couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
 
     if (postResize) {//Si il y a eu un resize il faut modifier la taille des éléments

@@ -172,6 +172,9 @@ void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
     if (!ofs.is_open()) cerr << "Erreur d'ouverture de " << nomPartie << endl;
     else {
         ofs << nbCoupsJoues_ << endl;
+        ofs << tempsEcoule_[0] << endl;
+        ofs << tempsEcoule_[1] << endl;
+        ofs << tempsEcoule_[2] << endl;
         for (unsigned int i = 0; i < piles_.size(); i++) {
             ofs << "PILE" << endl;
             ofs << piles_[i]->getTaille() << endl;
@@ -196,6 +199,12 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
         ifs.seekg(0, std::ios::beg);//Debut du fichier
         string contenu;
         ifs >> nbCoupsJoues_;
+        ifs.ignore();
+        ifs >> tempsEcouleSauvegarde_[0];
+        ifs.ignore();
+        ifs >> tempsEcouleSauvegarde_[1];
+        ifs.ignore();
+        ifs >> tempsEcouleSauvegarde_[2];
         ifs.ignore();
         for (unsigned int i = 0; i < 16; i++) {
             if (!tableauxIdentifiants[i].empty()) {

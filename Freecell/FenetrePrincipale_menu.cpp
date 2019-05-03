@@ -10,7 +10,7 @@
 
 using namespace std;
 using namespace cimg_library;
-
+using namespace std::chrono;
 
 /*!
  *Initialise le plateau, le fond et visu
@@ -101,4 +101,16 @@ void FenetrePrincipale::fenetreParametres() {
     sauverFichierSettings(newTailleFenX, newTailleFenY, newCardsScale, newButtonScale);
     quitterFenetre();
 
+}
+
+void FenetrePrincipale::mesurerTemps(const ClockTime &start_time, const ClockTime &end_time,
+                                     std::vector<int> &tempsEcoule_) {
+
+    auto execution_time_sec = (duration_cast<seconds>(end_time - start_time).count() + tempsEcouleSauvegarde_[2]) % 60;
+    auto execution_time_min = (duration_cast<minutes>(end_time - start_time).count() + tempsEcouleSauvegarde_[1]) % 60;
+    auto execution_time_hour = (duration_cast<hours>(end_time - start_time).count() + tempsEcouleSauvegarde_[0]) % 60;
+
+    tempsEcoule_[0] = execution_time_hour;
+    tempsEcoule_[1] = execution_time_min;
+    tempsEcoule_[2] = execution_time_sec;
 }
