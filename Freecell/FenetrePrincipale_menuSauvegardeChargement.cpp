@@ -2,7 +2,7 @@
 // Created by kamilcaglar on 29/04/19.
 //
 #include"pch.h"
-#include "FenetrePrincipale.h"
+#include"FenetrePrincipale.h"
 
 using namespace std;
 using namespace cimg_library;
