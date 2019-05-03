@@ -49,7 +49,7 @@ public:
     //FONCTIONS D'AFFICHAGE
     void attendre();
 
-    void majAffichageJeu(bool postResize, Bouton &boutonQuitter);
+    void majAffichageJeu(bool postResize, Bouton &boutonQuitter, Bouton &bounNbCoups);
 
     void majAffichageMenu(Bouton &boutonNouvelleP, Bouton &boutonCharger, Bouton &boutonQuitter, Bouton &boutonParam);
 
@@ -93,6 +93,7 @@ private:
     float facteurEchelleBoutons_;
     float coeffX_;
     float coeffY_;
+    int nbCoupsJoues_;
     cimg_library::CImg<unsigned char> *visu_;
     cimg_library::CImg<unsigned char> *fond_;
     cimg_library::CImg<unsigned char> *plateau_;
@@ -119,7 +120,6 @@ private:
     PileCarte *pileValide2;
     PileCarte *pileValide3;
     PileCarte *pileValide4;
-
 };
 
 

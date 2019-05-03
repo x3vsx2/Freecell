@@ -13,7 +13,8 @@ using namespace cimg_library;
  */
 FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons)
         : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
-          facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1) {
+          facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1),
+          nbCoupsJoues_(0) {
     initialiserFond();
     //On enregistre les tailles originales pour le cas d'un resize
     tailleFenOriginaleX_ = tailleFenX;

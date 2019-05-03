@@ -154,7 +154,7 @@ void FenetrePrincipale::fenetreVictoire() {
                 break;
             }
         }
-    } while (true);
+    } while (!commandeFermerFenetre());
     quitterFenetre();
 }
 
@@ -171,6 +171,7 @@ void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
     ofstream ofs(nomPartie);
     if (!ofs.is_open()) cerr << "Erreur d'ouverture de " << nomPartie << endl;
     else {
+        ofs << nbCoupsJoues_ << endl;
         for (unsigned int i = 0; i < piles_.size(); i++) {
             ofs << "PILE" << endl;
             ofs << piles_[i]->getTaille() << endl;
@@ -194,6 +195,8 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
     else {
         ifs.seekg(0, std::ios::beg);//Debut du fichier
         string contenu;
+        ifs >> nbCoupsJoues_;
+        ifs.ignore();
         for (unsigned int i = 0; i < 16; i++) {
             if (!tableauxIdentifiants[i].empty()) {
                 tableauxIdentifiants[i].clear();
