@@ -97,7 +97,6 @@ private:
     int tailleFenOriginaleY_;
     int tailleFenX_;
     int tailleFenY_;
-    int ecartEntreCartes_;
     float facteurEchelleCartes_;
     float facteurEchelleBoutons_;
     float coeffX_;

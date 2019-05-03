@@ -45,14 +45,14 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     //On dépose la carte sur une pile
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
-                        piles_[pileCliquee]->deplacerCartePile(pileDeplacement, ecartEntreCartes_);
+                        piles_[pileCliquee]->deplacerCartePile(pileDeplacement);
                     }
                 } else {//si le mouvement n'est pas valide, on remet la carte ou la pile sur la position de départ
                     pileDeplacement->inverserListeCartes();
                     unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
                         if (memoirePile == -1)cout << "c'est ici putain" << endl;
-                        piles_[memoirePile]->deplacerCartePile(pileDeplacement, ecartEntreCartes_);
+                        piles_[memoirePile]->deplacerCartePile(pileDeplacement);
                     }
                 }
                 click_hold = false;
@@ -147,11 +147,6 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
                             disp->height() - bQuitter.getTailleY());
 
     if (postResize) {//Si il y a eu un resize il faut modifier la taille des éléments
-        for (unsigned int i = 0; i < piles_.size(); ++i) {
-            for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
-                piles_[i]->getCarte(j)->reload(coeffX_, coeffY_);
-            }
-        }
         pileJeu1->setPositions(0.10 * disp->width(), 0.40 * disp->height());
         pileJeu2->setPositions(0.20 * disp->width(), 0.40 * disp->height());
         pileJeu3->setPositions(0.30 * disp->width(), 0.40 * disp->height());
@@ -168,12 +163,8 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
         pileValide2->setPositions(0.62 * disp->width(), 0.10 * disp->height());
         pileValide3->setPositions(0.72 * disp->width(), 0.10 * disp->height());
         pileValide4->setPositions(0.82 * disp->width(), 0.10 * disp->height());
-        ecartEntreCartes_ = ecartEntreCartes_ * coeffY_;
-        for (unsigned int i = 0; i < piles_.size(); i++) {
-            for (unsigned int j = 0; j < piles_[i]->getTaille(); j++) {
-                piles_[i]->getCarte(j)->setPosX(piles_[i]->getPosX());
-                piles_[i]->getCarte(j)->setPosY(piles_[i]->getPosY() + ecartEntreCartes_ * j);
-            }
+        for (vector<PileCarte *>::iterator itPile = piles_.begin(); itPile != piles_.end(); ++itPile) {
+            (*itPile)->reload(coeffX_, coeffY_);
         }
     }
     dessinerEmplacementPiles();
@@ -184,14 +175,10 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter) {
             int j = piles_[i]->getTaille() - 1;
             piles_[i]->getCarte(j)->dessinerCarte(visu_);
         } else {
-            for (unsigned int j = 0; j < piles_[i]->getTaille(); ++j) {
-                piles_[i]->getCarte(j)->dessinerCarte(visu_);
-            }
+            piles_[i]->dessinerPile(visu_);
         }
     }
-    for (unsigned int k = 0; k < pileDeplacement->getTaille(); k++) {
-        pileDeplacement->getCarte(k)->dessinerCarte(visu_);
-    }
+    pileDeplacement->dessinerPile(visu_);
     visu_->display(*disp);
 }
 
@@ -322,7 +309,7 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
         //déplacement d'une ou de plusieurs cartes dans la pile déplacée
         int nbCarteAEnlever = piles_[positions[0]]->getTaille() - positions[1];
         for (unsigned int i = 0; i < nbCarteAEnlever; i++) {
-            pileDeplacement->deplacerCartePile(piles_[positions[0]], ecartEntreCartes_);
+            pileDeplacement->deplacerCartePile(piles_[positions[0]]);
         }
         pileDeplacement->inverserListeCartes();
     }

@@ -11,6 +11,7 @@
 #include <vector>
 #include <algorithm>
 #include <fstream>
+#include "CImg.h"
 
 using namespace cimg_library;
 
@@ -50,6 +51,10 @@ public:
 
     ~PileCarte();
 
+    void reload(const float &coeffX, const float &coeffY);
+
+    void dessinerPile(cimg_library::CImg<unsigned char> *visu);
+
     void ajouterCarte(Carte *carte);
 
     unsigned int getTaille() { return listeCartes_.size(); };
@@ -66,7 +71,7 @@ public:
 
     void melangerCartes();
 
-    void deplacerCartePile(PileCarte *pileRetrait, int ecartEntreCartes);
+    void deplacerCartePile(PileCarte *pileRetrait);
 
     int getClicPositionCarte(int mx, int my);
 
@@ -90,6 +95,8 @@ public:
 
 private:
     unsigned int taille_;
+    int ecartOriginal_;
+    int ecartEntreCartes_;
     std::vector<Carte *> listeCartes_;
     int positionX_;
     int positionY_;

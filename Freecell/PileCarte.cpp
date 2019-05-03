@@ -14,11 +14,10 @@ PileCarte::PileCarte() {
     type_ = unknown;
 }
 
-PileCarte::PileCarte(int positionX, int positionY, Type type) {
+PileCarte::PileCarte(int positionX, int positionY, Type type) : positionX_(positionX), positionY_(positionY),
+                                                                type_(type), ecartOriginal_(30) {
     taille_ = 0;
-    positionX_ = positionX;
-    positionY_ = positionY;
-    type_ = type;
+    ecartEntreCartes_ = ecartOriginal_;
 }
 
 PileCarte::PileCarte(PileCarte &pileCopiee) : taille_(pileCopiee.taille_),
@@ -42,19 +41,18 @@ PileCarte::~PileCarte() {
  *Deplace une carte d'une pile à une autre
  * @param pointeur vers la pile retrait
  */
-void PileCarte::deplacerCartePile(PileCarte *pileRetrait, int ecartEntreCartes) {
+void PileCarte::deplacerCartePile(PileCarte *pileRetrait) {
     //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
     //la pile multipliée par le nombre de carte dans la pilex30xcoeff
     if (pileRetrait->getTaille() == 0) { std::cout << "pile vide"; }
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
-	if (this->getType() > 13 && this->getType() < 18) {
-		//si c'est une pile valide on ne décale pas la postion sur y
-		pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY());
-	}
-	else {
+    if (this->getType() > 13 && this->getType() < 18) {
+        //si c'est une pile valide on ne décale pas la postion sur y
+        pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY());
+    } else {
         pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(
-                this->getPosY() + this->listeCartes_.size() * ecartEntreCartes);
-	}
+                this->getPosY() + this->listeCartes_.size() * ecartEntreCartes_);
+    }
     pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPileAppartenance(this);
 
     //Ajout de la carte dans sa nouvelle pile
@@ -194,5 +192,21 @@ void PileCarte::setPositions(int posX, int posY) {
     this->setPosX(posX);
     this->setPosY(posY);
 }
+
+void PileCarte::reload(const float &coeffX, const float &coeffY) {
+    ecartEntreCartes_ = (float) ecartOriginal_ * coeffY;
+    for (auto itCarte = listeCartes_.begin(); itCarte != listeCartes_.end(); ++itCarte) {
+        (*itCarte)->reload(coeffX, coeffY);
+        (*itCarte)->setPosX(positionX_);
+        (*itCarte)->setPosY(positionY_ + (ecartEntreCartes_ * (itCarte - listeCartes_.begin())));
+    }
+}
+
+void PileCarte::dessinerPile(cimg_library::CImg<unsigned char> *visu) {
+    for (auto itCarte = listeCartes_.begin(); itCarte != listeCartes_.end(); ++itCarte) {
+        (*itCarte)->dessinerCarte(visu);
+    }
+}
+
 
 

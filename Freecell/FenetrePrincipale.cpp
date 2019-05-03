@@ -71,7 +71,6 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
  * Initialise les piles et répartie les cartes entre les différentes piles
  */
 void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
-    ecartEntreCartes_ = 30;
     pileDeplacement = new PileCarte(0, 0, deplacement);
     pileJeu1 = new PileCarte(0.10 * disp->width(), 0.40 * disp->height(), jeu1);
     pileJeu2 = new PileCarte(0.20 * disp->width(), 0.40 * disp->height(), jeu2);
@@ -112,19 +111,19 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     if (nouvellePartie) {//On mélange et répartie les cartes seulement si c'est une nouvelle partie
         pileMelange->brassagePile();
         for (unsigned int i = 0; i < 6; i++) {
-            pileJeu1->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu2->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu3->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu4->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu5->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu6->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu7->deplacerCartePile(pileMelange, ecartEntreCartes_);
-            pileJeu8->deplacerCartePile(pileMelange, ecartEntreCartes_);
+            pileJeu1->deplacerCartePile(pileMelange);
+            pileJeu2->deplacerCartePile(pileMelange);
+            pileJeu3->deplacerCartePile(pileMelange);
+            pileJeu4->deplacerCartePile(pileMelange);
+            pileJeu5->deplacerCartePile(pileMelange);
+            pileJeu6->deplacerCartePile(pileMelange);
+            pileJeu7->deplacerCartePile(pileMelange);
+            pileJeu8->deplacerCartePile(pileMelange);
         }
-        pileJeu1->deplacerCartePile(pileMelange, ecartEntreCartes_);
-        pileJeu2->deplacerCartePile(pileMelange, ecartEntreCartes_);
-        pileJeu3->deplacerCartePile(pileMelange, ecartEntreCartes_);
-        pileJeu4->deplacerCartePile(pileMelange, ecartEntreCartes_);
+        pileJeu1->deplacerCartePile(pileMelange);
+        pileJeu2->deplacerCartePile(pileMelange);
+        pileJeu3->deplacerCartePile(pileMelange);
+        pileJeu4->deplacerCartePile(pileMelange);
     } else {//Initialise les piles selon le chargement
         for (unsigned int i = 0; i < 16; i++) {
             for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
@@ -263,7 +262,6 @@ void FenetrePrincipale::quitterFenetre() {
     delete fond_;
     fond_ = nullptr;
 }
-
 
 void FenetrePrincipale::attendre() {
     disp->wait();
