@@ -194,7 +194,13 @@ void PileCarte::reload(const float &coeffX, const float &coeffY) {
     for (auto itCarte = listeCartes_.begin(); itCarte != listeCartes_.end(); ++itCarte) {
         (*itCarte)->reload(coeffX, coeffY);
         (*itCarte)->setPosX(positionX_);
-        (*itCarte)->setPosY(positionY_ + (ecartEntreCartes_ * (itCarte - listeCartes_.begin())));
+        if (type_ != valide1 && type_ != valide2 && type_ != valide3 && type_ != valide4) {
+            (*itCarte)->setPosY(positionY_ + (ecartEntreCartes_ * (itCarte - listeCartes_.begin())));
+        } else {
+            if (itCarte - listeCartes_.begin() == listeCartes_.size()) {
+                (*itCarte)->setPosY(positionY_);
+            }
+        }
     }
 }
 
