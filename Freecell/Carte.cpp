@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Carte.h"
 #include "Couleurs.h"
-#include "Bouton.h"
 #include "stb_implement.h"
 
 using namespace cimg_library;

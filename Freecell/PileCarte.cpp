@@ -1,9 +1,5 @@
 #include "pch.h"
 #include "PileCarte.h"
-#include <algorithm>
-#include <cstdlib>
-#include <ctime>
-#include <fstream>
 
 using namespace cimg_library;
 

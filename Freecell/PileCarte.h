@@ -5,13 +5,11 @@
 #ifndef FREECELL_PILECARTE_H
 #define FREECELL_PILECARTE_H
 
-#include "pch.h"
-#include "CImg.h"
-#include "Carte.h"
 #include <vector>
 #include <algorithm>
 #include <fstream>
-#include "CImg.h"
+#include "pch.h"
+#include "Carte.h"
 
 using namespace cimg_library;
 

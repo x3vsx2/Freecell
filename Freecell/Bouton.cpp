@@ -1,6 +1,3 @@
-#include <utility>
-#include <iostream>
-
 #include "pch.h"
 #include "Bouton.h"
 #include "stb_implement.h"

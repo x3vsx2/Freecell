@@ -1,17 +1,8 @@
 #ifndef FREECELL_FENETREPRINCIPALE_H
 #define FREECELL_FENETREPRINCIPALE_H
-#ifdef _WIN32
-#define CLEAR "cls"
-#else //In any other OS
-#define CLEAR "clear"
-#endif
-#include <cstdlib>
+
 #include <stdio.h>
-#include <iostream>
-#include <vector>
-#include "CImg.h"
 #include "PileCarte.h"
-#include "Carte.h"
 #include "Bouton.h"
 
 class FenetrePrincipale {

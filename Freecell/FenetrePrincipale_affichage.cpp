@@ -3,11 +3,7 @@
 //
 
 #include"pch.h"
-#include "FenetrePrincipale.h"
-#include <fstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
+#include"FenetrePrincipale.h"
 
 using namespace std;
 using namespace cimg_library;

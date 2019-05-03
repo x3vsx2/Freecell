@@ -1,9 +1,15 @@
 #ifndef FREECELL_BOUTON_H
 #define FREECELL_BOUTON_H
 
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif
+
 #include<string>
-#include "CImg.h"
-#include "Couleurs.h"
+#include"CImg.h"
+#include"Couleurs.h"
 
 class Bouton {
 public:
