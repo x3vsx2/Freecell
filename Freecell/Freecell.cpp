@@ -71,6 +71,8 @@ int main() {
                 fen.attendre();
                 if (!victoire) {
                     fen.fenetreSauvegarde();
+                } else {
+                    fen.fenetreVictoire();
                 }
                 break;
             }
@@ -85,7 +87,7 @@ int main() {
                 break;
             }
             case 2: {
-                fen.FenetresParametres();
+                fen.fenetreParametres();
             }
             case 3: {
                 break;

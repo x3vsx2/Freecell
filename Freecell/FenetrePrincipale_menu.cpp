@@ -67,7 +67,7 @@ void FenetrePrincipale::majAffichageMenu(Bouton &boutonNouvelleP, Bouton &bouton
     visu_->display(*disp);
 }
 
-void FenetrePrincipale::FenetresParametres() {
+void FenetrePrincipale::fenetreParametres() {
     initialiserFond();
 
     Bouton binstructionsParametres("instructionsParametres", "icones_et_boutons/instructionsParametres.png",

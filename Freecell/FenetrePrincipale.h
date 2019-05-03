@@ -19,8 +19,9 @@ public:
 
     void fenetreSauvegarde();
 
-    void FenetresParametres();
+    void fenetreParametres();
 
+    void fenetreVictoire();
     //FONCTIONS D'INITIALISATION
     void initialiserFond();
 

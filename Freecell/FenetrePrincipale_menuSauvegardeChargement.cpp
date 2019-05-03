@@ -138,6 +138,26 @@ void FenetrePrincipale::fenetreSauvegarde() {
     quitterFenetre();
 }
 
+void FenetrePrincipale::fenetreVictoire() {
+    initialiserFond();
+    Bouton boutonGagne("BoutonGagne", "icones_et_boutons/fireworks.png", 1);
+    boutonGagne.dessinerBouton(visu_, disp->width() / 2 - boutonGagne.getTailleX() / 2,
+                               disp->height() * 0.1);
+    Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
+    bQuitter.dessinerBouton(visu_, disp->width() - bQuitter.getTailleX() * 1.1,
+                            disp->height() - bQuitter.getTailleY() * 1.1);
+
+    visu_->display(*disp);
+    do {
+        if (disp->button()) {//Test si clique
+            if (bQuitter.estCliquee(getPosSourisX(), getPosSourisY())) {
+                break;
+            }
+        }
+    } while (true);
+    quitterFenetre();
+}
+
 void FenetrePrincipale::ajouterPartieSauvegardee(std::string nomPartie) {
     if (std::find(tableauParties.begin(), tableauParties.end(), nomPartie) != tableauParties.end()) {
         /* tableauParties contains nomPartie */
