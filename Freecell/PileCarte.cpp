@@ -172,10 +172,18 @@ int PileCarte::trouverPosCarteId(int id) {
 }
 
 void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, PileCarte *pile2) {
+	// mise à jour des variables Pos
     pile2->listeCartes_[posCarte2]->setPosX(this->getPosX());
-    pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
-    pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
+	if (this->getType() > 13 && this->getType() < 18) {
+		pile2->listeCartes_[posCarte2]->setPosY(this->getPosY());
+	}
+	else {
+		pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
+	}
+	pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
+	
 
+	//Réalisation du déplacement
     //On ajoute la carte à la position souhaitée
     this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
     this->taille_++;
