@@ -196,6 +196,7 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
             piles_[i]->dessinerPile(visu_);
         }
     }
+	pileDeplacement->reload(coeffX_, coeffY_);
     pileDeplacement->dessinerPile(visu_);
     visu_->display(*disp);
 }
