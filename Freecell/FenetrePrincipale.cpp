@@ -271,16 +271,15 @@ int FenetrePrincipale::trouverCarte(int id) {
 }
 
 void FenetrePrincipale::terminerPartie(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime) {
-	//for (unsigned int k = 12; k < 16; k++) {
-	//	piles_[k]->agrandirPile();
-	//}
-	int limite = 100;
+	int limite = 100; // imposition d'une limite en cas de disfonctionnement de l'algorithme
+
 	while (!PartieEstGagnee() && limite>0) { // tant que l'on a pas fini la partie
 		for (unsigned int k = 12; k < 16; k++) { // pour chaque pile valide
-			if (piles_[k]->getTaille() != 0) {
+			if (piles_[k]->getTaille() != 0&& piles_[k]->getTaille() != 13) {
 				int idchercher = piles_[k]->getCarte(piles_[k]->getTaille() - 1)->getIdentifiant() + 1; //on recupère la carte qu'il faut 
-				int numPile = int(trouverCarte(idchercher) / 100); // donne la pile qui contient la carte
-				int position = trouverCarte(idchercher) % 100;// donne la position dans la pile
+				int positions = trouverCarte(idchercher);
+				int numPile = int( positions/ 100); // donne la pile qui contient la carte
+				int position = positions % 100;// donne la position dans la pile
 				if (position == piles_[numPile]->getTaille() - 1) { // si la carte est accessible
 					piles_[k]->deplacerCartePileAvecPosition(idchercher % 13, position, piles_[numPile]); // on deplace la carte de la position calculée ci-avant vers la pile valide
 				}
