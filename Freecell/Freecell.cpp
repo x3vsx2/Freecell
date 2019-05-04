@@ -83,6 +83,9 @@ int main() {
                     if (!victoire) {
                         fen.fenetreSauvegarde();
                     }
+					else {
+						fen.fenetreVictoire();
+					}
                 }
                 break;
             }
