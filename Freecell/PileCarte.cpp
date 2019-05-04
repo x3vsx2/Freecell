@@ -205,7 +205,7 @@ void PileCarte::reload(const float &coeffX, const float &coeffY) {
         if (type_ != valide1 && type_ != valide2 && type_ != valide3 && type_ != valide4) {
             (*itCarte)->setPosY(positionY_ + (ecartEntreCartes_ * (itCarte - listeCartes_.begin())));
         } else {
-            if (itCarte - listeCartes_.begin() == listeCartes_.size()) {
+            if (itCarte - listeCartes_.begin() == listeCartes_.size()-1) {
                 (*itCarte)->setPosY(positionY_);
             }
         }
