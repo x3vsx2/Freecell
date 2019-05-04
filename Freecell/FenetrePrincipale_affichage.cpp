@@ -55,7 +55,6 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
                     pileDeplacement->inverserListeCartes();
                     unsigned int nbCartesAEnlever = pileDeplacement->getTaille();
                     for (unsigned int i = 0; i < nbCartesAEnlever; i++) {
-                        if (memoirePile == -1)cout << "c'est ici putain" << endl;
                         piles_[memoirePile]->deplacerCartePile(pileDeplacement);
                     }
                 }
