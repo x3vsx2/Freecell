@@ -26,6 +26,9 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     //    majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime); // à quoi ça sert ??
     //}
     while (!commandeFermerFenetre()) {
+		
+		
+
         int mx = getPosSourisX();
         int my = getPosSourisY();
 
@@ -75,11 +78,16 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
+		if (victoireAnticipee()) {
+			cout << " Victoire Anticipee" << endl;
+			terminerPartie(false, bQuitter, bNbCoupJoues, bTime);
+		}
         if (PartieEstGagnee()) {
             supprimerPiles();
             quitterFenetre();
             return true;
         }
+
         attendre();
     }
     quitterFenetre();

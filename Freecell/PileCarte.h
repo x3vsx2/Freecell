@@ -77,6 +77,8 @@ public:
 
     bool precedentEstValide(unsigned int position);
 
+	bool EstTriee();
+
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
     void brassagePile();
@@ -90,6 +92,8 @@ public:
     void sauvegarderPile(std::ofstream &ofs);
 
     void setPositions(int posX, int posY);
+
+	void agrandirPile();
 
 private:
     unsigned int taille_;

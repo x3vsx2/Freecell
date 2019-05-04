@@ -45,6 +45,10 @@ public:
 
     bool PartieEstGagnee();
 
+	bool victoireAnticipee();
+
+	void terminerPartie(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime);
+
     bool commandeFermerFenetre();
 
     int getPosSourisX() { return disp->mouse_x(); };
@@ -52,6 +56,8 @@ public:
     int getPosSourisY() { return disp->mouse_y(); };
 
     void mesurerTemps(const ClockTime &start_time, const ClockTime &end_time, std::vector<int> &tempsEcoule_);
+
+	int trouverCarte(int id);
 
     //FONCTIONS D'AFFICHAGE
     void attendre();
