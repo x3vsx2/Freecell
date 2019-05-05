@@ -253,7 +253,7 @@ bool FenetrePrincipale::PartieEstGagnee() {
 }
 
 bool FenetrePrincipale::victoireAnticipee() {
-	bool fin_anticipee = true;
+	bool fin_anticipee = pileDeplacement->getTaille() == 0;
 	for (unsigned int k = 0; k < 8; k++) {
 		fin_anticipee &= piles_[k]->EstTriee();
 	}
