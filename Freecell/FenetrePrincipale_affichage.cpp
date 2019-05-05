@@ -83,6 +83,7 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
 			terminerPartie(false, bQuitter, bNbCoupJoues, bTime);
 		}
         if (PartieEstGagnee()) {
+			nbCoupsJoues_ = 0;
             supprimerPiles();
             quitterFenetre();
             return true;
