@@ -94,6 +94,7 @@ void PileCarte::setPosY(int posY) {
  * Sinon renvoie la position de la carte
  * @param mx position horizontale de la souris
  * @param my position verticale de la souris
+ * @return position
  */
 int PileCarte::getClicPositionCarte(int mx, int my) {
     int position = -1;
@@ -145,7 +146,10 @@ bool PileCarte::precedentEstValide(unsigned int position) {
         else { return false; }
     }
 }
-
+/*!
+* Renvoie si la pile est triée au sens des règles du jeu
+* @return bool true si la pile est triée, false sinon
+*/
 bool PileCarte::EstTriee() {
 	bool validite = true;
 	if (this->getTaille() <= 1) {
@@ -173,18 +177,22 @@ void PileCarte::brassagePile() {
 }
 
 void PileCarte::sauvegarderPile(std::ofstream &ofs) {
-
+	// utilité/20
 }
-
+ /*
+ * Renvoie la postion de la carte identifié par l'identifiant id
+ * @param id
+ * @return position
+ */
 int PileCarte::trouverPosCarteId(int id) {
-    int pos = -1;
+    int position = -1;
     for (unsigned int i = 0; i < taille_; i++) {
         if (listeCartes_[i]->getIdentifiant() == id) {
-            pos = i;
+            position = i;
             break;
         }
     }
-    return pos;
+    return position;
 }
 
 void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, PileCarte *pile2) {
@@ -208,6 +216,11 @@ void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, Pile
     pile2->taille_--;
 }
 
+/*
+* Affecte la position de la pile à posX, posY
+* @param posX : position selon X
+* @param posY : position selon Y
+*/
 void PileCarte::setPositions(int posX, int posY) {
     this->setPosX(posX);
     this->setPosY(posY);
