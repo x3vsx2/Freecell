@@ -201,12 +201,7 @@ void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, Pile
 
 	//Réalisation du déplacement
     //On ajoute la carte à la position souhaitée
-	if (posCarte1 < this->listeCartes_.size()) {
-		this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
-	}
-	else {
-		this->listeCartes_.push_back(pile2->listeCartes_[posCarte2]);
-	}
+	this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]); 
     this->taille_++;
     //supprime la carte de la pile melange (ou de l'ancienne pile)
     pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2);

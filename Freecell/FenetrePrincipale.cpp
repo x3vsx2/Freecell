@@ -281,7 +281,12 @@ void FenetrePrincipale::terminerPartie(bool postResize, Bouton &bQuitter, Bouton
 				int numPile = int( positions/ 100); // donne la pile qui contient la carte
 				int position = positions % 100;// donne la position dans la pile
 				if (position == piles_[numPile]->getTaille() - 1) { // si la carte est accessible
-					piles_[k]->deplacerCartePileAvecPosition(idchercher % 13, position, piles_[numPile]); // on deplace la carte de la position calculée ci-avant vers la pile valide
+					if (idchercher % 13 == 0) {// si c'est un roi
+						piles_[k]->deplacerCartePileAvecPosition(12, position, piles_[numPile]);
+					}
+					else {
+						piles_[k]->deplacerCartePileAvecPosition((idchercher % 13) - 1, position, piles_[numPile]); // on deplace la carte de la position calculée ci-avant vers la pile valide
+					}
 				}
 			}
 			majAffichageJeu(false, bQuitter, bNbCoupsJoues, bTime);
@@ -290,7 +295,7 @@ void FenetrePrincipale::terminerPartie(bool postResize, Bouton &bQuitter, Bouton
 
 		limite--;
 	}
-	cout <<limite;
+	//cout <<limite;
 }
 
 void FenetrePrincipale::quitterFenetre() {
