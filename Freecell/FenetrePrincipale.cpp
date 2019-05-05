@@ -283,19 +283,19 @@ void FenetrePrincipale::terminerPartie(bool postResize, Bouton &bQuitter, Bouton
 				if (position == piles_[numPile]->getTaille() - 1) { // si la carte est accessible
 					if (idchercher % 13 == 0) {// si c'est un roi
 						piles_[k]->deplacerCartePileAvecPosition(12, position, piles_[numPile]);
+						nbCoupsJoues_++;
 					}
 					else {
 						piles_[k]->deplacerCartePileAvecPosition((idchercher % 13) - 1, position, piles_[numPile]); // on deplace la carte de la position calculée ci-avant vers la pile valide
+						nbCoupsJoues_++;
 					}
 				}
 			}
 			majAffichageJeu(false, bQuitter, bNbCoupsJoues, bTime);
 			attendre();
 		}
-
 		limite--;
 	}
-	//cout <<limite;
 }
 
 void FenetrePrincipale::quitterFenetre() {
