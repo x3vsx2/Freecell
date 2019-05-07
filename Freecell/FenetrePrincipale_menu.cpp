@@ -106,11 +106,11 @@ void FenetrePrincipale::fenetreParametres() {
 void FenetrePrincipale::mesurerTemps(const ClockTime &start_time, const ClockTime &end_time,
                                      std::vector<int> &tempsEcoule_) {
 
-    auto execution_time_sec = (duration_cast<seconds>(end_time - start_time).count() + tempsEcouleSauvegarde_[2]) % 60;
-    auto execution_time_min = (duration_cast<minutes>(end_time - start_time).count() + tempsEcouleSauvegarde_[1]) % 60;
-    auto execution_time_hour = (duration_cast<hours>(end_time - start_time).count() + tempsEcouleSauvegarde_[0]) % 60;
+    auto execution_time_sec = (duration_cast<seconds>(end_time - start_time).count()) % 60;
+    auto execution_time_min = (duration_cast<minutes>(end_time - start_time).count()) % 60;
+    auto execution_time_hour = (duration_cast<hours>(end_time - start_time).count()) % 60;
 
-    tempsEcoule_[0] = execution_time_hour;
-    tempsEcoule_[1] = execution_time_min;
-    tempsEcoule_[2] = execution_time_sec;
+    tempsEcoule_[0] = (execution_time_hour + tempsEcouleSauvegarde_[0]) % 60;
+    tempsEcoule_[1] = (execution_time_min + tempsEcouleSauvegarde_[1]) % 60;
+    tempsEcoule_[2] = (execution_time_sec + tempsEcouleSauvegarde_[2]) % 60;
 }

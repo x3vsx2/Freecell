@@ -22,6 +22,7 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     Bouton bTime("bTime", "icones_et_boutons/time.png", facteurEchelleBoutons_ * 1.2);
     if (nouvellePartie) {
         nbCoupsJoues_ = 0;
+        tempsEcoule_ = {0, 0, 0};
     } else {
         majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime);
     }

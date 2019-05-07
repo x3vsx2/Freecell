@@ -16,7 +16,7 @@ FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float facto
           facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1),
           nbCoupsJoues_(0), tempsEcoule_(3), tempsEcouleSauvegarde_(3) {
     initialiserFond();
-    tempsEcouleSauvegarde_ = {0, 0, 0};
+
     //On enregistre les tailles originales pour le cas d'un resize
     tailleFenOriginaleX_ = tailleFenX;
     tailleFenOriginaleY_ = tailleFenY;
