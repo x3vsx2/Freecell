@@ -233,6 +233,7 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
 }
 
 void FenetrePrincipale::supprimerPartieChargee(const std::string &nomPartie) {
+    system(CLEAR);
     for (vector<string>::iterator itTab = tableauParties.begin(); itTab != tableauParties.end(); ++itTab) {
         if (*itTab == nomPartie) {
             tableauParties.erase(itTab);
