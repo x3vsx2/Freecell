@@ -25,15 +25,13 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     } else {
         majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime);
     }
-
-    while (!commandeFermerFenetre()) {
-
-        int mx = getPosSourisX();
-        int my = getPosSourisY();
-
+    dessinerEmplacementPiles();
+    do {
         end_time_ = Clock::now();
         majAffichageJeu(false, bQuitter, bNbCoupJoues, bTime);
-
+        attendre();
+        int mx = getPosSourisX();
+        int my = getPosSourisY();
         if (disp->button()) {//Test si clique ET clique sur une carte
             if (!click_hold) {
                 //Déplacement des cartes dans la pile pileDeplacement
@@ -86,9 +84,7 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
             quitterFenetre();
             return true;
         }
-
-        attendre();
-    }
+    } while (!commandeFermerFenetre());
     quitterFenetre();
     return false;
 }
@@ -123,7 +119,7 @@ void FenetrePrincipale::dessinerEmplacementPiles() {
     }
     //Dessine l'emplacement des piles selon la taille des cartes
     for (unsigned int i = 0; i < 16; i++) {
-        visu_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(),
+        fond_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(),
                               piles_[i]->getPosX() + piles_[i]->getTailleX(),
                               piles_[i]->getPosY() + piles_[i]->getTailleY(), couleurPiles, 1);
     }
@@ -192,8 +188,9 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
         for (vector<PileCarte *>::iterator itPile = piles_.begin(); itPile != piles_.end(); ++itPile) {
             (*itPile)->reload(coeffX_, coeffY_);
         }
+        dessinerEmplacementPiles();
+        pileDeplacement->reload(coeffX_, coeffY_);
     }
-    dessinerEmplacementPiles();
 
     //On affiche les différentes piles_
     for (unsigned int i = 0; i < piles_.size(); ++i) {
@@ -204,7 +201,6 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
             piles_[i]->dessinerPile(visu_);
         }
     }
-    pileDeplacement->reload(coeffX_, coeffY_);
     pileDeplacement->dessinerPile(visu_);
     visu_->display(*disp);
 }
@@ -343,7 +339,7 @@ void FenetrePrincipale::deplacerPile(int mx, int my) {
 }
 
 void FenetrePrincipale::majFenetre() {
-    attendre();//Evite que la fonction soit relancée plusieurs fois de suite
+    attendre();
     disp->resize();//maj des attributs du display
     tailleFenX_ = disp->width();//recupération des nouveaux attributs
     tailleFenY_ = disp->height();
