@@ -251,3 +251,18 @@ void PileCarte::agrandirPile() {
 	listeCartes_.reserve(listeCartes_.size() + 13);
 }
 
+void PileCarte::setTailleX(const int tailleX) {
+    tailleX_ = tailleX;
+}
+
+void PileCarte::setTailleY(const int tailleY) {
+    tailleY_ = tailleY;
+}
+
+int PileCarte::getTailleX() const {
+    return tailleX_;
+}
+
+int PileCarte::getTailleY() const {
+    return tailleY_;
+}

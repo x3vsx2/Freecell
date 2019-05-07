@@ -20,8 +20,8 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
     Bouton bNbCoupJoues("NbCoupsJoues", "icones_et_boutons/nbcoupsjoues.png", facteurEchelleBoutons_ * 1.2);
     Bouton bTime("bTime", "icones_et_boutons/time.png", facteurEchelleBoutons_ * 1.2);
-	if (nouvellePartie) {
-		nbCoupsJoues_ = 0;
+    if (nouvellePartie) {
+        nbCoupsJoues_ = 0;
     } else {
         majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime);
     }
@@ -77,10 +77,10 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
         if (click_hold && pileDeplacement->getTaille() != 0) {
             pileDeplacement->changerPositionPile(mx, my); //Met à jour la position de la pileDeplacement
         }
-		if (victoireAnticipee()) {
-			cout << " Victoire Anticipee" << endl;
-			terminerPartie(false, bQuitter, bNbCoupJoues, bTime);
-		}
+        if (victoireAnticipee()) {
+            cout << " Victoire Anticipee" << endl;
+            terminerPartie(false, bQuitter, bNbCoupJoues, bTime);
+        }
         if (PartieEstGagnee()) {
             supprimerPiles();
             quitterFenetre();
@@ -105,16 +105,17 @@ void FenetrePrincipale::initialiserFond() {
 }
 
 void FenetrePrincipale::dessinerEmplacementPiles() {
-    int tailleX;
-    int tailleY;
+
     int c = 0;
     //TODO peut etre optimisé
     while (true) {//trouve ua moins une carte et récupère sa taille
         if (piles_[c]->getTaille() !=
             0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
             if (piles_[c]->getCarte(0)->getTailleX() != 0) {
-                tailleX = piles_[c]->getCarte(0)->getTailleX();
-                tailleY = piles_[c]->getCarte(0)->getTailleY();
+                for (unsigned int i = 0; i < 16; i++) {
+                    piles_[i]->setTailleX(piles_[c]->getCarte(0)->getTailleX());
+                    piles_[i]->setTailleY(piles_[c]->getCarte(0)->getTailleY());
+                }
                 break;
             }
         }
@@ -122,8 +123,9 @@ void FenetrePrincipale::dessinerEmplacementPiles() {
     }
     //Dessine l'emplacement des piles selon la taille des cartes
     for (unsigned int i = 0; i < 16; i++) {
-        visu_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(), piles_[i]->getPosX() + tailleX,
-                              piles_[i]->getPosY() + tailleY, couleurPiles, 1);
+        visu_->draw_rectangle(piles_[i]->getPosX(), piles_[i]->getPosY(),
+                              piles_[i]->getPosX() + piles_[i]->getTailleX(),
+                              piles_[i]->getPosY() + piles_[i]->getTailleY(), couleurPiles, 1);
     }
 }
 
@@ -202,7 +204,7 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
             piles_[i]->dessinerPile(visu_);
         }
     }
-	pileDeplacement->reload(coeffX_, coeffY_);
+    pileDeplacement->reload(coeffX_, coeffY_);
     pileDeplacement->dessinerPile(visu_);
     visu_->display(*disp);
 }

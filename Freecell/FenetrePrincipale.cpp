@@ -53,9 +53,9 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
     //Cherche si il y a une position Libre qui correspond à la position de la souris dans les piles_ Jeu
     for (unsigned int i = 0; i < piles_.size(); i++) {
         int pileX1 = piles_[i]->getPosX();
-        int pileX2 = piles_[i]->getPosX() + 74;
+        int pileX2 = piles_[i]->getPosX() + piles_[i]->getTailleX();
         int pileY1 = piles_[i]->getPosY();
-        int pileY2 = piles_[i]->getPosY() + 99;
+        int pileY2 = piles_[i]->getPosY() + piles_[i]->getTailleY();
         if (mx >= pileX1 && mx <= pileX2 && my >= pileY1 && my <= pileY2) {
             positions[0] = i;
             positions[1] = -2;
@@ -137,7 +137,6 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
             }
         }
     }
-
     delete pileMelange;
 }
 

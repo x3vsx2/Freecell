@@ -22,21 +22,6 @@ typedef enum {
 using namespace cimg_library;
 
 class Carte {
-
-private:
-    int idCarte_;
-    TypeCouleur Couleur_;
-    TypeHauteur Hauteur_;
-    int positionX_;
-    int positionY_;
-    int OriginalTailleX_;
-    int OriginalTailleY_;
-    int tailleX_;
-    int tailleY_;
-    CImg<unsigned char> image_;
-    PileCarte *pileAppartenance_;
-    const char *chemin;
-
 public:
     Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur,
           const char *fileName,
@@ -79,6 +64,20 @@ public:
     void setPileAppartenance(PileCarte *pile) { pileAppartenance_ = pile; };
 
     void reload(float coeffX, float coeffY);
+
+private:
+    int idCarte_;
+    TypeCouleur Couleur_;
+    TypeHauteur Hauteur_;
+    int positionX_;
+    int positionY_;
+    int OriginalTailleX_;
+    int OriginalTailleY_;
+    int tailleX_;
+    int tailleY_;
+    CImg<unsigned char> image_;
+    PileCarte *pileAppartenance_;
+    const char *chemin;
 };
 
 

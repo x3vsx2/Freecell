@@ -95,8 +95,19 @@ public:
 
 	void agrandirPile();
 
+    void setTailleX(const int tailleX);
+
+    void setTailleY(const int tailleY);
+
+    int getTailleX() const;
+
+    int getTailleY() const;
+
+
 private:
     unsigned int taille_;
+    int tailleX_;
+    int tailleY_;
     int ecartOriginal_;
     int ecartEntreCartes_;
     std::vector<Carte *> listeCartes_;
