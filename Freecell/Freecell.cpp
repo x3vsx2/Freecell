@@ -41,6 +41,7 @@ void initFreecellSettings(int &dispX, int &dispY, float &factorScallingCards, fl
         ifs >> factorScallingCards;
         ifs.ignore();
         ifs >> factorScallingButton;
+		ifs.clear();
         if (!ifs.good()) cerr << "Erreur de lecture du fichier settings.txt" << endl;
         else {
             cout << "Chargement des paramètre réussi : " << dispX << "x" << dispY << endl;
