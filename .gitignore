@@ -266,3 +266,4 @@ __pycache__/
 /Freecell/fin.txt
 /Freecell/test.txt
 /Freecell/a.txt
+*.txt
