@@ -1,7 +1,9 @@
-//
-// Created by kamilcaglar on 02/04/19.
-//
-
+/*!
+ *  @file FenetrePrincipale_menu.cpp
+ *  @brief Contient les fonctions d'affichage et de gestion du menu principal
+ *  @date 07/05/2019
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+*/
 #include"pch.h"
 #include "FenetrePrincipale.h"
 
@@ -9,7 +11,8 @@ using namespace std;
 using namespace cimg_library;
 
 
-FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons)
+FenetrePrincipale::FenetrePrincipale(const int tailleFenX, const int tailleFenY, const float factorScaleCards,
+                                     const float factorScaleButtons)
         : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
           facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1),
           nbCoupsJoues_(0), tempsEcoule_(3), tempsEcouleSauvegarde_(3) {

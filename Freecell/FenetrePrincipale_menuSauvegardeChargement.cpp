@@ -133,7 +133,6 @@ void FenetrePrincipale::fenetreSauvegarde() {
         }
         attendre();
     } while (true);
-
     supprimerPiles();
     quitterFenetre();
 }

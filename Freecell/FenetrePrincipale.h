@@ -24,36 +24,66 @@ class FenetrePrincipale {
 
 public:
 
+    /*!
+     *  Constructeur de la fenetrePrincipale
+     *  @param tailleFenX longueur de la fenetre en pixels
+     *  @param tailleFenY hauteur de la fenetre en pixels
+     *  @param factorScaleCards facteur d'échelle des cartes
+     *  @param factorScaleButtons facteur d'échelle des boutons
+     */
     FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons);
 
+    /*!
+     *  Destructeur de la fenetre principale
+     *  Efface le pointeur vers disp
+     */
     ~FenetrePrincipale();
 
     //FONCTIONS MENUS ET FENETRES
+
+    /*!
+     *  Fonction qui lance le jeu
+     *  @param nouvellePartie : true si c'est une nouvelle partie, false si chargement
+     *  @return true si victoire, false sinon
+     */
     bool lancerJeu(bool nouvellePartie);
 
+    /*!
+     *  Affiche la fenetre de chargement
+     *  @return true si le chargement a fonctionné, false sinon (quitter, mauvaise sauvegarde...)
+     */
     bool fenetreChargement();
 
+    /*!
+     *  Affiche la fenetre de sauvegarde
+     */
     void fenetreSauvegarde();
 
+    /*!
+     *  Affiche la fenetre de parametres (infos) pour changer la taille des éléments
+     */
     void fenetreParametres();
 
+    /*!
+    *  Affiche la fenetre de victoire
+    */
     void fenetreVictoire();
 
     //FONCTIONS D'INITIALISATION
 
     /*!
- *Initialise le plateau, le fond et visu selon la taille du jeu
- */
+     *Initialise le plateau, le fond et visu selon la taille du jeu
+     */
     void initialiserFond();
 
     /*!
- * Initialise les cartes et ajout dans pileMelange
- */
+     * Initialise les cartes (création) et ajout dans pileMelange
+     */
     void initialiserCartes();
 
     /*!
- * Initialise les piles et répartie les cartes entre les différentes piles
- */
+     * Initialise les piles et répartie les cartes entre les différentes piles
+     */
     void initialiserPiles(bool nouvellePartie);
 
     //FONCTIONS GESTION JEU
@@ -153,7 +183,7 @@ public:
     void sauverFichierSettings(int dispX, int dispY, float cardScale, float buttonScale);
 
 private:
-    int tailleFenOriginaleX_;
+    int tailleFenOriginaleX_; /*!< longeur originale de la fenetre, récupérée dans le fichier settings.txt*/
     int tailleFenOriginaleY_;
     int tailleFenX_;
     int tailleFenY_;
