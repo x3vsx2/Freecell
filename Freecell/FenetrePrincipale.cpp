@@ -133,7 +133,6 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
                 //On regarde dans la pile Melange pour trouver sa position
                 posPileMelange = pileMelange->trouverPosCarteId(idAchercher);
                 piles_[i]->deplacerCartePileAvecPosition(piles_[i]->getTaille(), posPileMelange, pileMelange);
-                etatChargement();
             }
         }
     }
@@ -327,14 +326,6 @@ void FenetrePrincipale::supprimerPiles() {
     delete pileDeplacement;
 }
 
-void FenetrePrincipale::clear_screen() {
-#ifdef WINDOWS
-    std::system("cls");
-#else
-    // Assume POSIX
-    std::system("clear");
-#endif
-}
 
 void FenetrePrincipale::sauverFichierSettings(int newTailleFenX, int newTailleFenY, float newCardsScale,
                                               float newButtonScale) {

@@ -78,10 +78,7 @@ public:
 
     void supprimerPiles();
 
-    static void clear_screen();
-
     //FONCTIONS SAUVEGARDE ET CHARGEMENT
-    void etatChargement();
 
     void ajouterPartieSauvegardee(std::string nomPartie);
 

@@ -247,24 +247,6 @@ void FenetrePrincipale::supprimerPartieChargee(const std::string &nomPartie) {
     sauverTableauParties();
 }
 
-void FenetrePrincipale::etatChargement() {
-//Debug
-    //Liste souhaitée
-    for (unsigned int x = 0; x < tableauxIdentifiants.size(); x++) {
-        for (unsigned int y = 0; y < tableauxIdentifiants[x].size(); y++) {
-            cout << tableauxIdentifiants[x][y] << " ";
-        }
-    }
-    cout << endl;
-    //Liste actuelle
-    for (unsigned int k = 0; k < piles_.size(); k++) {
-        for (unsigned int l = 0; l < piles_[k]->getTaille(); l++) {
-            cout << piles_[k]->getCarte(l)->getIdentifiant() << " ";
-        }
-    }
-    cout << endl;
-    cout << endl;
-}
 
 void FenetrePrincipale::chargerTableauParties() {
     tableauParties.clear();
