@@ -1,21 +1,17 @@
-//
-// Created by kamilcaglar on 26/04/19.
-//
+/*!
+ *  @file FenetrePrincipale_menu.cpp
+ *  @brief Contient les fonctions d'affichage et de gestion du menu principal
+ *  @date 07/05/2019
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+*/
 #include"pch.h"
 #include "FenetrePrincipale.h"
-#include <fstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
 
 using namespace std;
 using namespace cimg_library;
 using namespace std::chrono;
 
-/*!
- *Initialise le plateau, le fond et visu
- * @return int, 1 pour nouvelle partie, 2 pour charger partie, 3 pour quitter
- */
+
 int FenetrePrincipale::afficherMenu() {
     initialiserFond();
 

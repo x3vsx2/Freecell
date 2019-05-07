@@ -8,9 +8,7 @@
 using namespace std;
 using namespace cimg_library;
 
-/*!
- * Constructeur qui initialise le display
- */
+
 FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float factorScaleCards, float factorScaleButtons)
         : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
           facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1),
@@ -28,12 +26,6 @@ FenetrePrincipale::FenetrePrincipale(int tailleFenX, int tailleFenY, float facto
     quitterFenetre();
 }
 
-/*!
- *Renvoie un vecteur avec le numero de la pile suivie du numéro de la carte selon la position du ponteur de la souris
- * @param mx position horizontale de la souris
- * @param my position verticale de la souris
- * @return vector<int> numero pile et numero carte
- */
 vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
 
     vector<int> positions;
@@ -65,9 +57,6 @@ vector<int> FenetrePrincipale::getClicPositions(int mx, int my) {
     return positions;
 }
 
-/*!
- * Initialise les piles et répartie les cartes entre les différentes piles
- */
 void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
     pileDeplacement = new PileCarte(0, 0, deplacement);
     pileJeu1 = new PileCarte(0.10 * disp->width(), 0.40 * disp->height(), jeu1);
@@ -173,12 +162,6 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
     return false;
 }
 
-/*!
-* Renvoie si le depot de cartes à l'emplacement indiqué par mx my est valide
-* @param mx position horizontale de la souris
-* @param my position verticale de la souris
-*@return bool
-*/
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
     vector<int> positionsCiblee = getClicPositions(mx, my);
     if (positionsCiblee[0] == -1) { return false; }
@@ -235,10 +218,6 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
     }
 }
 
-/*!
-* Renvoie si le joueur à remporter la partie
-* @return bool
-*/
 bool FenetrePrincipale::PartieEstGagnee() {
     //TODO : faire le calcule nombre de carte placee
     unsigned int nombreDeCartePlacee =

@@ -1,5 +1,10 @@
-// Freecell.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
-//
+/*!
+ *  @mainpage
+ *  @file Freecell.cpp
+ *  @brief Fichier principal qui lancera le jeu.
+ *  @date 07/05/2019
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+*/
 #include "pch.h"
 #include <iostream>
 #include "FenetrePrincipale.h"
@@ -8,7 +13,7 @@ using namespace std;
 
 /*!
  *Initialise les valeur de taille de la fenetre et du facteur d'échelle des boutons
- * @param int &dispX futur longueur de la fenetre
+ * @param[in] int &dispX futur longueur de la fenetre
  * @param int &dispY futur largeur de la fenetre
  * @param float &factorScallingCards rapport de taille des cartes par rapport à leur taille originale
  * @param float &factorScallingButton rapport de taille des boutons par rapport à leur taille originale
@@ -41,7 +46,7 @@ void initFreecellSettings(int &dispX, int &dispY, float &factorScallingCards, fl
         ifs >> factorScallingCards;
         ifs.ignore();
         ifs >> factorScallingButton;
-		ifs.clear();
+        ifs.clear();
         if (!ifs.good()) cerr << "Erreur de lecture du fichier settings.txt" << endl;
         else {
             cout << "Chargement des paramètre réussi : " << dispX << "x" << dispY << endl;
@@ -86,9 +91,8 @@ int main() {
                     if (!victoire) {
                         fen.fenetreSauvegarde();
                         fen.attendre();
-                    }
-					else {
-						fen.fenetreVictoire();
+                    } else {
+                        fen.fenetreVictoire();
                         fen.attendre();
                     }
                 }

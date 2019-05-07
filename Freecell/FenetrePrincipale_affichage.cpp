@@ -1,7 +1,9 @@
-//
-// Created by kamilcaglar on 26/04/19.
-//
-
+/*!
+ *  @file FenetrePrincipale_affichage.cpp
+ *  @brief Contient les fonctions qui gèrent l'affichage du jeu
+ *  @date 07/05/2019
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+*/
 #include"pch.h"
 #include"FenetrePrincipale.h"
 
@@ -89,9 +91,6 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     return false;
 }
 
-/*!
- *Initialise le plateau, le fond et visu selon la taille du jeu
- */
 void FenetrePrincipale::initialiserFond() {
     //declare le plateau de jeu avec longeurXlargeur
     plateau_ = new CImg<unsigned char>(tailleFenX_, tailleFenY_, 1, 1, 0);
@@ -125,14 +124,6 @@ void FenetrePrincipale::dessinerEmplacementPiles() {
     }
 }
 
-/*!
- *Colorie une image
- * @param img - l'image que l'on veut colorier
- * @param r - couleur rouge 0 à 255
- * @param g - couleur verte 0 à 255
- * @param b - couleur bleu 0 à 255
- * @return vide
- */
 void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, int r, int g, int b) {
 
     cimg_forXY(img, x, y)
@@ -147,9 +138,6 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
     }
 }
 
-/*!
- * Redessine chaque carte selon sa position
- */
 void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime) {
     visu_->draw_image(*fond_);
     end_time_ = Clock::now();
@@ -205,9 +193,6 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
     visu_->display(*disp);
 }
 
-/*!
- * Initialise les cartes et ajout dans pileMelange
- */
 void FenetrePrincipale::initialiserCartes() {
     pileMelange = new PileCarte(0, 0, melange);
     pileMelange->ajouterCarte(
@@ -317,11 +302,6 @@ void FenetrePrincipale::initialiserCartes() {
 
 }
 
-/*!
- * Deplace un certain nombre de cartes dans la pile pileDeplacement selon la position de la souris
- * @param mx position horizontale de la souris
- * @param my position verticale de la souris
- */
 void FenetrePrincipale::deplacerPile(int mx, int my) {
     //récupère la position d'une carte dans les piles_
     //Si vector = -1 -1 alors aucune carte n'a été cliquée
