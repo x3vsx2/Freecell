@@ -89,7 +89,7 @@ public:
 
     void chargerPartie(std::string nomPartie);
 
-    void supprimerPartieChargee(std::string nomPartie);
+    void supprimerPartieChargee(const std::string &nomPartie);
 
     void chargerTableauParties();
 

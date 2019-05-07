@@ -232,10 +232,10 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
 
 }
 
-void FenetrePrincipale::supprimerPartieChargee(std::string nomPartie) {
-    for (auto &itTableauPartie : tableauParties) {
-        if (itTableauPartie == nomPartie) {
-            itTableauPartie.erase();
+void FenetrePrincipale::supprimerPartieChargee(const std::string &nomPartie) {
+    for (vector<string>::iterator itTab = tableauParties.begin(); itTab != tableauParties.end(); ++itTab) {
+        if (*itTab == nomPartie) {
+            tableauParties.erase(itTab);
             break;
         }
     }

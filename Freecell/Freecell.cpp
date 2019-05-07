@@ -102,7 +102,6 @@ int main() {
             }
         }
     } while (choix != 3 && !fen.commandeFermerFenetre());
-
     return (0);
 }
 
