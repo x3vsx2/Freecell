@@ -28,7 +28,6 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     }
     dessinerEmplacementPiles();
     do {
-        end_time_ = Clock::now();
         majAffichageJeu(false, bQuitter, bNbCoupJoues, bTime);
         attendre();
         int mx = getPosSourisX();

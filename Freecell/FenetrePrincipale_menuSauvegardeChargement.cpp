@@ -227,7 +227,6 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
             }
         }
         if (!ifs.good()) cerr << "Erreur de lecture du fichier" << nomPartie << endl;
-
         ifs.close();
     }
 
