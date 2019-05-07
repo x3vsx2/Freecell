@@ -28,6 +28,7 @@ int FenetrePrincipale::afficherMenu() {
 
     majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
     do {
+        attendre();
         if (disp->button()) {//Test si clique
             int mx = getPosSourisX();
             int my = getPosSourisY();
@@ -49,7 +50,6 @@ int FenetrePrincipale::afficherMenu() {
             boutonParametres.reload(coeffX_, coeffY_);
             majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
         }
-        attendre();
     } while (true);
 }
 

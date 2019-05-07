@@ -145,7 +145,7 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
     vector<int> positionsCartecliquee = getClicPositions(mx, my);
     //On verifie si on a clique sur une pile qui serait vide, c'est à dire qu'il n'y a plus de cartes dedans
     //Laisser ce test en PREMIER, sinon on cherche à accéder à des éléments non existants
-    if (positionsCartecliquee[0] == -1 || positionsCartecliquee[0]>11)return false;
+    if (positionsCartecliquee[0] == -1 || positionsCartecliquee[0] > 11)return false;
     int nbEmplacementLibreDisponible =
             4 - piles_[8]->getTaille() - piles_[9]->getTaille() - piles_[10]->getTaille() - piles_[11]->getTaille();
     if (piles_[positionsCartecliquee[0]]->getTaille() - 1 - positionsCartecliquee[1] > nbEmplacementLibreDisponible) {
@@ -252,49 +252,50 @@ bool FenetrePrincipale::PartieEstGagnee() {
 }
 
 bool FenetrePrincipale::victoireAnticipee() {
-	bool fin_anticipee = pileDeplacement->getTaille() == 0;
-	for (unsigned int k = 0; k < 8; k++) {
-		fin_anticipee &= piles_[k]->EstTriee();
-	}
-	return fin_anticipee;
+    bool fin_anticipee = pileDeplacement->getTaille() == 0;
+    for (unsigned int k = 0; k < 8; k++) {
+        fin_anticipee &= piles_[k]->EstTriee();
+    }
+    return fin_anticipee;
 }
 
 int FenetrePrincipale::trouverCarte(int id) {
-	for (unsigned int k = 0; k < piles_.size()-4;k++) {
-		if (piles_[k]->trouverPosCarteId(id) != -1) {
-			return(k*100+piles_[k]->trouverPosCarteId(id));
-		}
-	}
-	cout << "Echec de l'algorithme : Carte non trouvée " << endl;
-	return (-1);
+    for (unsigned int k = 0; k < piles_.size() - 4; k++) {
+        if (piles_[k]->trouverPosCarteId(id) != -1) {
+            return (k * 100 + piles_[k]->trouverPosCarteId(id));
+        }
+    }
+    cout << "Echec de l'algorithme : Carte non trouvée " << endl;
+    return (-1);
 }
 
 void FenetrePrincipale::terminerPartie(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime) {
-	int limite = 100; // imposition d'une limite en cas de disfonctionnement de l'algorithme
+    int limite = 100; // imposition d'une limite en cas de disfonctionnement de l'algorithme
 
-	while (!PartieEstGagnee() && limite>0) { // tant que l'on a pas fini la partie
-		for (unsigned int k = 12; k < 16; k++) { // pour chaque pile valide
-			if (piles_[k]->getTaille() != 0&& piles_[k]->getTaille() != 13) {
-				int idchercher = piles_[k]->getCarte(piles_[k]->getTaille() - 1)->getIdentifiant() + 1; //on recupère la carte qu'il faut 
-				int positions = trouverCarte(idchercher);
-				int numPile = int( positions/ 100); // donne la pile qui contient la carte
-				int position = positions % 100;// donne la position dans la pile
-				if (position == piles_[numPile]->getTaille() - 1) { // si la carte est accessible
-					if (idchercher % 13 == 0) {// si c'est un roi
-						piles_[k]->deplacerCartePileAvecPosition(12, position, piles_[numPile]);
-						nbCoupsJoues_++;
-					}
-					else {
-						piles_[k]->deplacerCartePileAvecPosition((idchercher % 13) - 1, position, piles_[numPile]); // on deplace la carte de la position calculée ci-avant vers la pile valide
-						nbCoupsJoues_++;
-					}
-				}
-			}
-			majAffichageJeu(false, bQuitter, bNbCoupsJoues, bTime);
-			attendre();
-		}
-		limite--;
-	}
+    while (!PartieEstGagnee() && limite > 0) { // tant que l'on a pas fini la partie
+        for (unsigned int k = 12; k < 16; k++) { // pour chaque pile valide
+            if (piles_[k]->getTaille() != 0 && piles_[k]->getTaille() != 13) {
+                int idchercher = piles_[k]->getCarte(piles_[k]->getTaille() - 1)->getIdentifiant() +
+                                 1; //on recupère la carte qu'il faut
+                int positions = trouverCarte(idchercher);
+                int numPile = int(positions / 100); // donne la pile qui contient la carte
+                int position = positions % 100;// donne la position dans la pile
+                if (position == piles_[numPile]->getTaille() - 1) { // si la carte est accessible
+                    if (idchercher % 13 == 0) {// si c'est un roi
+                        piles_[k]->deplacerCartePileAvecPosition(12, position, piles_[numPile]);
+                        nbCoupsJoues_++;
+                    } else {
+                        piles_[k]->deplacerCartePileAvecPosition((idchercher % 13) - 1, position,
+                                                                 piles_[numPile]); // on deplace la carte de la position calculée ci-avant vers la pile valide
+                        nbCoupsJoues_++;
+                    }
+                }
+            }
+            majAffichageJeu(false, bQuitter, bNbCoupsJoues, bTime);
+            attendre();
+        }
+        limite--;
+    }
 }
 
 void FenetrePrincipale::quitterFenetre() {

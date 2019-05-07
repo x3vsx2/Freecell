@@ -72,8 +72,10 @@ int main() {
                 fen.attendre();
                 if (!victoire) {
                     fen.fenetreSauvegarde();
+                    fen.attendre();
                 } else {
                     fen.fenetreVictoire();
+                    fen.attendre();
                 }
                 break;
             }
@@ -83,10 +85,12 @@ int main() {
                     fen.attendre();
                     if (!victoire) {
                         fen.fenetreSauvegarde();
+                        fen.attendre();
                     }
 					else {
 						fen.fenetreVictoire();
-					}
+                        fen.attendre();
+                    }
                 }
                 break;
             }
