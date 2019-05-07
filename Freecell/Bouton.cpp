@@ -7,8 +7,8 @@ using namespace cimg_library;
 Bouton::Bouton(std::string nom, const char *fileName, float factorScale) : nom_(std::move(nom)) {
     chemin = fileName;
     charger(image_, fileName, Channels::RGBA);
-    tailleOriginaleX_ = image_.width() * factorScale;
-    tailleOriginaleY_ = image_.height() * factorScale;
+    tailleOriginaleX_ = int(image_.width() * factorScale);
+    tailleOriginaleY_ = int( image_.height() * factorScale);
     tailleX_ = tailleOriginaleX_;
     tailleY_ = tailleOriginaleY_;
     image_.resize(tailleX_, tailleY_);
