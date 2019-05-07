@@ -69,7 +69,7 @@ void PileCarte::changerPositionPile(int x, int y) {
     this->setPosY(y);
     for (unsigned int i = 0; i < listeCartes_.size(); i++) {
         listeCartes_[i]->setPosX(this->getPosX());
-        listeCartes_[i]->setPosY(this->getPosY() + 20 * i);
+        listeCartes_[i]->setPosY(this->getPosY() + ecartEntreCartes_ * i);
     }
 }
 
