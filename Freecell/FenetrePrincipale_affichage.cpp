@@ -17,20 +17,16 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     //Memoire clic et pile
     bool click_hold = false;
     int memoirePile = 0;
-	if (nouvellePartie) {
-		nbCoupsJoues_ = 0;
-	}
-
     Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
     Bouton bNbCoupJoues("NbCoupsJoues", "icones_et_boutons/nbcoupsjoues.png", facteurEchelleBoutons_ * 1.2);
     Bouton bTime("bTime", "icones_et_boutons/time.png", facteurEchelleBoutons_ * 1.2);
+	if (nouvellePartie) {
+		nbCoupsJoues_ = 0;
+    } else {
+        majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime);
+    }
 
-    //if (!nouvellePartie) {
-    //    majAffichageJeu(true, bQuitter, bNbCoupJoues, bTime); // à quoi ça sert ??
-    //}
     while (!commandeFermerFenetre()) {
-		
-		
 
         int mx = getPosSourisX();
         int my = getPosSourisY();
