@@ -2,7 +2,7 @@
  *  @file Carte.h
  *  @brief Fichier contenant la déclaration de la classe Carte.
  *  @date 07/05/2019
- *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr),
+ *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet2@etu.univ-st-etienne.fr),
  *  Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr)
 */
 #ifndef FREECELL_CARTE_H

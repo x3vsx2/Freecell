@@ -2,7 +2,7 @@
  *  @file Bouton.cpp
  *  @brief Fichier contenant la déclaration de la classe Bouton.
  *  @date 07/05/2019
- *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet2@etu.univ-st-etienne.fr)
 */
 #include "pch.h"
 #include "Bouton.h"

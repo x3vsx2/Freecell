@@ -2,7 +2,7 @@
  *  @file PileCarte.cpp
  *  @brief Défintiion des focntions de la classe PileCarte.
  *  @date 07/05/2019
- *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr),
+ *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet2@etu.univ-st-etienne.fr),
  *  Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr)
 */
 #include <random>
