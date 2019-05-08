@@ -15,51 +15,52 @@ using namespace std::chrono;
 int FenetrePrincipale::afficherMenu() {
     initialiserFond();
 
-    Bouton boutonNouvellePartie("BoutonNouvellePartie", "icones_et_boutons/bouton_nouvellePartie.png",
-                                facteurEchelleBoutons_);
-    Bouton boutonChargerPartie("boutonChargerPartie", "icones_et_boutons/bouton_chargerPartie.png",
-                               facteurEchelleBoutons_);
-    Bouton boutonQuitter("boutonQuitter", "icones_et_boutons/bouton_quitter.png", facteurEchelleBoutons_);
-    Bouton boutonParametres("boutonParametres", "icones_et_boutons/parametres.png", facteurEchelleBoutons_ / 2);
+    Bouton bNouvellePartie_("BoutonNouvellePartie", "icones_et_boutons/bouton_nouvellePartie.png",
+                            facteurEchelleBoutons_);
+    Bouton bChargerPartie_("boutonChargerPartie", "icones_et_boutons/bouton_chargerPartie.png",
+                           facteurEchelleBoutons_);
+    Bouton bQuitter_("boutonQuitter", "icones_et_boutons/bouton_quitter.png", facteurEchelleBoutons_);
 
-    majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
+    Bouton bParam_("boutonParametres", "icones_et_boutons/parametres.png", facteurEchelleBoutons_ / 2);
+
+    majAffichageMenu(bNouvellePartie_, bChargerPartie_, bQuitter_, bParam_);
     do {
         attendre();
         if (disp->button()) {//Test si clique
             int mx = getPosSourisX();
             int my = getPosSourisY();
-            if (boutonNouvellePartie.estCliquee(mx, my)) {
+            if (bNouvellePartie_.estCliquee(mx, my)) {
                 return 0;
-            } else if (boutonChargerPartie.estCliquee(mx, my)) {
+            } else if (bChargerPartie_.estCliquee(mx, my)) {
                 return 1;
-            } else if (boutonParametres.estCliquee(mx, my)) {
+            } else if (bParam_.estCliquee(mx, my)) {
                 return 2;
-            } else if (boutonQuitter.estCliquee(mx, my)) {
+            } else if (bQuitter_.estCliquee(mx, my)) {
                 return 3;
             }
         }
         if (disp->is_resized()) {
             majFenetre();
-            boutonNouvellePartie.reload(coeffX_, coeffY_);
-            boutonChargerPartie.reload(coeffX_, coeffY_);
-            boutonQuitter.reload(coeffX_, coeffY_);
-            boutonParametres.reload(coeffX_, coeffY_);
-            majAffichageMenu(boutonNouvellePartie, boutonChargerPartie, boutonQuitter, boutonParametres);
+            bNouvellePartie_.reload(coeffX_, coeffY_);
+            bChargerPartie_.reload(coeffX_, coeffY_);
+            bQuitter_.reload(coeffX_, coeffY_);
+            bParam_.reload(coeffX_, coeffY_);
+            majAffichageMenu(bNouvellePartie_, bChargerPartie_, bQuitter_, bParam_);
         }
     } while (true);
 }
 
-void FenetrePrincipale::majAffichageMenu(Bouton &boutonNouvelleP, Bouton &boutonCharger, Bouton &boutonQuitter,
-                                         Bouton &boutonParam) {
+void FenetrePrincipale::majAffichageMenu(Bouton &bNouvellePartie, Bouton &bCharger, Bouton &bQuitter,
+                                         Bouton &bParam) {
     visu_->draw_image(*fond_);
-    boutonNouvelleP.dessinerBouton(visu_, disp->width() / 2 - boutonNouvelleP.getTailleX() / 2,
+    bNouvellePartie.dessinerBouton(visu_, disp->width() / 2 - bNouvellePartie.getTailleX() / 2,
                                    disp->height() * 0.10);
-    boutonCharger.dessinerBouton(visu_, disp->width() / 2 - boutonCharger.getTailleX() / 2,
+    bCharger.dessinerBouton(visu_, disp->width() / 2 - bCharger.getTailleX() / 2,
                                  disp->height() * 0.40);
-    boutonQuitter.dessinerBouton(visu_, disp->width() / 2 - boutonQuitter.getTailleX() / 2,
+    bQuitter.dessinerBouton(visu_, disp->width() / 2 - bQuitter.getTailleX() / 2,
                                  disp->height() * 0.70);
-    boutonParam.dessinerBouton(visu_, disp->width() - boutonParam.getTailleX() * 1.1,
-                               disp->height() - boutonParam.getTailleY() * 1.1);
+    bParam.dessinerBouton(visu_, disp->width() - bParam.getTailleX() * 1.1,
+                          disp->height() - bParam.getTailleY() * 1.1);
     visu_->display(*disp);
 }
 

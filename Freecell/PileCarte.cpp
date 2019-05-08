@@ -1,3 +1,10 @@
+/*!
+ *  @file PileCarte.cpp
+ *  @brief Défintiion des focntions de la classe PileCarte.
+ *  @date 07/05/2019
+ *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr),
+ *  Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr)
+*/
 #include "pch.h"
 #include "PileCarte.h"
 
@@ -142,7 +149,7 @@ bool PileCarte::precedentEstValide(unsigned int position) {
     if (position == 0) { return true; }
     else {
         if (listeCartes_[position]->getHauteur() == listeCartes_[position - 1]->getHauteur() - 1 &&
-            listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
+                listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
         else { return false; }
     }
 }
@@ -151,18 +158,17 @@ bool PileCarte::precedentEstValide(unsigned int position) {
 * @return bool true si la pile est triée, false sinon
 */
 bool PileCarte::EstTriee() {
-	bool validite = true;
-	if (this->getTaille() <= 1) {
-		return true;
-	}
-	else {
-		for (unsigned int k = this->getTaille() - 1; k > 0; k--) {
-			validite &= precedentEstValide(k);
-		}
-		return validite;
-	}
-	
-	return false;
+    bool validite = true;
+    if (this->getTaille() <= 1) {
+        return true;
+    } else {
+        for (unsigned int k = this->getTaille() - 1; k > 0; k--) {
+            validite &= precedentEstValide(k);
+        }
+        return validite;
+    }
+
+    return false;
 }
 
 
@@ -177,13 +183,14 @@ void PileCarte::brassagePile() {
 }
 
 void PileCarte::sauvegarderPile(std::ofstream &ofs) {
-	// utilité/20
+    // utilité/20
 }
- /*
- * Renvoie la postion de la carte identifié par l'identifiant id
- * @param id
- * @return position
- */
+
+/*
+* Renvoie la postion de la carte identifié par l'identifiant id
+* @param id
+* @return position
+*/
 int PileCarte::trouverPosCarteId(int id) {
     int position = -1;
     for (unsigned int i = 0; i < taille_; i++) {
@@ -196,20 +203,19 @@ int PileCarte::trouverPosCarteId(int id) {
 }
 
 void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, PileCarte *pile2) {
-	// mise à jour des variables Pos
+    // mise à jour des variables Pos
     pile2->listeCartes_[posCarte2]->setPosX(this->getPosX());
-	if (this->getType() > 13 && this->getType() < 18) {
-		pile2->listeCartes_[posCarte2]->setPosY(this->getPosY());
-	}
-	else {
-		pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
-	}
-	pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
-	
+    if (this->getType() > 13 && this->getType() < 18) {
+        pile2->listeCartes_[posCarte2]->setPosY(this->getPosY());
+    } else {
+        pile2->listeCartes_[posCarte2]->setPosY(this->getPosY() + 20 * this->listeCartes_.size());
+    }
+    pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
 
-	//Réalisation du déplacement
+
+    //Réalisation du déplacement
     //On ajoute la carte à la position souhaitée
-	this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]); 
+    this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
     this->taille_++;
     //supprime la carte de la pile melange (ou de l'ancienne pile)
     pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2);
@@ -248,7 +254,7 @@ void PileCarte::dessinerPile(cimg_library::CImg<unsigned char> *visu) {
 }
 
 void PileCarte::agrandirPile() {
-	listeCartes_.reserve(listeCartes_.size() + 13);
+    listeCartes_.reserve(listeCartes_.size() + 13);
 }
 
 void PileCarte::setTailleX(const int tailleX) {

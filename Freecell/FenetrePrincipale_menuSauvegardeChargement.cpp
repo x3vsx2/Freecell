@@ -1,6 +1,9 @@
-//
-// Created by kamilcaglar on 29/04/19.
-//
+/*!
+ *  @file FenetrePrincipale_menuSauvegardeChargement.cpp
+ *  @brief Contient les fonctions qui gèrent les sauvegardes et chargement du jeu
+ *  @date 07/05/2019
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+*/
 #include"pch.h"
 #include"FenetrePrincipale.h"
 
@@ -30,8 +33,8 @@ bool FenetrePrincipale::fenetreChargement() {
     Bouton bInstructions("Instructions", "icones_et_boutons/instructionsSuppression.png", facteurEchelleBoutons_ / 2);
 
     chargerTableauParties();
-    for (unsigned int i = 0; i < tableauParties.size(); i++) {
-        string nom = tableauParties[i].substr(0, tableauParties[i].length() - 4);
+    for (unsigned int i = 0; i < tabParties_.size(); i++) {
+        string nom = tabParties_[i].substr(0, tabParties_[i].length() - 4);
         visu_->draw_text(partiesSauvegardees.getpositionX(),
                          partiesSauvegardees.getpositionY() + partiesSauvegardees.getTailleY() + 30 * (i + 1),
                          nom.data(), couleurBlanche, couleurFond, 1, 20);
@@ -51,7 +54,7 @@ bool FenetrePrincipale::fenetreChargement() {
                 cin >> nomSauvegarde;
                 nomSauvegarde.append(".txt");
                 bool trouvee = false;
-                for (auto &tableauPartie : tableauParties) {
+                for (auto &tableauPartie : tabParties_) {
                     if (tableauPartie == nomSauvegarde) {
                         chargerPartie(nomSauvegarde);
                         trouvee = true;
@@ -72,7 +75,7 @@ bool FenetrePrincipale::fenetreChargement() {
                 cin >> nomSauvegarde;
                 nomSauvegarde.append(".txt");
                 bool trouvee = false;
-                for (vector<string>::iterator it = tableauParties.begin(); it != tableauParties.end(); ++it) {
+                for (auto it = tabParties_.begin(); it != tabParties_.end(); ++it) {
                     if (*it == nomSauvegarde) {
                         supprimerPartieChargee(nomSauvegarde);
                         trouvee = true;
@@ -157,16 +160,16 @@ void FenetrePrincipale::fenetreVictoire() {
     quitterFenetre();
 }
 
-void FenetrePrincipale::ajouterPartieSauvegardee(std::string nomPartie) {
-    if (std::find(tableauParties.begin(), tableauParties.end(), nomPartie) != tableauParties.end()) {
-        /* tableauParties contains nomPartie */
+void FenetrePrincipale::ajouterPartieSauvegardee(const std::string &nomPartie) {
+    if (std::find(tabParties_.begin(), tabParties_.end(), nomPartie) != tabParties_.end()) {
+        /* tabParties_ contains nomPartie */
     } else {
-        /* tableauParties does not contain nomPartie */
-        tableauParties.insert(tableauParties.begin(), nomPartie);
+        /* tabParties_ does not contain nomPartie */
+        tabParties_.insert(tabParties_.begin(), nomPartie);
     }
 }
 
-void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
+void FenetrePrincipale::sauvegarderPartie(const string &nomPartie) {
     ofstream ofs(nomPartie);
     if (!ofs.is_open()) cerr << "Erreur d'ouverture de " << nomPartie << endl;
     else {
@@ -191,7 +194,7 @@ void FenetrePrincipale::sauvegarderPartie(string nomPartie) {
 
 }
 
-void FenetrePrincipale::chargerPartie(string nomPartie) {
+void FenetrePrincipale::chargerPartie(const string &nomPartie) {
     ifstream ifs(nomPartie);
     if (!ifs.is_open()) cerr << "Erreur d'ouverture" << endl;
     else {
@@ -206,8 +209,8 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
         ifs >> tempsEcouleSauvegarde_[2];
         ifs.ignore();
         for (unsigned int i = 0; i < 16; i++) {
-            if (!tableauxIdentifiants[i].empty()) {
-                tableauxIdentifiants[i].clear();
+            if (!tabIdCartesChargement_[i].empty()) {
+                tabIdCartesChargement_[i].clear();
             }
             getline(ifs, contenu);
             int taillePile;
@@ -216,7 +219,7 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
                 int iDcarte;
                 for (unsigned int j = 0; j < taillePile; j++) {
                     ifs >> iDcarte;
-                    tableauxIdentifiants[i].push_back(iDcarte);
+                    tabIdCartesChargement_[i].push_back(iDcarte);
                 }
                 if (taillePile == 0) {
                     ifs >> iDcarte;//on balance dans le vide
@@ -233,9 +236,9 @@ void FenetrePrincipale::chargerPartie(string nomPartie) {
 
 void FenetrePrincipale::supprimerPartieChargee(const std::string &nomPartie) {
     system(CLEAR);
-    for (vector<string>::iterator itTab = tableauParties.begin(); itTab != tableauParties.end(); ++itTab) {
+    for (auto itTab = tabParties_.begin(); itTab != tabParties_.end(); ++itTab) {
         if (*itTab == nomPartie) {
-            tableauParties.erase(itTab);
+            tabParties_.erase(itTab);
             break;
         }
     }
@@ -248,7 +251,7 @@ void FenetrePrincipale::supprimerPartieChargee(const std::string &nomPartie) {
 
 
 void FenetrePrincipale::chargerTableauParties() {
-    tableauParties.clear();
+    tabParties_.clear();
     ifstream ifs("sauvegardes.txt");
     if (!ifs.is_open()) cerr << "Erreur d'ouverture " << "sauvegardes.txt" << endl;
     else {
@@ -259,7 +262,7 @@ void FenetrePrincipale::chargerTableauParties() {
         string contenu;
         for (unsigned int i = 0; i < taille; i++) {
             getline(ifs, contenu);
-            tableauParties.push_back(contenu);
+            tabParties_.push_back(contenu);
         }
         if (!ifs.good()) cerr << "Erreur de lecture du fichier sauvegardes.txt" << endl;
         ifs.close();
@@ -271,9 +274,9 @@ void FenetrePrincipale::sauverTableauParties() {
     ofstream ofs("sauvegardes.txt");
     if (!ofs.is_open()) cerr << "Erreur d'ouverture de " << " sauvegardes.txt" << endl;
     else {
-        ofs << tableauParties.size() << endl;
+        ofs << tabParties_.size() << endl;
         string contenu;
-        for (const auto &tableauPartie : tableauParties) {
+        for (const auto &tableauPartie : tabParties_) {
             ofs << tableauPartie << endl;
         }
         ofs.close();

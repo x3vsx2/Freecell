@@ -93,8 +93,7 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
 
 void FenetrePrincipale::initialiserFond() {
     //declare le plateau de jeu avec longeurXlargeur
-    plateau_ = new CImg<unsigned char>(tailleFenX_, tailleFenY_, 1, 1, 0);
-    fond_ = new CImg<unsigned char>((*plateau_).width(), (*plateau_).height(), 1, 3, 0);
+    fond_ = new CImg<unsigned char>(tailleFenX_, tailleFenY_, 1, 3, 0);
     colorierImage(*fond_, couleurFond[0], couleurFond[1], couleurFond[2]);
     visu_ = new CImg<unsigned char>(*fond_);
 }
@@ -102,7 +101,6 @@ void FenetrePrincipale::initialiserFond() {
 void FenetrePrincipale::dessinerEmplacementPiles() {
 
     int c = 0;
-    //TODO peut etre optimisé
     while (true) {//trouve ua moins une carte et récupère sa taille
         if (piles_[c]->getTaille() !=
             0) { // on vérifie que la pile contient des cartes avant de faire un get taille de la première carte
@@ -138,16 +136,16 @@ void FenetrePrincipale::colorierImage(cimg_library::CImg<unsigned char> &img, in
     }
 }
 
-void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime) {
+void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouton &bNbCoups, Bouton &bTime) {
     visu_->draw_image(*fond_);
     end_time_ = Clock::now();
     mesurerTemps(start_time_, end_time_, tempsEcoule_);
 
     bQuitter.dessinerBouton(visu_, disp->width() * 0.999 - bQuitter.getTailleX(),
                             disp->height() * 0.999 - bQuitter.getTailleY());
-    bNbCoupsJoues.dessinerBouton(visu_, disp->width() * 0.999 - bNbCoupsJoues.getTailleX(), disp->height() * 0.001);
-    visu_->draw_text(bNbCoupsJoues.getpositionX() + bNbCoupsJoues.getTailleX() - bNbCoupsJoues.getTailleX() * 0.15,
-                     bNbCoupsJoues.getpositionY() + bNbCoupsJoues.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
+    bNbCoups.dessinerBouton(visu_, disp->width() * 0.999 - bNbCoups.getTailleX(), disp->height() * 0.001);
+    visu_->draw_text(bNbCoups.getpositionX() + bNbCoups.getTailleX() - bNbCoups.getTailleX() * 0.15,
+                     bNbCoups.getpositionY() + bNbCoups.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
                      couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
     bTime.dessinerBouton(visu_, disp->width() * 0.001, disp->height() * 0.001);
     string temps =

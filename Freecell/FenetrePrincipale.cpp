@@ -13,7 +13,7 @@ using namespace cimg_library;
 
 FenetrePrincipale::FenetrePrincipale(const int tailleFenX, const int tailleFenY, const float factorScaleCards,
                                      const float factorScaleButtons)
-        : tableauxIdentifiants(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
+        : tabIdCartesChargement_(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),
           facteurEchelleCartes_(factorScaleCards), facteurEchelleBoutons_(factorScaleButtons), coeffX_(1), coeffY_(1),
           nbCoupsJoues_(0), tempsEcoule_(3), tempsEcouleSauvegarde_(3) {
     initialiserFond();
@@ -116,8 +116,8 @@ void FenetrePrincipale::initialiserPiles(bool nouvellePartie) {
         pileJeu4->deplacerCartePile(pileMelange);
     } else {//Initialise les piles selon le chargement
         for (unsigned int i = 0; i < 16; i++) {
-            for (unsigned int j = 0; j < tableauxIdentifiants[i].size(); j++) {
-                int idAchercher = tableauxIdentifiants[i][j];
+            for (unsigned int j = 0; j < tabIdCartesChargement_[i].size(); j++) {
+                int idAchercher = tabIdCartesChargement_[i][j];
                 if (idAchercher == 0) {
                     break;
                 }
@@ -152,7 +152,7 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
         if (positionsCartecliquee[1] ==
             piles_[positionsCartecliquee[0]]->getTaille() - 1) {
             return true;
-        }// si il y a une seul carte return true
+        }// si il y a une seule carte return true
         else {
             bool validite = true;
             for (unsigned int k = piles_[positionsCartecliquee[0]]->getTaille() - 1;
@@ -162,7 +162,6 @@ bool FenetrePrincipale::estSaisieValide(int mx, int my) {
             return (validite);
         }
     }
-    return false;
 }
 
 bool FenetrePrincipale::estDepotValide(int mx, int my) {
@@ -222,7 +221,6 @@ bool FenetrePrincipale::estDepotValide(int mx, int my) {
 }
 
 bool FenetrePrincipale::PartieEstGagnee() {
-    //TODO : faire le calcule nombre de carte placee
     unsigned int nombreDeCartePlacee =
             piles_[12]->getTaille() + piles_[13]->getTaille() + piles_[14]->getTaille() + piles_[15]->getTaille();
     if (nombreDeCartePlacee == 52) {
@@ -282,8 +280,6 @@ void FenetrePrincipale::terminerPartie(bool postResize, Bouton &bQuitter, Bouton
 void FenetrePrincipale::quitterFenetre() {
     delete visu_;
     visu_ = nullptr;
-    delete plateau_;
-    plateau_ = nullptr;
     delete fond_;
     fond_ = nullptr;
 }
@@ -293,9 +289,7 @@ void FenetrePrincipale::attendre() {
 }
 
 bool FenetrePrincipale::commandeFermerFenetre() {
-    if (disp->is_closed() || disp->is_keyESC() || disp->is_keyQ()) {
-        return true;
-    } else { return false; }
+    return disp->is_closed() || disp->is_keyESC() || disp->is_keyQ();
 }
 
 void FenetrePrincipale::supprimerPiles() {

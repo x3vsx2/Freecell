@@ -1,18 +1,21 @@
-//
-// Created by kamilcaglar on 05/04/19.
-//
-
+/*!
+ *  @file PileCarte.h
+ *  @brief Fichier contenant la déclaration de la classe PileCarte.
+ *  @date 07/05/2019
+ *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr),
+ *  Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr)
+*/
 #ifndef FREECELL_PILECARTE_H
 #define FREECELL_PILECARTE_H
 
 #include <vector>
-#include <algorithm>
 #include <fstream>
 #include "pch.h"
 #include "Carte.h"
 
 using namespace cimg_library;
 
+//TODO commentaire
 typedef enum {
     // il est strictement interdit de changer l'odre des types
             unknown,
@@ -39,8 +42,21 @@ typedef enum {
 
 class Carte;
 
+/*!
+ * @class Classe PileCarte.
+ * Cette classe gère une liste de cartes.
+ * Elle est agrégée à la classe Carte et est un agrégat de FenetrePrincipale
+ */
 class PileCarte {
+
 public:
+    /*!
+     *  Constructeur de PileCarte
+     *  @param tailleFenX longueur de la fenetre en pixels
+     *  @param tailleFenY hauteur de la fenetre en pixels
+     *  @param factorScaleCards facteur d'échelle des cartes
+     *  @param factorScaleButtons facteur d'échelle des boutons
+     */
     PileCarte();
 
     PileCarte(int positionX, int positionY, Type type);
@@ -67,8 +83,6 @@ public:
 
     void setPosY(int posY);
 
-    void melangerCartes();
-
     void deplacerCartePile(PileCarte *pileRetrait);
 
     int getClicPositionCarte(int mx, int my);
@@ -77,7 +91,7 @@ public:
 
     bool precedentEstValide(unsigned int position);
 
-	bool EstTriee();
+    bool EstTriee();
 
     Carte *getCarte(int position) { return listeCartes_[position]; };
 
@@ -93,7 +107,7 @@ public:
 
     void setPositions(int posX, int posY);
 
-	void agrandirPile();
+    void agrandirPile();
 
     void setTailleX(const int tailleX);
 
@@ -106,10 +120,10 @@ public:
 
 private:
     unsigned int taille_;
-    int tailleX_;
-    int tailleY_;
-    int ecartOriginal_;
-    int ecartEntreCartes_;
+    int tailleX_{};
+    int tailleY_{};
+    int ecartOriginal_{};
+    int ecartEntreCartes_{};
     std::vector<Carte *> listeCartes_;
     int positionX_;
     int positionY_;
