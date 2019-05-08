@@ -1,6 +1,10 @@
-//
-// Created by kamilcaglar on 27/04/19.
-//
+/*!
+ *  @file std_implement.cpp
+ *  @brief Fichier contenant la déclaration de la fonction charger
+ *  Cette fonction permet de lire des png et de garder la transparance.
+ *  @date 07/05/2019
+ *  @authors Julien Vernay (julien.vernay@etu.univ-st-etienne.fr)
+*/
 #include "pch.h"
 #include "stb_implement.h"
 

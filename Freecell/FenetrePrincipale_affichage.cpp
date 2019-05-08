@@ -144,14 +144,14 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
     bQuitter.dessinerBouton(visu_, disp->width() * 0.999 - bQuitter.getTailleX(),
                             disp->height() * 0.999 - bQuitter.getTailleY());
     bNbCoups.dessinerBouton(visu_, disp->width() * 0.999 - bNbCoups.getTailleX(), disp->height() * 0.001);
-    visu_->draw_text(bNbCoups.getpositionX() + bNbCoups.getTailleX() - bNbCoups.getTailleX() * 0.15,
-                     bNbCoups.getpositionY() + bNbCoups.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
+    visu_->draw_text(bNbCoups.getPosX() + bNbCoups.getTailleX() - bNbCoups.getTailleX() * 0.15,
+                     bNbCoups.getPosY() + bNbCoups.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
                      couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
     bTime.dessinerBouton(visu_, disp->width() * 0.001, disp->height() * 0.001);
     string temps =
             to_string(tempsEcoule_[0]) + "h " + to_string(tempsEcoule_[1]) + "m " + to_string(tempsEcoule_[2]) + "s";
-    visu_->draw_text(bTime.getpositionX() + bTime.getTailleX() - bTime.getTailleX() * 0.5,
-                     bTime.getpositionY() + bTime.getTailleY() / 2.7, temps.data(),
+    visu_->draw_text(bTime.getPosX() + bTime.getTailleX() - bTime.getTailleX() * 0.5,
+                     bTime.getPosY() + bTime.getTailleY() / 2.7, temps.data(),
                      couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
 
     if (postResize) {//Si il y a eu un resize il faut modifier la taille des éléments

@@ -26,6 +26,11 @@ typedef enum {
 
 using namespace cimg_library;
 
+/*!
+ * @class Classe Carte.
+ * Cette classe représente une carte de jeu. Elle contient des méthodes pour la dessiner, changer ses attributs...
+ * Elle est un agrégat de la classe PileCarte.
+ */
 class Carte {
 public:
     /*!
@@ -133,8 +138,8 @@ public:
 
     /*!
      *  Recharge une image selon les coefficients.
-     *  @param coeffX coefficient largeur de la carte
-     *  @param coeffY coefficient hauteur de la carte
+     *  @param coeffX coefficient de redimensionnement de la largeur
+     *  @param coeffY coefficient de redimensionnement de la hauteur
      */
     void reload(float coeffX, float coeffY);
 
@@ -150,7 +155,7 @@ private:
     int tailleY_ = 0; /*!< Hauteur*/
     CImg<unsigned char> image_; /*!< Image représentant la carte*/
     PileCarte *pileAppartenance_{};
-    const char *chemin{}; /*!< Chemin vers l'image de la carte*/
+    const char *chemin_{}; /*!< Chemin vers l'image de la carte*/
 };
 
 #endif //FREECELL_CARTE_H

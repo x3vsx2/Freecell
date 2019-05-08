@@ -10,7 +10,7 @@ Carte::Carte(int idCarte, TypeCouleur Couleur, TypeHauteur Hauteur, const char *
     idCarte_ = idCarte;
     Couleur_ = Couleur;
     Hauteur_ = Hauteur;
-    chemin = (fileName);
+    chemin_ = (fileName);
     charger(image_, fileName, Channels::RGBA);
     //image_ = image_.get_crop(1, 1, 0, 222, 323, 0, 0);
     OriginalTailleX_ = static_cast<int>(image_.width() * factorScale);
@@ -37,7 +37,7 @@ void Carte::dessinerCarte(cimg_library::CImg<unsigned char> *visu) {
 }
 
 void Carte::reload(float coeffX, float coeffY) {
-    charger(image_, chemin, Channels::RGBA);
+    charger(image_, chemin_, Channels::RGBA);
     setTailleX(static_cast<int>(OriginalTailleX_ * coeffX));
     setTailleY(static_cast<int>(OriginalTailleY_ * coeffY));
     image_.resize(tailleX_, tailleY_);

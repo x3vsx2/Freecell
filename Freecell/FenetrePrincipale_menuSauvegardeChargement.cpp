@@ -35,8 +35,8 @@ bool FenetrePrincipale::fenetreChargement() {
     chargerTableauParties();
     for (unsigned int i = 0; i < tabParties_.size(); i++) {
         string nom = tabParties_[i].substr(0, tabParties_[i].length() - 4);
-        visu_->draw_text(partiesSauvegardees.getpositionX(),
-                         partiesSauvegardees.getpositionY() + partiesSauvegardees.getTailleY() + 30 * (i + 1),
+        visu_->draw_text(partiesSauvegardees.getPosX(),
+                         partiesSauvegardees.getPosY() + partiesSauvegardees.getTailleY() + 30 * (i + 1),
                          nom.data(), couleurBlanche, couleurFond, 1, 20);
     }
     visu_->display(*disp);
