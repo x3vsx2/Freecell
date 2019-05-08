@@ -221,6 +221,10 @@ public:
      */
     void supprimerPiles();
 
+    /*!
+     * Affiche chargement
+     */
+    void infoChargement();
     //===============================FONCTIONS SAUVEGARDE ET CHARGEMENT=================================================
 
     /*!

@@ -13,12 +13,9 @@ using namespace cimg_library;
 bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     //INITIALISATION DES ELEMENTS DU JEU
     initialiserFond();
-    Bouton bChargement("Chargement", "icones_et_boutons/chargementJeu.png", 1);
-    bChargement.dessinerBouton(visu_, disp->width() / 2 - bChargement.getTailleX() / 2,
-                               disp->height() / 2 - bChargement.getTailleY() / 2);
-    visu_->display(*disp);
+    infoChargement();
     initialiserCartes();
-    initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
+    initialiserPiles(nouvellePartie);
     start_time_ = Clock::now();
     //Memoire clic et pile
     bool click_hold = false;
@@ -26,6 +23,7 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     Bouton bQuitter("Quitter", "icones_et_boutons/miniQuitter.png", facteurEchelleBoutons_ / 2);
     Bouton bNbCoupJoues("NbCoupsJoues", "icones_et_boutons/nbcoupsjoues.png", facteurEchelleBoutons_ * 1.2);
     Bouton bTime("bTime", "icones_et_boutons/time.png", facteurEchelleBoutons_ * 1.2);
+
     if (nouvellePartie) {
         nbCoupsJoues_ = 0;
         tempsEcoule_ = {0, 0, 0};
@@ -94,6 +92,14 @@ bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     quitterFenetre();
     return false;
 }
+
+void FenetrePrincipale::infoChargement() {
+    Bouton bChargement("Chargement", "icones_et_boutons/chargementJeu.png", 1);
+    bChargement.dessinerBouton(visu_, disp->width() / 2 - bChargement.getTailleX() / 2,
+                               disp->height() / 2 - bChargement.getTailleY() / 2);
+    visu_->display(*disp);
+}
+
 
 void FenetrePrincipale::initialiserFond() {
     //declare le plateau de jeu avec longeurXlargeur
@@ -303,7 +309,6 @@ void FenetrePrincipale::initialiserCartes() {
             new Carte(51, Pique, Dame, "imageCarte/s12.png", pileMelange, facteurEchelleCartes_, coeffX_, coeffY_));
     pileMelange->ajouterCarte(
             new Carte(52, Pique, Roi, "imageCarte/s13.png", pileMelange, facteurEchelleCartes_, coeffX_, coeffY_));
-
 }
 
 void FenetrePrincipale::deplacerPile(int mx, int my) {
