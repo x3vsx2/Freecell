@@ -121,10 +121,8 @@ bool PileCarte::EstTriee() {
 
 void PileCarte::brassagePile() {
     if (type_ == melange) {
-        //inutile std::srand(std::time(nullptr));
-        std::shuffle(listeCartes_.begin(), listeCartes_.end(), std::mt19937(std::random_device()()));
-        //std::mt19937(std::random_device()()) alimente shuffle avec algo de merssenne
-        //removed in c++17 std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
+        std::srand(std::time(nullptr));
+        std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
     }
 }
 
