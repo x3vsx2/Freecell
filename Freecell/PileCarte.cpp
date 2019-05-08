@@ -5,72 +5,53 @@
  *  @authors Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr),
  *  Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr)
 */
+#include <random>
 #include "pch.h"
 #include "PileCarte.h"
 
 using namespace cimg_library;
 
-PileCarte::PileCarte() {
-    taille_ = 0;
-    positionY_ = 0;
-    positionX_ = 0;
-    type_ = unknown;
+PileCarte::PileCarte() : type_(unknown), tailleY_(0), tailleX_(0), ecartOriginal_(0), nbCartesPile_(0), listeCartes_(0),
+                         positionY_(0), positionX_(0), ecartEntreCartes_(30) {
 }
 
 PileCarte::PileCarte(int positionX, int positionY, Type type) : positionX_(positionX), positionY_(positionY),
                                                                 type_(type), ecartOriginal_(30) {
-    taille_ = 0;
+    nbCartesPile_ = 0;
     ecartEntreCartes_ = ecartOriginal_;
+    tailleX_ = 0;
+    tailleY_ = 0;
 }
 
-PileCarte::PileCarte(PileCarte &pileCopiee) : taille_(pileCopiee.taille_),
-                                              positionX_(pileCopiee.positionX_), positionY_(pileCopiee.positionY_) {
-    for (unsigned int i = 0; i < pileCopiee.taille_; i++) {
-        listeCartes_.push_back(pileCopiee.listeCartes_[i]);
-    }
-}
-
-/*!
- *Destructeur, supprime les cartes contenu dans listeCartes_
- */
 PileCarte::~PileCarte() {
-    for (unsigned int i = 0; i < listeCartes_.size(); i++) {
-        delete listeCartes_[i];
+    for (auto &carte : listeCartes_) {
+        delete carte;
     }
     listeCartes_.clear();
 }
 
-/*!
- *Deplace une carte d'une pile à une autre
- * @param pointeur vers la pile retrait
- */
 void PileCarte::deplacerCartePile(PileCarte *pileRetrait) {
     //Quand la carte est ajoutée dans une pile sa coordonée en X est celle de la pile, sa coordonnée en Y est celle de
     //la pile multipliée par le nombre de carte dans la pilex30xcoeff
     if (pileRetrait->getTaille() == 0) { std::cout << "pile vide"; }
-    pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosX(this->getPosX());
+    pileRetrait->getCarte(pileRetrait->nbCartesPile_ - 1)->setPosX(this->getPosX());
     if (this->getType() > 13 && this->getType() < 18) {
         //si c'est une pile valide on ne décale pas la postion sur y
-        pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(this->getPosY());
+        pileRetrait->getCarte(pileRetrait->nbCartesPile_ - 1)->setPosY(this->getPosY());
     } else {
-        pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPosY(
+        pileRetrait->getCarte(pileRetrait->nbCartesPile_ - 1)->setPosY(
                 this->getPosY() + this->listeCartes_.size() * ecartEntreCartes_);
     }
-    pileRetrait->getCarte(pileRetrait->taille_ - 1)->setPileAppartenance(this);
+    pileRetrait->getCarte(pileRetrait->nbCartesPile_ - 1)->setPileAppartenance(this);
 
     //Ajout de la carte dans sa nouvelle pile
-    this->ajouterCarte(pileRetrait->getCarte(pileRetrait->taille_ - 1));
+    this->ajouterCarte(pileRetrait->getCarte(pileRetrait->nbCartesPile_ - 1));
 
     //Suppresion de la carte de son ancienne pile
     pileRetrait->listeCartes_.pop_back();
-    pileRetrait->taille_--;
+    pileRetrait->nbCartesPile_--;
 }
 
-/*!
- * Change les attributs positions d'une carte
- * @param x position horizontale de la souris
- * @param y position verticale
- */
 void PileCarte::changerPositionPile(int x, int y) {
     this->setPosX(x);
     this->setPosY(y);
@@ -80,29 +61,14 @@ void PileCarte::changerPositionPile(int x, int y) {
     }
 }
 
-/*!
- * Change les attributs positions d'une carte
- * @param posX position horizontale
- */
 void PileCarte::setPosX(int posX) {
     positionX_ = posX;
 }
 
-/*!
- * Change les attributs positions d'une carte
- * @param posY position verticale de la souris
- */
 void PileCarte::setPosY(int posY) {
     positionY_ = posY;
 }
 
-/*!
- * Renvoie -1 si la souris n'est sur aucune carte
- * Sinon renvoie la position de la carte
- * @param mx position horizontale de la souris
- * @param my position verticale de la souris
- * @return position
- */
 int PileCarte::getClicPositionCarte(int mx, int my) {
     int position = -1;
     for (int i = listeCartes_.size() - 1; i >= 0; i--) {
@@ -119,44 +85,26 @@ int PileCarte::getClicPositionCarte(int mx, int my) {
     return position;
 }
 
-/*!
- * Inverse l'ordre des éléments dans la liste de carte
- */
 void PileCarte::inverserListeCartes() {
     std::reverse(listeCartes_.begin(), listeCartes_.end());
 }
 
-/*!
- * Ajoute une carte dans une liste
- * @param *carte pointeur sur la carte que l'on veut inclure dans une pile
- */
 void PileCarte::ajouterCarte(Carte *carte) {
     listeCartes_.push_back(carte);
-    taille_ = listeCartes_.size();
+    nbCartesPile_ = listeCartes_.size();
     carte->setPileAppartenance(this);
 }
 
-/*!
- * Renvoie si la carte qui precede position est un assemblage valide dans le jeu
- * renvoie true s'il n'y a pas de précédente
- * renvoie false si la poition est invalide
- * @param position
- * @return bool true s'il n'y a pas de précédente
- *         false si la poition est invalide
- */
 bool PileCarte::precedentEstValide(unsigned int position) {
-    if (position > taille_ - 1) { return false; }
+    if (position > nbCartesPile_ - 1) { return false; }
     if (position == 0) { return true; }
     else {
         if (listeCartes_[position]->getHauteur() == listeCartes_[position - 1]->getHauteur() - 1 &&
-                listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
+            listeCartes_[position]->getCouleur() % 2 != listeCartes_[position - 1]->getCouleur() % 2) { return true; }
         else { return false; }
     }
 }
-/*!
-* Renvoie si la pile est triée au sens des règles du jeu
-* @return bool true si la pile est triée, false sinon
-*/
+
 bool PileCarte::EstTriee() {
     bool validite = true;
     if (this->getTaille() <= 1) {
@@ -171,29 +119,18 @@ bool PileCarte::EstTriee() {
     return false;
 }
 
-
-/*!
- * Melange les cartes
- */
 void PileCarte::brassagePile() {
     if (type_ == melange) {
-        std::srand(std::time(nullptr));
-        std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
+        //inutile std::srand(std::time(nullptr));
+        std::shuffle(listeCartes_.begin(), listeCartes_.end(), std::mt19937(std::random_device()()));
+        //std::mt19937(std::random_device()()) alimente shuffle avec algo de merssenne
+        //removed in c++17 std::random_shuffle(listeCartes_.begin(), listeCartes_.end());
     }
 }
 
-void PileCarte::sauvegarderPile(std::ofstream &ofs) {
-    // utilité/20
-}
-
-/*
-* Renvoie la postion de la carte identifié par l'identifiant id
-* @param id
-* @return position
-*/
 int PileCarte::trouverPosCarteId(int id) {
     int position = -1;
-    for (unsigned int i = 0; i < taille_; i++) {
+    for (unsigned int i = 0; i < nbCartesPile_; i++) {
         if (listeCartes_[i]->getIdentifiant() == id) {
             position = i;
             break;
@@ -212,21 +149,15 @@ void PileCarte::deplacerCartePileAvecPosition(int posCarte1, int posCarte2, Pile
     }
     pile2->listeCartes_[posCarte2]->setPileAppartenance(this);
 
-
     //Réalisation du déplacement
     //On ajoute la carte à la position souhaitée
     this->listeCartes_.insert(this->listeCartes_.begin() + posCarte1, pile2->listeCartes_[posCarte2]);
-    this->taille_++;
+    this->nbCartesPile_++;
     //supprime la carte de la pile melange (ou de l'ancienne pile)
     pile2->listeCartes_.erase(pile2->listeCartes_.begin() + posCarte2);
-    pile2->taille_--;
+    pile2->nbCartesPile_--;
 }
 
-/*
-* Affecte la position de la pile à posX, posY
-* @param posX : position selon X
-* @param posY : position selon Y
-*/
 void PileCarte::setPositions(int posX, int posY) {
     this->setPosX(posX);
     this->setPosY(posY);
@@ -240,7 +171,7 @@ void PileCarte::reload(const float &coeffX, const float &coeffY) {
         if (type_ != valide1 && type_ != valide2 && type_ != valide3 && type_ != valide4) {
             (*itCarte)->setPosY(positionY_ + (ecartEntreCartes_ * (itCarte - listeCartes_.begin())));
         } else {
-            if (itCarte - listeCartes_.begin() == listeCartes_.size()-1) {
+            if (itCarte - listeCartes_.begin() == listeCartes_.size() - 1) {
                 (*itCarte)->setPosY(positionY_);
             }
         }
@@ -251,10 +182,6 @@ void PileCarte::dessinerPile(cimg_library::CImg<unsigned char> *visu) {
     for (auto itCarte = listeCartes_.begin(); itCarte != listeCartes_.end(); ++itCarte) {
         (*itCarte)->dessinerCarte(visu);
     }
-}
-
-void PileCarte::agrandirPile() {
-    listeCartes_.reserve(listeCartes_.size() + 13);
 }
 
 void PileCarte::setTailleX(const int tailleX) {
