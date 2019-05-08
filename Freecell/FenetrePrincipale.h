@@ -2,7 +2,7 @@
  *  @file FenetrePrincipale.h
  *  @brief Header de la classe de base
  *  @date 07/05/2019
- *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet2@etu.univ-st-etienne.fr)
 */
 #ifndef FREECELL_FENETREPRINCIPALE_H
 #define FREECELL_FENETREPRINCIPALE_H
