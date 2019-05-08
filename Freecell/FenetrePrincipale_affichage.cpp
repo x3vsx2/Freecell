@@ -2,7 +2,7 @@
  *  @file FenetrePrincipale_affichage.cpp
  *  @brief Contient les fonctions qui gèrent l'affichage du jeu
  *  @date 07/05/2019
- *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet@etu.univ-st-etienne.fr)
+ *  @authors Kamil CAGLAR (kamil.caglar@etu.univ-st-etienne.fr), Jean-Baptiste JACQUET (jean-Baptiste.jacquet2@etu.univ-st-etienne.fr)
 */
 #include"pch.h"
 #include"FenetrePrincipale.h"
