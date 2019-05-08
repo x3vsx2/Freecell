@@ -13,6 +13,10 @@ using namespace cimg_library;
 bool FenetrePrincipale::lancerJeu(bool nouvellePartie) {
     //INITIALISATION DES ELEMENTS DU JEU
     initialiserFond();
+    Bouton bChargement("Chargement", "icones_et_boutons/chargementJeu.png", 1);
+    bChargement.dessinerBouton(visu_, disp->width() / 2 - bChargement.getTailleX() / 2,
+                               disp->height() / 2 - bChargement.getTailleY() / 2);
+    visu_->display(*disp);
     initialiserCartes();
     initialiserPiles(nouvellePartie);//initialise les piles selon le mode de jeu
     start_time_ = Clock::now();
