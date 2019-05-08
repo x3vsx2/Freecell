@@ -10,7 +10,6 @@
 using namespace std;
 using namespace cimg_library;
 
-
 FenetrePrincipale::FenetrePrincipale(const int tailleFenX, const int tailleFenY, const float factorScaleCards,
                                      const float factorScaleButtons)
         : tabIdCartesChargement_(16, vector<int>(0)), tailleFenX_(tailleFenX), tailleFenY_(tailleFenY),

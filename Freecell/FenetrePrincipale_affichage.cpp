@@ -141,38 +141,40 @@ void FenetrePrincipale::majAffichageJeu(bool postResize, Bouton &bQuitter, Bouto
     end_time_ = Clock::now();
     mesurerTemps(start_time_, end_time_, tempsEcoule_);
 
-    bQuitter.dessinerBouton(visu_, disp->width() * 0.999 - bQuitter.getTailleX(),
-                            disp->height() * 0.999 - bQuitter.getTailleY());
-    bNbCoups.dessinerBouton(visu_, disp->width() * 0.999 - bNbCoups.getTailleX(), disp->height() * 0.001);
-    visu_->draw_text(bNbCoups.getPosX() + bNbCoups.getTailleX() - bNbCoups.getTailleX() * 0.15,
-                     bNbCoups.getPosY() + bNbCoups.getTailleY() / 2.7, to_string(nbCoupsJoues_).data(),
-                     couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
-    bTime.dessinerBouton(visu_, disp->width() * 0.001, disp->height() * 0.001);
+    bQuitter.dessinerBouton(visu_, static_cast<int>(disp->width() * 0.999 - bQuitter.getTailleX()),
+                            static_cast<int>(disp->height() * 0.999 - bQuitter.getTailleY()));
+    bNbCoups.dessinerBouton(visu_, static_cast<int>(disp->width() * 0.999 - bNbCoups.getTailleX()),
+                            static_cast<int>(disp->height() * 0.001));
+    visu_->draw_text(static_cast<int>(bNbCoups.getPosX() + bNbCoups.getTailleX() - bNbCoups.getTailleX() * 0.15),
+                     static_cast<int>(bNbCoups.getPosY() + bNbCoups.getTailleY() / 2.7),
+                     to_string(nbCoupsJoues_).data(),
+                     couleurBlanche, couleurBoutons, 1, static_cast<int>(facteurEchelleBoutons_ * coeffX_ * 40));
+    bTime.dessinerBouton(visu_, static_cast<int>(disp->width() * 0.001), static_cast<int>(disp->height() * 0.001));
     string temps =
             to_string(tempsEcoule_[0]) + "h " + to_string(tempsEcoule_[1]) + "m " + to_string(tempsEcoule_[2]) + "s";
-    visu_->draw_text(bTime.getPosX() + bTime.getTailleX() - bTime.getTailleX() * 0.5,
-                     bTime.getPosY() + bTime.getTailleY() / 2.7, temps.data(),
-                     couleurBlanche, couleurBoutons, 1, facteurEchelleBoutons_ * 40);
+    visu_->draw_text(static_cast<int>(bTime.getPosX() + bTime.getTailleX() - bTime.getTailleX() * 0.5),
+                     static_cast<int>(bTime.getPosY() + bTime.getTailleY() / 2.7), temps.data(),
+                     couleurBlanche, couleurBoutons, 1, static_cast<int>(facteurEchelleBoutons_ * coeffY_ * 40));
 
     if (postResize) {//Si il y a eu un resize il faut modifier la taille des éléments
-        pileJeu1->setPositions(0.10 * disp->width(), 0.40 * disp->height());
-        pileJeu2->setPositions(0.20 * disp->width(), 0.40 * disp->height());
-        pileJeu3->setPositions(0.30 * disp->width(), 0.40 * disp->height());
-        pileJeu4->setPositions(0.40 * disp->width(), 0.40 * disp->height());
-        pileJeu5->setPositions(0.50 * disp->width(), 0.40 * disp->height());
-        pileJeu6->setPositions(0.60 * disp->width(), 0.40 * disp->height());
-        pileJeu7->setPositions(0.70 * disp->width(), 0.40 * disp->height());
-        pileJeu8->setPositions(0.80 * disp->width(), 0.40 * disp->height());
-        pileLibre1->setPositions(0.08 * disp->width(), 0.10 * disp->height());
-        pileLibre2->setPositions(0.18 * disp->width(), 0.10 * disp->height());
-        pileLibre3->setPositions(0.28 * disp->width(), 0.10 * disp->height());
-        pileLibre4->setPositions(0.38 * disp->width(), 0.10 * disp->height());
-        pileValide1->setPositions(0.52 * disp->width(), 0.10 * disp->height());
-        pileValide2->setPositions(0.62 * disp->width(), 0.10 * disp->height());
-        pileValide3->setPositions(0.72 * disp->width(), 0.10 * disp->height());
-        pileValide4->setPositions(0.82 * disp->width(), 0.10 * disp->height());
-        for (vector<PileCarte *>::iterator itPile = piles_.begin(); itPile != piles_.end(); ++itPile) {
-            (*itPile)->reload(coeffX_, coeffY_);
+        pileJeu1->setPositions(static_cast<int>(0.10 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu2->setPositions(static_cast<int>(0.20 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu3->setPositions(static_cast<int>(0.30 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu4->setPositions(static_cast<int>(0.40 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu5->setPositions(static_cast<int>(0.50 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu6->setPositions(static_cast<int>(0.60 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu7->setPositions(static_cast<int>(0.70 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileJeu8->setPositions(static_cast<int>(0.80 * disp->width()), static_cast<int>(0.40 * disp->height()));
+        pileLibre1->setPositions(static_cast<int>(0.08 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileLibre2->setPositions(static_cast<int>(0.18 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileLibre3->setPositions(static_cast<int>(0.28 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileLibre4->setPositions(static_cast<int>(0.38 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileValide1->setPositions(static_cast<int>(0.52 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileValide2->setPositions(static_cast<int>(0.62 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileValide3->setPositions(static_cast<int>(0.72 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        pileValide4->setPositions(static_cast<int>(0.82 * disp->width()), static_cast<int>(0.10 * disp->height()));
+        for (auto &pile : piles_) {
+            pile->reload(coeffX_, coeffY_);
         }
         dessinerEmplacementPiles();
         pileDeplacement->reload(coeffX_, coeffY_);
