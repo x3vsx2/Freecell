@@ -1,6 +1,7 @@
-# Freecell
-![Logo](cards.png)
+# Freecell ![Logo](cards.png)
 Jeu Freecell réalisé dans le cadre d'un mini-projet.
+![Illustration](1.png)
+![Illustration](2.png)
 
 Librairies utilisées : 
 - https://github.com/dtschump/CImg
