@@ -15,7 +15,7 @@
 
 using namespace cimg_library;
 
-//TODO commentaire
+//Définition des type de pile possible
 typedef enum {
     // il est strictement interdit de changer l'odre des types
             unknown,
