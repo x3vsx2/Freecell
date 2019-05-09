@@ -45,7 +45,7 @@ class Carte;
 /*!
  * @class Classe PileCarte.
  * Cette classe gère une liste de cartes.
- * Elle est agrégée à la classe Carte et est un agrégat de FenetrePrincipale
+ * Elle est agrégée à la classe FenetrePrincipale et est et est un agrégat de Carte.
  */
 class PileCarte {
 

@@ -20,7 +20,7 @@
 /*!
  * @class Classe Bouton.
  * Cette classe représente permet d'utiliser des boutons.
- * Elle est un agrégat de la classe Fenetre Pincipale.
+ * Elle est utilisée dans la classe Fenetre Principale.
  */
 class Bouton {
 public:

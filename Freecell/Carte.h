@@ -33,7 +33,7 @@ using namespace cimg_library;
 /*!
  * @class Classe Carte.
  * Cette classe représente une carte de jeu. Elle contient des méthodes pour la dessiner, changer ses attributs...
- * Elle est un agrégat de la classe PileCarte.
+ * Elle est un agrégée à la classe PileCarte.
  */
 class Carte {
 public:

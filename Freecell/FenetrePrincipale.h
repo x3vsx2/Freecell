@@ -17,7 +17,7 @@ typedef Clock::time_point ClockTime;
 /*!
  * @class Classe FenetrePrincipale.
  * Cette classe de base est celle qui gère l'affichage, les mouvements, les règles et les intéractions utilisateurs.
- * Elle est agrégée à la classe PileCarte
+ * Elle est un agrégat de la classe PileCarte. Elle utilise la classe Bouton.
  */
 class FenetrePrincipale {
 

@@ -115,8 +115,6 @@ bool PileCarte::EstTriee() {
         }
         return validite;
     }
-
-    return false;
 }
 
 void PileCarte::brassagePile() {
