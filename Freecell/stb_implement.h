@@ -17,7 +17,7 @@ enum class Channels {
 };
 
 /*!
- *  Charge une image png. Utilise la bibliothèque std_image
+ *  Charge une image png. Utilise la bibliothèque std_image en réordonnant les cannaux par rapport avec cimg
  *  @param image Cimg dans laquelle va être chargé le png
  *  @param chemin du png
  *  @param c le nombre de channels de l'image. 3 ou 4.
