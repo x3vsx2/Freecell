@@ -160,7 +160,7 @@ void PileCarte::setPositions(int posX, int posY) {
 }
 
 void PileCarte::reload(const float &coeffX, const float &coeffY) {
-    ecartEntreCartes_ = (float) ecartOriginal_ * coeffY;
+    ecartEntreCartes_ = static_cast<int>(ecartOriginal_ * coeffY);
     for (auto itCarte = listeCartes_.begin(); itCarte != listeCartes_.end(); ++itCarte) {
         (*itCarte)->reload(coeffX, coeffY);
         (*itCarte)->setPosX(positionX_);
