@@ -15,11 +15,15 @@
 
 class PileCarte;
 
-//TODO commentaire
+/*!
+*Définition du type Couleur des cartes
+*/
 typedef enum {
     Coeur, Pique, Carreau, Trefle
 } TypeCouleur;
-//TODO commentaire
+/*!
+*Définition du type Hauteur des cartes
+*/
 typedef enum {
     As, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf, Dix, Valet, Dame, Roi
 } TypeHauteur;

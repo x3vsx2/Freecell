@@ -61,7 +61,7 @@ bool FenetrePrincipale::fenetreChargement() {
                         break;
                     }
                 }
-                if (!trouvee) cout << nomSauvegarde << " n'existe pas. Veuillez recommencez." << endl;
+                if (!trouvee) cout << nomSauvegarde << " n'existe pas. Veuillez recommencez. (Recliquez sur charger)" << endl;
                 else {
                     quitterFenetre();
                     return true;
