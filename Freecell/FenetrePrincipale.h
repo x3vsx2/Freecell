@@ -109,7 +109,7 @@ public:
     bool estSaisieValide(int mx, int my);
 
     /*!
-     * //TODO commentaire
+     * renvoie si le dépot demandé par l'utilisateur est valide
      * @param mx position horizontale de la souris
      * @param my position verticale de la souris
      *@return bool
@@ -122,10 +122,19 @@ public:
      */
     bool PartieEstGagnee();
 
-    //TODO commentaire
+    /*
+	* Détecte préventivement la fin de la partie
+	*@return bool fin_anticipee : true si toutes les piles sont triées selon les règles du jeu
+	*/
     bool victoireAnticipee();
 
-    //TODO commentaire
+    /*
+	*Termine la partie automatiquement lorsque la fin anticipée est détectée
+	*@param postResize
+	*@pram bQuitter
+	*@param bNbcoupJoues
+	*@param bTime
+	*/
     void terminerPartie(bool postResize, Bouton &bQuitter, Bouton &bNbCoupsJoues, Bouton &bTime);
 
     /*!
@@ -154,7 +163,11 @@ public:
      */
     void mesurerTemps(const ClockTime &start_time, const ClockTime &end_time, std::vector<int> &tempsEcoule_);
 
-    //TODO commentaire
+    /*
+	*Donne la postion d'une carte : aabb où aa code le numéro de la pile
+	*@param id l'identifiant de la carte
+	*@return int position
+	*/
     int trouverCarte(int id);
 
     //==================================FONCTIONS D'AFFICHAGE===========================================================
