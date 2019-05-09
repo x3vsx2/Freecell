@@ -1,5 +1,5 @@
 # Freecell
-
+![Logo](cards.png)
 Jeu Freecell réalisé dans le cadre d'un mini-projet.
 
 Librairies utilisées : 
